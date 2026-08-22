@@ -302,17 +302,18 @@ a { color: inherit; text-decoration: none; }
 
 /* ---- Projects ---- */
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
+  column-width: 320px;
+  column-gap: 24px;
 }
 .project-card {
   background: var(--surface-card);
   border-radius: var(--radius-xl);
-  padding: 32px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  break-inside: avoid;
+  margin: 0 0 24px;
 }
 .project-media {
   position: relative;
@@ -591,8 +592,8 @@ a { color: inherit; text-decoration: none; }
   .hero-role { margin: 6px 0; }
   .section { padding: 48px 20px 56px; }
   .exp-head { flex-direction: column; align-items: flex-start; gap: 2px; }
-  .project-card { padding: 20px; }
-  .projects-grid { grid-template-columns: 1fr; gap: 16px; }
+  .project-card { padding: 20px; margin-bottom: 16px; }
+  .projects-grid { column-width: 100%; column-gap: 16px; }
   .skills-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
   .contact-links .btn { flex: 1 1 100%; justify-content: center; }
 }
