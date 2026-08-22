@@ -17,6 +17,26 @@
     arrow: 'ph:arrow-up-right-duotone'
   };
 
+  const PLATFORM_ICONS = {
+    play: 'simple-icons:googleplay',
+    android: 'simple-icons:android',
+    apple: 'simple-icons:apple',
+    ios: 'simple-icons:apple',
+    web: 'mdi:web',
+    github: 'simple-icons:github',
+    default: 'mdi:link-variant'
+  };
+  function platformIcon(url) {
+    if (!url) return PLATFORM_ICONS.default;
+    const u = String(url).toLowerCase();
+    if (u.includes('play.google')) return PLATFORM_ICONS.play;
+    if (u.includes('apkpure') || u.includes('apkshub') || u.includes('apk')) return PLATFORM_ICONS.android;
+    if (u.includes('apps.apple')) return PLATFORM_ICONS.ios;
+    if (u.includes('github.com')) return PLATFORM_ICONS.github;
+    if (u.includes('http')) return PLATFORM_ICONS.web;
+    return PLATFORM_ICONS.default;
+  }
+
   const TECH_ICONS = {
     'Node.js': 'simple-icons:nodedotjs',
     'Fastify': 'simple-icons:fastify',
@@ -229,10 +249,23 @@
           });
         card.appendChild(tags);
       }
-      if (hasContent(p.link)) {
-        const a = el('a', { class: 'project-link', href: p.link, attrs: { target: '_blank', rel: 'noopener' } });
-        a.innerHTML = 'View ' + icon(ICONS.arrow);
-        card.appendChild(a);
+      const links = Array.isArray(p.links) && p.links.length ? p.links : (hasContent(p.link) ? [{ label: 'View', url: p.link }] : []);
+      if (links.length) {
+        const wrap = el('div', { class: 'project-links' });
+        links.forEach(l => {
+          const a = el('a', {
+            class: 'project-link',
+            href: l.url,
+            attrs: { target: '_blank', rel: 'noopener' }
+          });
+          a.innerHTML = icon(platformIcon(l.url)) + ' ' + 'View' + (l.label && l.label !== 'View' ? ' - ' + l.label : '');
+          wrap.appendChild(a);
+        });
+        card.appendChild(wrap);
+      } else {
+        const disabled = el('span', { class: 'project-link is-disabled' });
+        disabled.innerHTML = icon('mdi:eye-off-outline') + ' View';
+        card.appendChild(disabled);
       }
       grid.appendChild(card);
     });
