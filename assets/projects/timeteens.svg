@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270" fill="none">
+  <rect width="480" height="270" fill="#2a1f45"/>
+  <g stroke="#ffffff" stroke-opacity="0.08" stroke-width="2">
+    <circle cx="420" cy="40" r="120"/>
+    <circle cx="40" cy="240" r="130"/>
+  </g>
+  <!-- playing cards -->
+  <g fill="#f5f0e0">
+    <rect x="150" y="96" width="60" height="92" rx="10" transform="rotate(-8 180 142)"/>
+    <rect x="240" y="92" width="60" height="92" rx="10" transform="rotate(6 270 138)"/>
+    <rect x="330" y="100" width="56" height="88" rx="10" transform="rotate(-3 358 144)"/>
+  </g>
+  <!-- card pips -->
+  <text x="180" y="110" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#006a4e" text-anchor="middle" transform="rotate(-8 180 142)">QM</text>
+  <text x="270" y="106" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#c72a2a" text-anchor="middle" transform="rotate(6 270 138)">J</text>
+  <text x="358" y="114" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#2a2a6a" text-anchor="middle" transform="rotate(-3 358 144)">K</text>
+  <!-- clock -->
+  <circle cx="120" cy="150" r="34" stroke="#e8b94a" stroke-width="5"/>
+  <path d="M120 130 v20 l14 10" stroke="#e8b94a" stroke-width="5" stroke-linecap="round"/>
+  <text x="240" y="252" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="25" fill="#ffffff" text-anchor="middle">TimeTeens</text>
+</svg>

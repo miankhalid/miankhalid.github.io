@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270" fill="none">
+  <rect width="480" height="270" fill="#1a1a26"/>
+  <g stroke="#ffffff" stroke-opacity="0.08" stroke-width="2">
+    <circle cx="120" cy="90" r="110"/>
+    <circle cx="400" cy="210" r="130"/>
+  </g>
+  <g fill="none" stroke="#e8b94a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="250" cy="90" r="16"/>
+    <path d="M250 110 v40 l-16 40 h24 l-8 34"/>
+    <path d="M250 126 l22 22"/>
+    <path d="M234 150 l-20 34"/>
+  </g>
+  <g stroke="#ffffff" stroke-opacity="0.8" stroke-width="5" stroke-linecap="round">
+    <path d="M330 60 h60 M350 110 h50 M340 160 h42"/>
+  </g>
+  <g fill="#e8b94a">
+    <circle cx="360" cy="210" r="12"/>
+    <circle cx="392" cy="150" r="9"/>
+  </g>
+  <text x="240" y="252" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="25" fill="#ffffff" text-anchor="middle">Smash Runner</text>
+</svg>

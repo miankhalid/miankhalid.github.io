@@ -6,14 +6,24 @@
   const SITE = window.SITE || {};
 
   const ICONS = {
-    email: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>',
-    github: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.05 1.53 1.05.89 1.57 2.34 1.11 2.91.85.09-.67.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.27 2.75 1.05a9.32 9.32 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>',
-    linkedin: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5a2 2 0 1 1-4-.02 2 2 0 0 1 4 .02zM7 8.48H3V21h4V8.48zm6.32 0H9.35V21h3.94v-6.57c0-3.66 4.77-3.96 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.68-2.91V8.48z"/></svg>',
-    x: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.4 8.46L23 22h-6.6l-5.2-6.8L5.2 22H2l7.9-9.03L1 2h6.8l4.7 6.24L18.9 2zM17.7 20h1.8L7.4 4H5.5l12.2 16z"/></svg>',
-    website: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>',
-    sun: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>',
-    moon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>'
+    email: 'mdi:email-outline',
+    github: 'simple-icons:github',
+    linkedin: 'simple-icons:linkedin',
+    x: 'simple-icons:x',
+    website: 'mdi:web',
+    sun: 'ph:sun-duotone',
+    moon: 'ph:moon-duotone',
+    cv: 'ph:file-arrow-down-duotone',
+    arrow: 'ph:arrow-up-right-duotone'
   };
+
+  function icon(name, className) {
+    return '<span class="iconify' + (className ? ' ' + className : '') + '" data-icon="' + name + '"></span>';
+  }
+
+  function scanIcons() {
+    if (window.Iconify) Iconify.scan(document.body);
+  }
 
   function el(tag, opts) {
     const node = document.createElement(tag);
@@ -33,6 +43,8 @@
   }
 
   function renderNav() {
+    const brand = document.getElementById('nav-brand');
+    if (brand) brand.textContent = SITE.name || '';
     const links = document.getElementById('nav-links');
     const sections = [
       ['about', 'About'],
@@ -48,6 +60,20 @@
         links.appendChild(el('a', { href: '#' + id, text: label }));
       }
     });
+
+    const menuBtn = document.getElementById('nav-menu');
+    if (menuBtn) {
+      menuBtn.innerHTML = icon('ph:list-bold');
+      const nav = document.getElementById('nav-links');
+      menuBtn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', String(open));
+      });
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        nav.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }));
+    }
   }
 
   function renderHero() {
@@ -60,13 +86,19 @@
 
     const actions = el('div', { class: 'hero-actions' });
     if (hasContent(SITE.resume)) {
-      actions.appendChild(el('a', { class: 'btn btn-primary', text: 'Download CV', href: SITE.resume, attrs: { download: '' } }));
+      const a = el('a', { class: 'btn btn-primary', href: SITE.resume, attrs: { download: '' } });
+      a.innerHTML = icon(ICONS.cv) + ' Download CV';
+      actions.appendChild(a);
     }
     if (SITE.contact && hasContent(SITE.contact.github)) {
-      actions.appendChild(el('a', { class: 'btn btn-secondary', text: 'GitHub', href: SITE.contact.github, attrs: { target: '_blank', rel: 'noopener' } }));
+      const a = el('a', { class: 'btn btn-secondary', href: SITE.contact.github, attrs: { target: '_blank', rel: 'noopener' } });
+      a.innerHTML = icon(ICONS.github) + ' GitHub';
+      actions.appendChild(a);
     }
     if (SITE.contact && hasContent(SITE.contact.linkedin)) {
-      actions.appendChild(el('a', { class: 'btn btn-secondary', text: 'LinkedIn', href: SITE.contact.linkedin, attrs: { target: '_blank', rel: 'noopener' } }));
+      const a = el('a', { class: 'btn btn-secondary', href: SITE.contact.linkedin, attrs: { target: '_blank', rel: 'noopener' } });
+      a.innerHTML = icon(ICONS.linkedin) + ' LinkedIn';
+      actions.appendChild(a);
     }
     if (actions.children.length) text.appendChild(actions);
 
@@ -118,7 +150,16 @@
     const grid = el('div', { class: 'projects-grid' });
     SITE.projects.forEach(p => {
       const card = el('div', { class: 'project-card' });
-      if (hasContent(p.image)) card.appendChild(el('img', { attrs: { src: p.image, alt: p.title || '' } }));
+      if (hasContent(p.image)) {
+        const media = el('div', { class: 'project-media' });
+        const shimmer = el('div', { class: 'shimmer' });
+        const img = el('img', { attrs: { src: p.image, alt: p.title || '', loading: 'lazy' } });
+        if (img.complete) img.classList.add('loaded');
+        else img.addEventListener('load', () => img.classList.add('loaded'));
+        media.appendChild(img);
+        media.appendChild(shimmer);
+        card.appendChild(media);
+      }
       card.appendChild(el('h3', { text: p.title || '' }));
       if (hasContent(p.blurb)) card.appendChild(el('p', { text: p.blurb }));
       if (hasContent(p.tags)) {
@@ -185,7 +226,7 @@
         href: href,
         attrs: key === 'email' ? {} : { target: '_blank', rel: 'noopener' }
       });
-      btn.innerHTML = (ICONS[key] || '') + ' ' + label;
+      btn.innerHTML = icon(ICONS[key] || 'mdi:link') + ' ' + label;
       btn.style.gap = '8px';
       wrap.appendChild(btn);
     });
@@ -201,7 +242,7 @@
   function renderThemeToggle() {
     const btn = document.getElementById('theme-toggle');
     if (!btn) return;
-    btn.innerHTML = '<span class="icon-moon">' + (ICONS.moon || '') + '</span><span class="icon-sun">' + (ICONS.sun || '') + '</span>';
+    btn.innerHTML = '<span class="icon-moon">' + icon('ph:moon-fill') + '</span><span class="icon-sun">' + icon('ph:sun-fill') + '</span>';
     btn.addEventListener('click', () => {
       const root = document.documentElement;
       const dark = (root.dataset.theme === 'dark') || (!root.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -209,6 +250,25 @@
       root.dataset.theme = next;
       try { localStorage.setItem('theme', next); } catch (e) {}
     });
+  }
+
+  function renderParallax() {
+    const shapes = document.querySelectorAll('.bg-shapes .shape');
+    if (!shapes.length) return;
+    let raf = null;
+    function onScroll() {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = null;
+        const y = window.scrollY || 0;
+        shapes.forEach(s => {
+          const speed = parseFloat(s.getAttribute('data-speed')) || 0;
+          s.style.transform = 'translate3d(0,' + (y * speed) + 'px,0)';
+        });
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 
   renderHero();
@@ -221,4 +281,6 @@
   renderNav();
   renderThemeToggle();
   renderFooter();
+  renderParallax();
+  scanIcons();
 })();

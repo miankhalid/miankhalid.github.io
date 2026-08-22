@@ -12,14 +12,26 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css">
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 <script>/* Restore saved theme before paint to avoid flash. */try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head>
 <body>
+
+<div class="bg-shapes" aria-hidden="true">
+  <div class="shape" data-speed="0.10" data-shape="blob-g"></div>
+  <div class="shape" data-speed="0.18" data-shape="ring-g"></div>
+  <div class="shape" data-speed="0.14" data-shape="blob-o"></div>
+  <div class="shape" data-speed="0.22" data-shape="dot-g1"></div>
+  <div class="shape" data-speed="0.16" data-shape="ring-be"></div>
+  <div class="shape" data-speed="0.24" data-shape="blob-m"></div>
+  <div class="shape" data-speed="0.12" data-shape="dot-g2"></div>
+</div>
 
 <header class="nav">
   <div class="container nav-inner">
     <a href="#top" class="nav-brand" id="nav-brand"></a>
     <nav class="nav-links" id="nav-links"></nav>
+    <button type="button" class="nav-menu" id="nav-menu" aria-label="Menu" aria-expanded="false"></button>
     <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode"></button>
   </div>
 </header>
