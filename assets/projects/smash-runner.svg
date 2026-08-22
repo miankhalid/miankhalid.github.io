@@ -1,44 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270" fill="none">
-  <!-- sky -->
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1b2b3a"/>
-      <stop offset="1" stop-color="#3b5b6e"/>
+      <stop offset="0" stop-color="#191528"/>
+      <stop offset="1" stop-color="#3b3160"/>
     </linearGradient>
     <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#203b2c"/>
-      <stop offset="1" stop-color="#12321f"/>
+      <stop offset="0" stop-color="#26323e"/>
+      <stop offset="1" stop-color="#151f28"/>
     </linearGradient>
   </defs>
   <rect width="480" height="270" fill="url(#sky)"/>
-  <!-- distant hills -->
-  <ellipse cx="80" cy="205" rx="160" ry="70" fill="#2c4d40" fill-opacity="0.6"/>
-  <ellipse cx="420" cy="215" rx="190" ry="80" fill="#2c4d40" fill-opacity="0.5"/>
-  <!-- moon -->
-  <circle cx="400" cy="58" r="26" fill="#eef5f1"/>
-  <circle cx="392" cy="52" r="22" fill="#1b2b3a" opacity="0.85"/>
-  <!-- ground -->
-  <rect x="0" y="205" width="480" height="65" fill="url(#ground)"/>
-  <path d="M0 205 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t0 0" fill="#2c4d40"/>
-  <!-- runner (blocky round character) -->
-  <g>
-    <circle cx="140" cy="160" r="16" fill="#e8b94a"/>
-    <path d="M128 176 q-12 0 -14 12 l-2 18 h20 v-14 l10 14 h14 l-12 -16 q2 -8 8 -14 z" fill="#f5a623"/>
-    <path d="M152 180 l14 8 4 -14 z" fill="#f5a623"/>
-    <rect x="120" y="150" width="6" height="30" rx="3" fill="#d28a12" transform="rotate(-18 123 165)"/>
+  <ellipse cx="90" cy="210" rx="170" ry="70" fill="#2d2444" fill-opacity="0.7"/>
+  <ellipse cx="430" cy="220" rx="180" ry="80" fill="#241c38" fill-opacity="0.6"/>
+  <circle cx="412" cy="52" r="26" fill="#cfe0d8"/>
+  <circle cx="404" cy="46" r="22" fill="#191528" opacity="0.85"/>
+  <rect x="0" y="214" width="480" height="56" fill="url(#ground)"/>
+  <path d="M0 216 q24 -9 48 0 t48 0 t48 0 t48 0 t48 0 t48 0 t48 0 t48 0 t48 0 t0 0" fill="#2d3a4a"/>
+  <!-- runner glyph (solar/running-bold, unchanged) -->
+  <g transform="translate(150 82) scale(7)" fill="#f5a623">
+    <path d="M20.75 4.5C20.75 5.88071 19.6307 7 18.25 7C16.8693 7 15.75 5.88071 15.75 4.5C15.75 3.11929 16.8693 2 18.25 2C19.6307 2 20.75 3.11929 20.75 4.5Z"/>
+    <path fill-rule="evenodd" d="M9.80218 5.93063C10.0117 5.9017 10.2599 5.87536 10.523 5.88702C10.603 5.89057 10.6938 5.89706 10.7962 5.90769C13.1789 6.155 14.9468 7.94323 16.1242 9.70933L16.1866 9.80281C16.7893 10.7069 17.8041 11.25 18.8907 11.25H20.75C21.1642 11.25 21.5 11.5858 21.5 12C21.5 12.4142 21.1642 12.75 20.75 12.75H18.8907C17.3025 12.75 15.8195 11.9563 14.9385 10.6349L14.8762 10.5414C14.6037 10.1327 14.311 9.74468 13.9989 9.38944L12.1149 11.7441C11.6875 12.2783 11.4008 12.6379 11.2076 12.9334C11.0204 13.2196 10.967 13.3792 10.9528 13.5003C10.9293 13.7003 10.9546 13.903 11.0263 14.0911C11.0698 14.2051 11.1607 14.3467 11.4123 14.5783C11.6721 14.8173 12.0382 15.0957 12.5835 15.5088C12.6157 15.5332 12.6475 15.5573 12.6789 15.5811C13.3998 16.1267 13.8989 16.5046 14.2444 17.0094C14.4408 17.2964 14.5963 17.6093 14.7065 17.9392C14.9002 18.5194 14.9 19.1454 14.8996 20.0495C14.8996 20.0888 14.8996 20.1287 14.8996 20.1692V21.9998C14.8996 22.414 14.5638 22.7498 14.1496 22.7498C13.7354 22.7498 13.3996 22.414 13.3996 21.9998V20.1692C13.3996 19.0986 13.3905 18.7342 13.2837 18.4143C13.2176 18.2164 13.1243 18.0287 13.0065 17.8565C12.8161 17.5782 12.531 17.3509 11.6777 16.7045L11.6488 16.6826C11.1398 16.2969 10.7155 15.9755 10.3965 15.682C10.0635 15.3754 9.7855 15.0471 9.62475 14.6256C9.46691 14.2116 9.4114 13.7657 9.46296 13.3257C9.51547 12.8776 9.70447 12.4912 9.95221 12.1124C10.1895 11.7496 10.522 11.3339 10.9211 10.8353L12.9047 8.35598C12.2175 7.83323 11.4608 7.48473 10.6414 7.39967C10.5672 7.39198 10.5059 7.38774 10.4565 7.38555C10.3286 7.37988 10.1855 7.39194 10.0074 7.41653C8.94204 7.56364 7.87451 8.15548 5.55619 9.47271L4.12051 10.2884C3.76037 10.4931 3.30253 10.367 3.09791 10.0069C2.89328 9.64671 3.01935 9.18888 3.37949 8.98426L4.81517 8.16853C4.86639 8.13943 4.91715 8.11058 4.96746 8.08199C7.08653 6.87764 8.416 6.12205 9.80218 5.93063ZM9.23014 16.4238C9.54835 16.689 9.59134 17.1619 9.32617 17.4801L8.3254 18.6811C8.2928 18.7202 8.26067 18.7588 8.22895 18.7969C7.58688 19.5685 7.11555 20.135 6.45757 20.4432C5.79959 20.7513 5.0627 20.7508 4.05888 20.7501C4.00928 20.75 3.95904 20.75 3.90813 20.75H2.75C2.33579 20.75 2 20.4142 2 20C2 19.5858 2.33579 19.25 2.75 19.25H3.90813C5.12975 19.25 5.50396 19.2334 5.82133 19.0848C6.1387 18.9361 6.391 18.6593 7.17306 17.7208L8.17383 16.5199C8.43901 16.2017 8.91193 16.1587 9.23014 16.4238Z"/>
   </g>
-  <!-- speed lines -->
-  <g stroke="#ffffff" fill="none" stroke-linecap="round" opacity="0.75">
-    <path d="M210 130 h70" stroke-width="7"/>
-    <path d="M235 152 h95" stroke-width="5"/>
-    <path d="M215 172 h45" stroke-width="5"/>
+  <!-- motion lines -->
+  <g stroke="#f5a623" stroke-linecap="round" fill="none" opacity="0.65">
+    <path d="M286 132 h72" stroke-width="7"/>
+    <path d="M300 156 h56" stroke-width="5"/>
+    <path d="M288 178 h40" stroke-width="5"/>
   </g>
   <!-- coins -->
-  <circle cx="330" cy="130" r="11" fill="#e8b94a" stroke="#b98a10" stroke-width="3"/>
-  <circle cx="380" cy="96" r="11" fill="#e8b94a" stroke="#b98a10" stroke-width="3"/>
-  <circle cx="300" cy="150" r="9" fill="#e8b94a" stroke="#b98a10" stroke-width="3"/>
-  <!-- ground decorations -->
-  <rect x="70" y="222" width="22" height="8" rx="3" fill="#2c4d40"/>
-  <rect x="330" y="235" width="18" height="7" rx="3" fill="#2c4d40"/>
-  <text x="240" y="266" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="21" fill="#ffffff" fill-opacity="0.95" text-anchor="middle">Smash Runner</text>
+  <circle cx="356" cy="104" r="11" fill="#f5c542" stroke="#c28b1a" stroke-width="3"/>
+  <circle cx="330" cy="72" r="9" fill="#f5c542" stroke="#c28b1a" stroke-width="3"/>
+  <text x="240" y="260" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="21" fill="#ffffff" fill-opacity="0.95" text-anchor="middle">Smash Runner</text>
 </svg>
