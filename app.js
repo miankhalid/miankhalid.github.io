@@ -332,55 +332,51 @@
   }
 
   let SHAPES = [];
+  function hexToRgba(hex, alpha) {
+    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex || '');
+    if (!m) return 'rgba(0,106,78,' + alpha + ')';
+    return 'rgba(' + parseInt(m[1], 16) + ',' + parseInt(m[2], 16) + ',' + parseInt(m[3], 16) + ',' + alpha + ')';
+  }
   function buildShapes() {
     const wrap = document.querySelector('.bg-shapes');
     if (!wrap) return;
     wrap.innerHTML = '';
     SHAPES = [];
+    const root = document.documentElement;
+    const cs = getComputedStyle(root);
+    const palette = ['--primary', '--primary-hover', '--tag-lavender', '--tag-ochre']
+      .map(v => cs.getPropertyValue(v).trim())
+      .filter(Boolean);
     const rnd = (a, b) => a + Math.random() * (b - a);
-    const greens = ['#006a4e', '#0b7a5a', '#12815d'];
-    const accents = ['#e8b94a', '#b8a4ed'];
-    const count = 10;
+    const count = 5;
     for (let i = 0; i < count; i++) {
       const s = document.createElement('div');
       s.className = 'shape';
-      const size = rnd(64, 300);
-      const color = Math.random() < 0.6 ? greens[Math.floor(Math.random() * greens.length)] : accents[Math.floor(Math.random() * accents.length)];
-      const kind = Math.random();
+      const size = rnd(320, 540);
+      const color = palette[i % palette.length];
+      const edgeA = rnd(34, 70);
+      const edgeB = rnd(34, 70);
+      const edgeC = rnd(34, 70);
+      const edgeD = rnd(34, 70);
+      const edgeE = rnd(34, 70);
+      const edgeF = rnd(34, 70);
+      const edgeG = rnd(34, 70);
+      const edgeH = rnd(34, 70);
       s.style.width = size + 'px';
       s.style.height = size + 'px';
-      s.style.top = rnd(0, 88) + '%';
-      s.style.left = rnd(-12, 90) + '%';
-      s.style.opacity = String(rnd(0.08, 0.30));
+      s.style.top = rnd(-18, 82) + '%';
+      s.style.left = rnd(-18, 82) + '%';
+      s.style.borderRadius = edgeA + '% ' + edgeB + '% ' + edgeC + '% ' + edgeD + '% / ' + edgeE + '% ' + edgeF + '% ' + edgeG + '% ' + edgeH + '%';
+      s.style.background =
+        'radial-gradient(circle at ' + Math.floor(rnd(25, 55)) + '% ' + Math.floor(rnd(25, 55)) + '%, ' +
+          hexToRgba(color, rnd(0.22, 0.40)) + ' 0%, ' +
+          hexToRgba(color, rnd(0.06, 0.16)) + ' 62%, ' +
+          'transparent 100%)';
+      s.style.filter = 'blur(' + Math.floor(rnd(18, 40)) + 'px)';
       s.style.transform = 'rotate(' + Math.floor(rnd(0, 360)) + 'deg)';
-      if (kind < 0.42) {
-        // organic blob
-        s.style.borderRadius = rnd(30, 60) + '%';
-        s.style.background = 'radial-gradient(circle at 40% 40%, ' + color + '55, ' + color + '11)';
-        s.style.filter = 'blur(' + Math.floor(rnd(8, 22)) + 'px)';
-      } else if (kind < 0.66) {
-        // ring
-        s.style.borderRadius = '50%';
-        s.style.border = Math.floor(rnd(16, 34)) + 'px solid ' + color;
-        s.style.filter = 'blur(' + Math.floor(rnd(0, 3)) + 'px)';
-        s.style.opacity = String(rnd(0.10, 0.28));
-      } else if (kind < 0.84) {
-        // rounded square / diamond
-        s.style.borderRadius = rnd(8, 26) + '%';
-        s.style.background = 'linear-gradient(135deg, ' + color + '44, ' + color + '0c)';
-        s.style.filter = 'blur(' + Math.floor(rnd(2, 10)) + 'px)';
-      } else {
-        // triangle (clip-path), thin + crisp
-        s.style.width = Math.floor(size * 0.9) + 'px';
-        s.style.height = Math.floor(size * 0.9) + 'px';
-        s.style.background = color;
-        s.style.clipPath = 'polygon(50% 0, 100% 100%, 0 100%)';
-        s.style.opacity = String(rnd(0.05, 0.18));
-        s.style.filter = 'blur(' + Math.floor(rnd(0, 2)) + 'px)';
-      }
       // random direction + speed per shape
-      const vx = rnd(-0.30, 0.30);
-      const vy = rnd(-0.18, 0.34);
+      const vx = rnd(-0.32, 0.32);
+      const vy = rnd(-0.20, 0.36);
       SHAPES.push({ el: s, vx, vy });
       wrap.appendChild(s);
     }
