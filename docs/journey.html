@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khalid - Portfolio Build Log</title>
+<meta name="description" content="Full timeline of how miankhalid.github.io was built, why each change was made, and how it was done.">
+<style>
+:root{
+  --canvas:#fffaf0; --soft:#faf5e8; --card:#f5f0e0; --strong:#ebe6d6; --hairline:#e5e5e5;
+  --primary:#006a4e; --primary-hover:#00543e; --ink:#0a0a0a;
+  --body-strong:#1a1a1a; --body:#3a3a3a; --muted:#6a6a6a; --muted-soft:#9a9a9a;
+  --pink:#ff4d8b; --teal:#1a3a3a; --lav:#b8a4ed; --peach:#ffb084; --ochre:#e8b94a;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:24px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--body);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-weight:400;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-weight:500;color:var(--ink);margin:0;letter-spacing:-.04em}
+h2{font-size:34px;margin:64px 0 8px;letter-spacing:-.03em}
+.hero{padding:72px 0 40px;border-bottom:1px solid var(--hairline)}
+.hero .tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
+h1{font-size:52px;line-height:1.05}
+.hero p{font-size:18px;max-width:52ch;color:var(--body)}
+.meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.chip{font-size:13px;font-weight:500;padding:6px 14px;border-radius:9999px;background:var(--card);color:var(--body-strong);border:1px solid var(--hairline)}
+.chip b{color:var(--primary)}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline li{position:relative;margin-bottom:20px}
+.card{border-radius:var(--r-xl);padding:26px 28px;border:1px solid transparent}
+.card h3{font-size:20px;margin:0 0 4px;letter-spacing:-.02em}
+.ver{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.35);padding:4px 12px;border-radius:9999px;margin-bottom:10px}
+.flowtitle{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--body-strong);margin:12px 0 4px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.note{font-size:14px;background:rgba(10,10,10,.06);border-radius:var(--r-md);padding:12px 16px;margin-top:14px;color:var(--body-strong)}
+.note b{color:var(--primary)}
+/* clay color cycle */
+.c-cream{background:var(--card);color:var(--body)}
+.c-ochre{background:var(--ochre)}
+.c-lav{background:var(--lav)}
+.c-peach{background:var(--peach)}
+.c-pink{background:var(--pink);color:#fff}
+.c-teal{background:var(--teal);color:#eef5f1}
+.card.ink .c-teal, .card.ink h3{color:var(--ink)}
+.card.ink .c-teal p{color:var(--body)}
+.colorized h3{color:var(--ink)}
+.colorized.dark h3{color:#fff}
+.colorized.dark p{color:rgba(255,255,255,.9)}
+code{background:var(--strong);padding:2px 6px;border-radius:6px;font-size:14px;color:var(--ink)}
+.section{margin-top:24px}
+.fs{background:var(--card);border-radius:var(--r-lg);padding:24px 26px;border:1px solid var(--hairline)}
+.fs ul{margin:0;padding-left:20px}
+.fs li{margin-bottom:6px}
+.fs code{background:var(--canvas)}
+.ag{background:var(--strong);border-radius:var(--r-md);padding:16px 20px;font-size:14px;margin-bottom:12px}
+.footer{background:var(--soft);padding:40px 24px;text-align:center;font-size:14px;color:var(--muted);margin-top:72px}
+@media(max-width:768px){.row{grid-template-columns:1fr}h1{font-size:38px}.hero{padding:48px 0 32px}h2{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="hero wrap">
+  <span class="tag">Build Log · miankhalid.github.io</span>
+  <h1>The Portfolio Journey</h1>
+  <p>Everything we did, why, and how. Timeline from first commit to live site, SEO, and analytics. Open this whenever you wonder "why is it like this?".</p>
+  <div class="meta">
+    <span class="chip">stack: <b>vanilla HTML/CSS/JS</b></span>
+    <span class="chip">host: <b>GitHub Pages</b></span>
+    <span class="chip">identity: <b>Khalid</b></span>
+    <span class="chip">versions: <b>tag vX.0.0</b></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <h2>Timeline</h2>
+  <p style="color:var(--muted)">Each entry = a tagged release + Git commit. Color-coded the Clay way, alternating across the palette.</p>
+  <ul class="timeline section">
+
+    <li class="card colorized c-cream">
+      <span class="ver">v1.0.0</span><h3>Launch: root site build &amp; first deploy</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p>Built the portfolio from <code>PORTFOLIO-HANDOFF.md</code>: modular site, commit identity <code>Khalid</code>, live at the root user URL.</p>
+          <div class="flowtitle">Why</div>
+          <p>Free hosting, repo must be named <code>miankhalid.github.io</code>, and all content lives in <b>one file</b>: <code>content.js</code>.</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p>git init + project identity; <b>favicon</b> generated from profile pic (16/32/apple-touch via <code>sips</code>); stripped every em-dash; added <b>dark mode</b> (follows OS + manual sun/moon toggle, remembers via <code>localStorage</code>), removed nav name, hero name bumped 20%; pushed via <code>gh</code>; enabled Pages.</p>
+          <div class="note"><b>Learned:</b> gh auto-enables Pages on repo create.</div>
+        </div>
+      </div>
+    </li>
+
+    <li class="card colorized c-ochre">
+      <span class="ver">v2.0.0</span><h3>Liveliness, mobile, Icons, project covers</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p>Background shapes + parallax, mobile responsiveness, pinned name, Iconify icon system, and real thumbnails for every project.</p>
+          <div class="flowtitle">Why</div>
+          <p>Site felt flat; hero ate the mobile viewport; wanted icons; projects looked text-only.</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p>CSS blobs + JS parallax (<code>requestAnimationFrame</code>); hamburger mobile nav; brand name in sticky nav; <b>Iconify</b> CDN for all icons; scraped Play/APK app icons, hand-made 5 SVG covers (no dummies).</p>
+          <div class="note"><b>Learned:</b> link previews/SEO need OG tags (came later). Personal docs (<code>*.bio.md</code>) accidentally staged → gitignored.</div>
+        </div>
+      </div>
+    </li>
+
+    <li class="card colorized c-lav">
+      <span class="ver">v3.0.0</span><h3>Parallax fix, scroll-pin name, FAB, polish</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p>Fixed invisible shapes, single scroll-pinned "Khalid", FAB back-to-top, prominent View button, tech icons, Skills overhaul, better Smash Runner art.</p>
+          <div class="flowtitle">Why</div>
+          <p>Feedback: parallax didn't show; name appeared twice; View looked weak; Skills bland.</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p>Root cause was a CSS selector mismatch (styled class, HTML used <code>data-shape</code>). One unified scroll handler drives parallax + FAB show + nav reveal.</p>
+          <div class="note"><b>Learned:</b> debug by checking selector vs. actual markup.</div>
+        </div>
+      </div>
+    </li>
+
+    <li class="card colorized c-peach">
+      <span class="ver">v4.0.0</span><h3>Fully randomized parallax + real icons</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p>Each shape now has its own shape type, size, position, rotation, direction and speed. Real app icons for PicPlayPost &amp; GifDub; Smash Runner uses an Iconify runner glyph.</p>
+          <div class="flowtitle">Why</div>
+          <p>Linear motion felt same-y; app screenshots looked wrong as thumbnails (prefer icons).</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p>JS <code>buildShapes()</code> assigns a random <code>vx, vy</code> per shape. Icons pulled from store pages + winudf <code>_icon</code> endpoint.</p>
+          <div class="note"><b>Learned:</b> store <code>og:image</code> is often a screenshot, not the icon.</div>
+        </div>
+      </div>
+    </li>
+
+    <li class="card colorized c-pink">
+      <span class="ver">v5.0.0</span><h3>Abstract, theme-aware blobs</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p>5 large abstract organic blobs (no circles/triangles/squares), blurred, soft radial shade.</p>
+          <div class="flowtitle">Why</div>
+          <p>Feedback: keep it abstract, go big, respect light/dark theme.</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p>Reads real CSS variables off the active theme via <code>getComputedStyle</code>, converts hex→rgba, random organic <code>border-radius</code>, heavy blur.</p>
+          <div class="note"><b>Learned:</b> pulling colors from CSS vars = automatic theme-awareness.</div>
+        </div>
+      </div>
+    </li>
+
+    <li class="card colorized c-teal">
+      <span class="ver">v6.0.0</span><h3>Multi-platform View links + disabled fallback</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p><code>links[]</code> per project → one View button per platform (Google Play / App Store / Web) with a left icon. Projects with no links get a greyed disabled View.</p>
+          <div class="flowtitle">Why</div>
+          <p>Some apps exist on multiple stores; UI should look congruent on every card.</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p><code>platformIcon(url)</code> auto-detects icon from the URL host (play.google → Google Play, apps.apple → iOS, else globe).</p>
+          <div class="note"><b>Learned:</b> never fabricate URLs; only ship known-good links.</div>
+        </div>
+      </div>
+    </li>
+
+    <li class="card colorized c-cream">
+      <span class="ver">v7.0.0</span><h3>Masonry project grid</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p>Project cards no longer equal height, now masonry flow.</p>
+          <div class="flowtitle">Why</div>
+          <p>Cards have very different heights; fixed grid wasted space / looked stiff.</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p>CSS multi-column masonry (<code>column-width</code> + <code>break-inside:avoid</code>).</p>
+          <div class="note"><b>Learned:</b> column-major ordering; a JS variant gives strict L→R order.</div>
+        </div>
+      </div>
+    </li>
+
+    <li class="card colorized c-lav">
+      <span class="ver">v8.0.0 / v8.1.0</span><h3>Social link previews (OG + Twitter Card)</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p>Added Open Graph + Twitter Card meta and a branded <code>og-card.jpg</code> (1200×630 landscape).</p>
+          <div class="flowtitle">Why</div>
+          <p>WhatsApp/Slack showed no thumbnail when pasting the link.</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p>Absolute <code>og:image</code> URL; rasterized an SVG card to JPG with <code>sips</code> (bottle-green brand card).</p>
+          <div class="note"><b>Learned:</b> scrapers cache aggressively → cache-bust by appending <code>?v=</code>; test on opengraph.xyz / FB Sharing Debugger.</div>
+        </div>
+      </div>
+    </li>
+
+    <li class="card colorized c-teal">
+      <span class="ver">v9.0.0 → v9.1.0 + current</span><h3>SEO, analytics, ownership</h3>
+      <div class="row">
+        <div>
+          <div class="flowtitle">What</div>
+          <p><code>robots.txt</code>, <code>sitemap.xml</code>, JSON-LD <code>Person</code> schema, <code>meta robots</code> + <code>og:locale</code>, Cloudflare Web Analytics beacon, Google Search Console verification tag.</p>
+          <div class="flowtitle">Why</div>
+          <p>Get indexed faster, show structured/rich results, and track visits cookielessly.</p>
+        </div>
+        <div>
+          <div class="flowtitle">How</div>
+          <p>Created SEO files; added standards-track meta; pasted CF beacon token + GSC meta tag. Next: verify in Search Console, submit sitemap, URL-inspection Request Indexing.</p>
+          <div class="note"><b>Learned:</b> CF analytics is one script tag; GSC verification is a single meta tag pushed live.</div>
+        </div>
+      </div>
+    </li>
+
+  </ul>
+</div>
+
+<div class="wrap section">
+  <h2>File Structure</h2>
+  <p style="color:var(--muted)">Keep this layout. Only <code>content.js</code> is meant to be hand-edited; everything else is build/ops you never touch casually.</p>
+  <div class="fs">
+<pre style="margin:0;font-size:14px;line-height:1.5">miankhalid.github.io/
+├── index.html          # shell + all head meta (SEO/OG/analytics). rarely touched
+├── styles.css          # all Clay-styled tokens + layouts. rarely touched
+├── app.js              # renders content.js → DOM, parallax, nav, icons. never hand-edit casually
+├── content.js          # ★ THE ONLY FILE YOU EDIT ★ (name, bio, skills, projects)
+├── assets/
+│   ├── profile.jpeg
+│   ├── og-card.jpg     # social preview image (1200×630)
+│   ├── favicon-16/32.png, apple-touch-icon.png
+│   └── projects/       # one thumb per project (jpg or svg)
+├── robots.txt          # SEO: allow all + sitemap ref
+├── sitemap.xml         # SEO: url list
+├── README.md           # how-to-edit guide (for you, on GitHub)
+├── AGENTS.md           # instructions for AI agents / future sessions
+└── docs/
+    └── journey.html    # this build log</pre>
+  </div>
+  <div class="row" style="margin-top:24px">
+    <div class="ag"><b>Versioning convention:</b> every milestone = commit + git tag <code>vX.0.0</code>, pushed (<code>git tag vX.0.0 && git push origin vX.0.0</code>). Bump minor for a big change, keep tags matching releases.</div>
+    <div class="ag"><b>Do not commit:</b> <code>khalid-cv.md</code>, <code>design.md</code>, <code>PORTFOLIO-HANDOFF.md</code>, <code>*.bio.md</code>, <code>.claude/</code>, <code>.commandcode/</code>, <code>.tokensave/</code>, <code>.DS_Store</code>. All in <code>.gitignore</code>.</div>
+  </div>
+</div>
+
+<div class="footer wrap">
+  Generated from the build session · miankhalid.github.io
+</div>
+</body>
+</html>
