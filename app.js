@@ -17,6 +17,63 @@
     arrow: 'ph:arrow-up-right-duotone'
   };
 
+  const TECH_ICONS = {
+    'Node.js': 'simple-icons:nodedotjs',
+    'Fastify': 'simple-icons:fastify',
+    'TypeScript': 'simple-icons:typescript',
+    'Prisma': 'simple-icons:prisma',
+    'PostgreSQL': 'simple-icons:postgresql',
+    'BullMQ': 'mdi:bullseye-arrow',
+    'Redis': 'simple-icons:redis',
+    'Zod': 'simple-icons:zod',
+    'Vitest': 'simple-icons:vitest',
+    'LangGraph': 'mdi:sitemap',
+    'Agent Skills': 'mdi:robot-outline',
+    'Streamlit': 'simple-icons:streamlit',
+    'Graphify': 'mdi:graph-outline',
+    'Python': 'simple-icons:python',
+    'FastAPI': 'simple-icons:fastapi',
+    'Gemini 2.5 Flash': 'mdi:sparkles',
+    'React Native': 'simple-icons:react',
+    'Redux Toolkit': 'simple-icons:redux',
+    'Android': 'simple-icons:android',
+    'Jetpack Compose': 'simple-icons:jetpackcompose',
+    'iOS': 'simple-icons:apple',
+    'SwiftUI': 'simple-icons:swift',
+    'Unity3D': 'simple-icons:unity',
+    'C#': 'simple-icons:csharp',
+    'ffmpeg': 'simple-icons:ffmpeg',
+    'Game Dev': 'mdi:gamepad-variant-outline',
+    'Prototyping': 'mdi:draw',
+    'HTML': 'simple-icons:html5',
+    'CSS': 'simple-icons:css',
+    'JS': 'simple-icons:javascript',
+    'Kotlin': 'simple-icons:kotlin',
+    'Java': 'simple-icons:openjdk',
+    'JavaScript': 'simple-icons:javascript',
+    'Swift': 'simple-icons:swift',
+    'Objective-C': 'simple-icons:apple',
+    'SQLite': 'simple-icons:sqlite',
+    'Redux': 'simple-icons:redux',
+    'Git': 'simple-icons:git',
+    'Figma': 'simple-icons:figma',
+    'Firebase': 'simple-icons:firebase',
+    'Flutter': 'simple-icons:flutter',
+    'Dart': 'simple-icons:dart',
+    'SQL': 'mdi:database'
+  };
+  const SKILL_GROUP_ICONS = {
+    Languages: 'mdi:code-tags',
+    Frameworks: 'mdi:box',
+    Databases: 'mdi:database',
+    'State & Data': 'mdi:state-machine',
+    'Dev Tools': 'mdi:wrench',
+    Leadership: 'mdi:account-group',
+    Process: 'mdi:clipboard-list',
+    'Design & UX': 'mdi:palette',
+    Testing: 'mdi:bug-outline'
+  };
+
   function icon(name, className) {
     return '<span class="iconify' + (className ? ' ' + className : '') + '" data-icon="' + name + '"></span>';
   }
@@ -164,11 +221,18 @@
       if (hasContent(p.blurb)) card.appendChild(el('p', { text: p.blurb }));
       if (hasContent(p.tags)) {
         const tags = el('div', { class: 'project-tags' });
-        p.tags.forEach(t => tags.appendChild(el('span', { class: 'tag', text: t })));
+        p.tags.forEach(t => {
+            const tag = el('span', { class: 'tag' });
+            tag.innerHTML = TECH_ICONS[t] ? icon(TECH_ICONS[t], 'tag-icon') : '';
+            tag.appendChild(document.createTextNode(t));
+            tags.appendChild(tag);
+          });
         card.appendChild(tags);
       }
       if (hasContent(p.link)) {
-        card.appendChild(el('a', { class: 'project-link', text: 'View -', href: p.link, attrs: { target: '_blank', rel: 'noopener' } }));
+        const a = el('a', { class: 'project-link', href: p.link, attrs: { target: '_blank', rel: 'noopener' } });
+        a.innerHTML = 'View ' + icon(ICONS.arrow);
+        card.appendChild(a);
       }
       grid.appendChild(card);
     });
@@ -182,10 +246,18 @@
     section.appendChild(el('h2', { text: 'Skills' }));
     const grid = el('div', { class: 'skills-grid' });
     SITE.skills.forEach(g => {
-      const col = el('div');
-      col.appendChild(el('div', { class: 'skill-group-title', text: g.group || '' }));
+      const col = el('div', { class: 'skill-col' });
+      const head = el('div', { class: 'skill-head' });
+      head.innerHTML = icon(SKILL_GROUP_ICONS[g.group] || 'mdi:star-outline', 'skill-group-icon');
+      head.appendChild(el('div', { class: 'skill-group-title', text: g.group || '' }));
+      col.appendChild(head);
       const items = el('div', { class: 'skill-items' });
-      (g.items || []).forEach(i => items.appendChild(el('span', { class: 'skill-tag', text: i })));
+      (g.items || []).forEach(i => {
+        const tag = el('span', { class: 'skill-tag' });
+        tag.innerHTML = TECH_ICONS[i] ? icon(TECH_ICONS[i], 'tag-icon') : '';
+        tag.appendChild(document.createTextNode(i));
+        items.appendChild(tag);
+      });
       col.appendChild(items);
       grid.appendChild(col);
     });
@@ -252,15 +324,28 @@
     });
   }
 
-  function renderParallax() {
-    const shapes = document.querySelectorAll('.bg-shapes .shape');
-    if (!shapes.length) return;
+  function renderFAB() {
+    const fab = document.getElementById('fab');
+    if (!fab) return;
+    fab.innerHTML = icon('ph:arrow-up-bold');
+    fab.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+
+  function initScrollFx() {
+    const nav = document.querySelector('.nav');
+    const fab = document.getElementById('fab');
+    const hero = document.getElementById('hero');
     let raf = null;
     function onScroll() {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = null;
         const y = window.scrollY || 0;
+        const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 0;
+        const pastHero = y > heroBottom - 90;
+        if (nav) nav.classList.toggle('scrolled', pastHero);
+        if (fab) fab.classList.toggle('show', y > 480);
+        const shapes = document.querySelectorAll('.bg-shapes .shape');
         shapes.forEach(s => {
           const speed = parseFloat(s.getAttribute('data-speed')) || 0;
           s.style.transform = 'translate3d(0,' + (y * speed) + 'px,0)';
@@ -281,6 +366,7 @@
   renderNav();
   renderThemeToggle();
   renderFooter();
-  renderParallax();
+  renderFAB();
+  initScrollFx();
   scanIcons();
 })();
