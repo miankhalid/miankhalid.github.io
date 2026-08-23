@@ -80,7 +80,37 @@
     'Firebase': 'simple-icons:firebase',
     'Flutter': 'simple-icons:flutter',
     'Dart': 'simple-icons:dart',
-    'SQL': 'mdi:database'
+    'SQL': 'mdi:database',
+    // Dev Tools
+    'Claude Code': 'simple-icons:anthropic',
+    'Opencode': 'mdi:console-line',
+    'Pi.dev': 'mdi:pi',
+    'GitHub': 'simple-icons:github',
+    'Splunk': 'simple-icons:splunk',
+    'NewRelic': 'simple-icons:newrelic',
+    'DataDog': 'simple-icons:datadog',
+    'VS Code': 'simple-icons:visualstudiocode',
+    'FullStory': 'mdi:eye-outline',
+    'Amplitude': 'mdi:chart-line',
+    'Antigravity': 'mdi:rocket-launch-outline',
+    'Zed': 'mdi:lightning-bolt-outline',
+    'Logdy': 'mdi:text-box-search-outline',
+    // Leadership
+    'Mentoring': 'mdi:account-supervisor-outline',
+    'Team Leadership': 'mdi:account-tie-outline',
+    'Team Building': 'mdi:account-group-outline',
+    'Client Relations': 'mdi:handshake-outline',
+    // Process
+    'Agile Application Development': 'mdi:sync',
+    'Scrum': 'mdi:sync-circle',
+    'Kanban': 'mdi:view-column-outline',
+    // Design & UX
+    'A11y': 'mdi:wheelchair-accessibility',
+    'Miro': 'simple-icons:miro',
+    // Testing
+    'Unit Testing': 'mdi:test-tube',
+    'Test Automation': 'mdi:robot-industrial',
+    'End-to-End Testing': 'mdi:transit-connection-variant'
   };
   const SKILL_GROUP_ICONS = {
     Languages: 'mdi:code-tags',
