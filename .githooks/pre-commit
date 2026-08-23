@@ -22,6 +22,24 @@ if ! node --check app.js || ! node --check content.js; then
   fail=1
 fi
 
+# 2b. index.html meta tags + JSON-LD must be well-formed (catches broken/unclosed quotes).
+bad_meta=$(grep -n '<meta ' index.html | awk -F'"' '(NF-1)%2!=0')
+if [ -n "$bad_meta" ]; then
+  echo "FAIL: unbalanced quotes in index.html meta tag(s):"
+  echo "$bad_meta"
+  fail=1
+fi
+if ! node -e "
+  const fs = require('fs');
+  const html = fs.readFileSync('index.html', 'utf8');
+  const m = html.match(/<script type=\"application\/ld\+json\"[^>]*>([\s\S]*?)<\/script>/);
+  if (!m) { console.error('no JSON-LD script found'); process.exit(1); }
+  JSON.parse(m[1]);
+" > /dev/null 2>&1; then
+  echo "FAIL: JSON-LD in index.html is missing or not valid JSON"
+  fail=1
+fi
+
 # 3. sitemap.xml must list every root + docs/*.html page.
 for page in index.html $(find docs -name '*.html' 2>/dev/null); do
   case "$page" in
