@@ -202,7 +202,8 @@ a:hover{opacity:.7}
 
   <div class="rail-wrap">
     <div class="rail">
-      <a class="rail-item current" href="#v11-1"><span class="dot"></span><span class="rv">v11.1</span><span class="rd"><span>23 Aug</span><span>11:40 am</span></span></a>
+      <a class="rail-item current" href="#v11-2"><span class="dot"></span><span class="rv">v11.2</span><span class="rd"><span>23 Aug</span><span>12:15 pm</span></span></a>
+      <a class="rail-item" href="#v11-1"><span class="dot"></span><span class="rv">v11.1</span><span class="rd"><span>23 Aug</span><span>11:40 am</span></span></a>
       <a class="rail-item" href="#v11"><span class="dot"></span><span class="rv">v11.0.0</span><span class="rd"><span>23 Aug</span><span>11:01 am</span></span></a>
       <a class="rail-item" href="#v10-1"><span class="dot"></span><span class="rv">v10.1.0</span><span class="rd"><span>23 Aug</span><span>10:34 am</span></span></a>
       <a class="rail-item" href="#v10"><span class="dot"></span><span class="rv">v10.0.0</span><span class="rd"><span>23 Aug</span><span>8:34 am</span></span></a>
@@ -694,7 +695,7 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
     <!-- v11.1 -->
     <li class="card ink c-cream" id="v11-1">
       <details closed>
-        <summary><span class="ver">v11.1 + current</span><h3>SEO refresh, seo-refresh skill, track .claude/ and .commandcode/</h3><span class="carat">&#9662;</span></summary>
+        <summary><span class="ver">v11.1</span><h3>SEO refresh, seo-refresh skill, track .claude/ and .commandcode/</h3><span class="carat">&#9662;</span></summary>
         <div class="body">
           <div class="row">
             <div>
@@ -724,6 +725,41 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
               <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
             </ul></div>
             <div class="note"><b>Learned:</b> a skill only pays off across sessions if the file is actually tracked, not gitignored; audit AGENTS.md's own claims periodically since gitignore/config drift silently makes its docs wrong.</div>
+          </div>
+        </div>
+      </details>
+    </li>
+
+    <!-- v11.2 -->
+    <li class="card ink c-ochre" id="v11-2">
+      <details closed>
+        <summary><span class="ver">v11.2 + current</span><h3>Pre-commit hook: em-dash, syntax, sitemap, personal-doc, journey-log guardrails</h3><span class="carat">&#9662;</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Added a real git pre-commit hook (<code>.githooks/pre-commit</code>) that runs on every commit: fails on stray em/en-dashes, fails if <code>node --check</code> fails, fails if any HTML page is missing from <code>sitemap.xml</code>, fails if a personal/gitignored doc is ever staged, and prompts to confirm if a site/config change ships without a matching <code>docs/journey.html</code> update.</p>
+              <div class="flowtitle">Why</div>
+              <p>The v11.1 commit shipped without a journey entry and journey.html had a stale line, both of which AGENTS.md already said not to do; they slipped through anyway because nothing enforced it. Chose a plain git hook over the Python <code>pre-commit</code> framework or a Claude Code hook: this is a zero-dependency static site, adding a framework dependency for 4 shell checks is over-engineering for the project's size.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Wrote <code>.githooks/pre-commit</code>: em-dash grep, <code>node --check</code>, sitemap-coverage loop over root + <code>docs/*.html</code>, forbidden-file staged check.</li>
+                <li>Added an interactive y/N prompt (only when a tty is attached) that fires if the commit touches site/config files but not <code>docs/journey.html</code>.</li>
+                <li>Wired it up with <code>git config core.hooksPath .githooks</code> so it's tracked in the repo (unlike <code>.git/hooks/</code>, which never syncs) and applies for any future clone.</li>
+                <li>Tested it directly: confirmed it hard-fails on an injected em-dash + syntax error, and passes clean on a clean staged tree.</li>
+                <li>Documented the one-time setup command and what each check does in <code>AGENTS.md</code>.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Hook file: <code>.githooks/pre-commit</code> in the repo</li>
+              <li>Setup command: <code>git config core.hooksPath .githooks</code></li>
+              <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> <code>.git/hooks/</code> is local-only and never travels with the repo; <code>core.hooksPath</code> pointing at a tracked folder is the only way a hook survives a fresh clone without a separate install step.</div>
           </div>
         </div>
       </details>

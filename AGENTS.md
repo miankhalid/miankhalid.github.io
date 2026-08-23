@@ -79,6 +79,16 @@ curl -sI https://miankhalid.github.io/ | head -1                    # expect 200
 - `node --check app.js && node --check content.js` must pass (only syntax check available, no test suite/build step exists).
 - Grep for stray em-dashes: `grep -rn "—" index.html app.js content.js styles.css docs/ || true` (expect no hits outside gitignored docs).
 - `git status` clean of personal/gitignored docs before commit.
+- All of the above (plus sitemap coverage + a journey.html reminder) run automatically via the pre-commit hook, see below. Don't skip it with `--no-verify`.
+
+## Pre-commit hook (`.githooks/pre-commit`)
+One-time setup per clone: `git config core.hooksPath .githooks`. Runs on every `git commit`:
+1. Fails on em/en-dashes in `index.html app.js content.js styles.css docs/*.html`.
+2. Fails if `node --check` fails on `app.js`/`content.js`.
+3. Fails if `index.html` or any `docs/*.html` page is missing from `sitemap.xml`.
+4. Fails if a personal/gitignored doc (`khalid-cv.md`, `design.md`, `PORTFOLIO-HANDOFF.md`, `linkedin-bio.md`, `*.bio.md`, `.tokensave.local.json`) is ever staged.
+5. If the commit touches `index.html`/`app.js`/`content.js`/`styles.css`/`sitemap.xml`/`robots.txt`/`AGENTS.md`/`.gitignore` but not `docs/journey.html`, prompts to confirm that's intentional (can't script "was this meaningful", so it just asks).
+Mechanical checks (1-4) hard-fail, no bypass. Check 5 is a judgment prompt, not a hard rule.
 
 ## `.gitignore` (do not violate)
 `khalid-cv.md` (real CV), `design.md`, `PORTFOLIO-HANDOFF.md`, `linkedin-bio.md`, `*.bio.md`, `.DS_Store`, `.claude/settings.local.json`, `.claude/.headroom_wrap_marker.json`, `.tokensave/`, `.tokensave.local.json`, `myenv/`. Never commit these personal/local-only docs. `.claude/` (skills, config) and `.commandcode/` (taste/preference notes) are tracked, not ignored.

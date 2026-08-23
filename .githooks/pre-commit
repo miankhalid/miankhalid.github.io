@@ -1,0 +1,70 @@
+#!/bin/bash
+# Pre-commit guardrails for miankhalid.github.io. Mechanical checks only;
+# journey.html step is a judgment call so it's a prompt, not a hard fail.
+set -e
+cd "$(git rev-parse --show-toplevel)"
+
+fail=0
+staged=$(git diff --cached --name-only)
+
+# 1. No em/en-dashes in site content.
+dash_files="index.html app.js content.js styles.css"
+[ -d docs ] && dash_files="$dash_files $(find docs -name '*.html')"
+hits=$(grep -lE "—|–" $dash_files 2>/dev/null || true)
+if [ -n "$hits" ]; then
+  echo "FAIL: em-dash/en-dash found in: $hits"
+  fail=1
+fi
+
+# 2. JS syntax check.
+if ! node --check app.js || ! node --check content.js; then
+  echo "FAIL: node --check failed on app.js/content.js"
+  fail=1
+fi
+
+# 3. sitemap.xml must list every root + docs/*.html page.
+for page in index.html $(find docs -name '*.html' 2>/dev/null); do
+  case "$page" in
+    index.html) url="https://miankhalid.github.io/" ;;
+    *) url="https://miankhalid.github.io/$page" ;;
+  esac
+  if ! grep -qF "$url" sitemap.xml; then
+    echo "FAIL: $page missing from sitemap.xml (expected <loc>$url</loc>)"
+    fail=1
+  fi
+done
+
+# 4. Never let personal/local-only docs slip into a commit.
+forbidden="khalid-cv.md design.md PORTFOLIO-HANDOFF.md linkedin-bio.md .tokensave.local.json"
+for f in $forbidden; do
+  if echo "$staged" | grep -qxF "$f"; then
+    echo "FAIL: $f is staged but must never be committed (see .gitignore)"
+    fail=1
+  fi
+done
+if echo "$staged" | grep -qE '\.bio\.md$'; then
+  echo "FAIL: a *.bio.md file is staged but must never be committed"
+  fail=1
+fi
+
+if [ "$fail" -ne 0 ]; then
+  echo ""
+  echo "Pre-commit checks failed. Fix the above and re-commit."
+  exit 1
+fi
+
+# 5. Journey log reminder (judgment call, can't script "meaningful" -> just ask).
+if ! echo "$staged" | grep -qF "docs/journey.html"; then
+  touched_site=$(echo "$staged" | grep -E '^(index\.html|app\.js|content\.js|styles\.css|sitemap\.xml|robots\.txt|AGENTS\.md|\.gitignore)$' || true)
+  if [ -n "$touched_site" ] && [ -t 1 ]; then
+    echo "This commit touches: $touched_site"
+    echo "docs/journey.html was NOT updated. Is that intentional? [y/N]"
+    read -r ans < /dev/tty
+    case "$ans" in
+      y|Y) ;;
+      *) echo "Aborting. Update docs/journey.html or re-run to confirm skip."; exit 1 ;;
+    esac
+  fi
+fi
+
+exit 0
