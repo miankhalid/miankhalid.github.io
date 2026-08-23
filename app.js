@@ -84,7 +84,7 @@
   };
   const SKILL_GROUP_ICONS = {
     Languages: 'mdi:code-tags',
-    Frameworks: 'mdi:box',
+    Frameworks: 'mdi:layers',
     Databases: 'mdi:database',
     'State & Data': 'mdi:state-machine',
     'Dev Tools': 'mdi:wrench',
@@ -102,7 +102,10 @@
     return TECH_ICONS[t] ? icon(TECH_ICONS[t], 'tag-icon') : '';
   }
   function iconForGroup(group) {
-    return icon(SKILL_GROUP_ICONS[group] || 'mdi:star-outline', 'skill-group-icon');
+    // Iconify swaps the span for an <svg> carrying the same class, so the box (fixed
+    // width/height) and the glyph (font-size) can't share a class or the box size wins
+    // and the glyph fills it edge to edge. Keep them on separate elements.
+    return '<span class="skill-group-icon">' + icon(SKILL_GROUP_ICONS[group] || 'mdi:star-outline') + '</span>';
   }
   function iconForPlatform(url) {
     return icon(platformIcon(url));
@@ -283,10 +286,62 @@
     });
   }
 
+  function skillsColCount() {
+    const w = window.innerWidth;
+    if (w >= 980) return 4;
+    if (w >= 640) return 3;
+    return 2;
+  }
+
+  const SKILLS_TITLE_FONT = '700 14px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  function skillTitleWidth(text) {
+    skillTitleWidth.ctx = skillTitleWidth.ctx || document.createElement('canvas').getContext('2d');
+    const ctx = skillTitleWidth.ctx;
+    ctx.font = SKILLS_TITLE_FONT;
+    const upper = (text || '').toUpperCase();
+    // canvas font has no letter-spacing support; add the CSS .08em tracking by hand
+    return ctx.measureText(upper).width + Math.max(0, upper.length - 1) * (0.08 * 14);
+  }
+
+  // Titles are single words with no space to wrap at (e.g. "FRAMEWORKS"), so more columns
+  // means narrower cards means the title pokes past the card edge. Pick the widest column
+  // count where every title still fits its card at that width; fall back to 1 column per row.
+  function skillsColCountThatFits(gridWidth, titles) {
+    const maxCols = skillsColCount();
+    for (let cols = maxCols; cols > 1; cols--) {
+      const cardWidth = (gridWidth - 20 * (cols - 1)) / cols;
+      const titleBudget = cardWidth - 40 /* card padding */ - 38 /* icon */ - 10 /* head gap */;
+      if (titles.every(t => skillTitleWidth(t) <= titleBudget)) return cols;
+    }
+    return 1;
+  }
+
+  // Bento packing: place each card into the currently-shortest column (like Pinterest masonry)
+  // so short groups (e.g. Databases) don't get stretched to match a tall neighbor (e.g. Languages).
+  function layoutSkillsMasonry(grid, cards, titles) {
+    grid.innerHTML = '';
+    const cols = skillsColCountThatFits(grid.clientWidth, titles);
+    const colEls = [];
+    const heights = [];
+    for (let i = 0; i < cols; i++) {
+      const col = el('div', { class: 'skills-col' });
+      grid.appendChild(col);
+      colEls.push(col);
+      heights.push(0);
+    }
+    cards.forEach(card => {
+      let idx = 0;
+      for (let i = 1; i < heights.length; i++) if (heights[i] < heights[idx]) idx = i;
+      colEls[idx].appendChild(card);
+      heights[idx] += card.offsetHeight + 20;
+    });
+  }
+
   function renderSkills() {
     renderSection('skills', 'Skills', 'Skills', hasContent(SITE.skills), section => {
       const grid = el('div', { class: 'skills-grid' });
-      SITE.skills.forEach(g => {
+      const titles = SITE.skills.map(g => g.group || '');
+      const cards = SITE.skills.map(g => {
         const col = el('div', { class: 'skill-col' });
         const head = el('div', { class: 'skill-head' });
         head.innerHTML = iconForGroup(g.group);
@@ -296,13 +351,19 @@
         (g.items || []).forEach(i => {
           const tag = el('span', { class: 'skill-tag' });
           tag.innerHTML = iconForTech(i);
-          tag.appendChild(document.createTextNode(i));
+          tag.appendChild(el('span', { class: 'skill-tag-text', text: i }));
           items.appendChild(tag);
         });
         col.appendChild(items);
-        grid.appendChild(col);
+        return col;
       });
       section.appendChild(grid);
+      layoutSkillsMasonry(grid, cards, titles);
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => layoutSkillsMasonry(grid, cards, titles), 150);
+      });
     });
   }
 

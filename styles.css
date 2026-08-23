@@ -399,13 +399,24 @@ a { color: inherit; text-decoration: none; }
 .tag .tag-icon { font-size: 14px; }
 .tag .iconify { font-size: 14px; }
 
-/* ---- Skills ---- */
+/* ---- Skills (bento/masonry: JS packs cards into equal-width columns by shortest-column-first) ---- */
 .skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  display: flex;
+  align-items: flex-start;
   gap: 20px;
+  width: 100%;
+}
+.skills-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1 1 0;
+  min-width: 0;
 }
 .skill-col {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   background: var(--surface-card);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-lg);
@@ -422,6 +433,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 10px;
   margin-bottom: 14px;
+  min-width: 0;
 }
 .skill-group-icon {
   display: inline-flex;
@@ -433,8 +445,8 @@ a { color: inherit; text-decoration: none; }
   border-radius: var(--radius-sm);
   background: var(--primary);
   color: var(--on-primary);
-  font-size: 20px;
 }
+.skill-group-icon .iconify { font-size: 25px; }
 .skill-group-title {
   font-size: 14px;
   font-weight: 700;
@@ -452,6 +464,7 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  max-width: 100%;
   font-size: 13px;
   font-weight: 500;
   padding: 6px 12px;
@@ -462,7 +475,13 @@ a { color: inherit; text-decoration: none; }
   transition: border-color .15s ease, color .15s ease;
 }
 .skill-tag:hover { border-color: var(--primary); color: var(--primary); }
-.skill-tag .iconify { font-size: 15px; }
+.skill-tag .iconify { flex: 0 0 auto; font-size: 15px; }
+.skill-tag-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
 
 /* ---- Education ---- */
 .edu-item {
