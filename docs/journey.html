@@ -17,6 +17,7 @@
   --r-md:12px; --r-lg:16px; --r-xl:24px;
 }
 *{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:hidden}
 body{margin:0;background:var(--canvas);color:var(--body);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-weight:400;line-height:1.55}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 h1,h2,h3{font-weight:500;color:var(--ink);margin:0;letter-spacing:-.04em}
@@ -89,6 +90,7 @@ summary .ver{color:inherit}
 ol,ul{margin:0;padding-left:20px}
 .steps li,.verify li{margin-bottom:8px;font-size:15px}
 code{background:rgba(0,0,0,.10);padding:2px 6px;border-radius:6px;font-size:14px}
+pre{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
 a:hover{opacity:.7}
 .note{font-size:14px;background:rgba(0,0,0,.08);border-radius:var(--r-md);padding:12px 16px;margin-top:8px}
@@ -97,7 +99,7 @@ a:hover{opacity:.7}
 .fs{background:var(--card);border-radius:var(--r-lg);padding:24px 26px;border:1px solid var(--hairline)}
 .ag{background:var(--strong);border-radius:var(--r-md);padding:16px 20px;font-size:14px;margin-bottom:12px}
 .footer{background:var(--soft);padding:40px 24px;text-align:center;font-size:14px;color:var(--muted);margin-top:72px}
-@media(max-width:768px){.row{grid-template-columns:1fr}h1{font-size:38px}.hero{padding:48px 0 32px}h2{font-size:28px}}
+@media(max-width:768px){.row{grid-template-columns:1fr}h1{font-size:38px}.hero{padding:48px 0 32px}h2{font-size:28px;margin:40px 0 8px}.fs{padding:16px 18px}pre{font-size:12px}}
 
 /* horizontal timeline rail */
 .rail-wrap{overflow-x:auto;margin:16px 0 8px;padding:4px 0 12px}
@@ -180,12 +182,13 @@ a:hover{opacity:.7}
 </div>
 
 <div class="wrap">
-  <h2><span class="iconify h2-icon" data-icon="ph:list-timeline"></span>Timeline</h2>
+  <h2><span class="iconify h2-icon" data-icon="ph:clock-counter-clockwise"></span>Timeline</h2>
   <p class="muted">Expand any card. Every step includes a check-it link you can open again later.</p>
 
   <div class="rail-wrap">
     <div class="rail">
-      <a class="rail-item current" href="#v10"><span class="dot"></span><span class="rv">v10.0.0</span><span class="rd"><span>23 Aug</span><span>8:34 am</span></span></a>
+      <a class="rail-item current" href="#v10-1"><span class="dot"></span><span class="rv">v10.1.0</span><span class="rd"><span>23 Aug</span><span>10:34 am</span></span></a>
+      <a class="rail-item" href="#v10"><span class="dot"></span><span class="rv">v10.0.0</span><span class="rd"><span>23 Aug</span><span>8:34 am</span></span></a>
       <a class="rail-item" href="#v9"><span class="dot"></span><span class="rv">v9.x</span><span class="rd"><span>23 Aug</span><span>12:50 am</span></span></a>
       <a class="rail-item" href="#v8"><span class="dot"></span><span class="rv">v8.x</span><span class="rd"><span>23 Aug</span><span>12:27 am</span></span></a>
       <a class="rail-item" href="#v7"><span class="dot"></span><span class="rv">v7.0.0</span><span class="rd"><span>23 Aug</span><span>12:20 am</span></span></a>
@@ -569,7 +572,7 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
     <!-- v10 -->
     <li class="card ink c-peach" id="v10">
       <details closed>
-        <summary><span class="ver">v10.0.0 + current</span><h3>Shared controls extracted, journey WCAG/rail fixes, favicon standard</h3><span class="carat">▾</span></summary>
+        <summary><span class="ver">v10.0.0</span><h3>Shared controls extracted, journey WCAG/rail fixes, favicon standard</h3><span class="carat">▾</span></summary>
         <div class="body">
           <div class="row">
             <div>
@@ -596,6 +599,41 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
               <li>Contrast check: <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a></li>
             </ul></div>
             <div class="note"><b>Learned:</b> never reuse a theme-reactive CSS var for a "fixed" pastel fill, it silently breaks contrast only in dark mode; a repeating rail/dot UI needs fixed-width items or the connector drifts off-center.</div>
+          </div>
+        </div>
+      </details>
+    </li>
+
+    <!-- v10.1 -->
+    <li class="card light c-pink" id="v10-1">
+      <details closed>
+        <summary><span class="ver">v10.1.0 + current</span><h3>Mobile-responsive fix + Timeline icon fix on journey page</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Fixed a mobile layout break on <code>docs/journey.html</code> (horizontal overflow from the File Structure <code>&lt;pre&gt;</code> block, cramped spacing on narrow screens). Also fixed the "Timeline" heading, which used an invalid Iconify icon name so no icon rendered, only dead reserved space next to the text.</p>
+              <div class="flowtitle">Why</div>
+              <p>Screenshots on a real phone showed a horizontal scroll gap under the hero and cut-off text in the File Structure block. Separately, <code>ph:list-timeline</code> is not a real Phosphor icon, Iconify silently renders nothing for unknown names, which explained both the missing icon next to "Timeline" and the phantom indent beside it.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Added <code>html,body{max-width:100%;overflow-x:hidden}</code> as a page-level horizontal-scroll guard.</li>
+                <li>Added <code>pre{max-width:100%;overflow-x:auto}</code> so long fixed-width blocks scroll inside their own box instead of overflowing the viewport.</li>
+                <li>Tightened the mobile media query: smaller heading margins, tighter File Structure card padding, smaller <code>pre</code> font size under 768px.</li>
+                <li>Swapped the Timeline heading icon from the invalid <code>ph:list-timeline</code> to the real <code>ph:clock-counter-clockwise</code>.</li>
+                <li>Wrote the mobile-responsive rule into <code>AGENTS.md</code>'s "new page checklist" (item 6) so every future page starts responsive.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Mobile layout: <a href="https://miankhalid.github.io/docs/journey.html">/docs/journey.html</a> at a ~375px viewport (Chrome DevTools device toolbar)</li>
+              <li>Timeline icon: <a href="https://miankhalid.github.io/docs/journey.html">/docs/journey.html</a>, next to the "Timeline" heading</li>
+              <li>Icon lookup: <a href="https://icon-sets.iconify.design/ph/">icon-sets.iconify.design/ph</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> an invalid Iconify icon name fails silently, no error, no glyph, just the reserved margin, which looks exactly like a misaligned layout bug instead of a typo. Always spot-check icon names against the actual set.</div>
           </div>
         </div>
       </details>
