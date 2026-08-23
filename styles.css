@@ -487,8 +487,21 @@ a { color: inherit; text-decoration: none; }
 .edu-item {
   padding: 16px 0;
   border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
 }
 .edu-item:last-child { border-bottom: none; }
+.edu-logo {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 4px;
+}
+.edu-item .exp-head { flex: 1; }
 .edu-org { color: var(--primary); font-weight: 500; }
 .edu-period { color: var(--muted-soft); font-size: 14px; }
 

@@ -202,7 +202,8 @@ a:hover{opacity:.7}
 
   <div class="rail-wrap">
     <div class="rail">
-      <a class="rail-item current" href="#v11-3"><span class="dot"></span><span class="rv">v11.3</span><span class="rd"><span>23 Aug</span><span>5:33 pm</span></span></a>
+      <a class="rail-item current" href="#v11-4"><span class="dot"></span><span class="rv">v11.4</span><span class="rd"><span>23 Aug</span><span>9:21 pm</span></span></a>
+      <a class="rail-item" href="#v11-3"><span class="dot"></span><span class="rv">v11.3</span><span class="rd"><span>23 Aug</span><span>5:33 pm</span></span></a>
       <a class="rail-item" href="#v11-2"><span class="dot"></span><span class="rv">v11.2</span><span class="rd"><span>23 Aug</span><span>12:15 pm</span></span></a>
       <a class="rail-item" href="#v11-1"><span class="dot"></span><span class="rv">v11.1</span><span class="rd"><span>23 Aug</span><span>11:40 am</span></span></a>
       <a class="rail-item" href="#v11"><span class="dot"></span><span class="rv">v11.0.0</span><span class="rd"><span>23 Aug</span><span>11:01 am</span></span></a>
@@ -769,7 +770,7 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
     <!-- v11.3 -->
     <li class="card light c-pink" id="v11-3">
       <details closed>
-        <summary><span class="ver">v11.3 + current</span><h3>Skill tag icon mappings: dev tools, leadership, process, design, testing</h3><span class="carat">&#9662;</span></summary>
+        <summary><span class="ver">v11.3</span><h3>Skill tag icon mappings: dev tools, leadership, process, design, testing</h3><span class="carat">&#9662;</span></summary>
         <div class="body">
           <div class="row">
             <div>
@@ -793,6 +794,38 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
               <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
             </ul></div>
             <div class="note"><b>Learned:</b> this commit shipped without a journey entry first, pre-commit hook's check 5 only prompts on an interactive tty, so it silently passed in a non-interactive session. Journey entry added after the fact as a follow-up.</div>
+          </div>
+        </div>
+      </details>
+    </li>
+
+    <li class="card light c-teal" id="v11-4">
+      <details closed>
+        <summary><span class="ver">v11.4 + current</span><h3>University logo + realistic project thumbnails</h3><span class="carat">&#9662;</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Added the NUST emblem next to the Education entry, and replaced the abstract placeholder thumbnails for Leavzy, Textalize Analyzer, MetabolicLens, and Smash Runner with realistic, professional product mockup images.</p>
+              <div class="flowtitle">Why</div>
+              <p>Those four projects stood out among the branded/real screenshots used for the other cards. The Education section had no visual anchor for the university.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Fetched the official NUST emblem (Wikimedia-hosted SVG) to <code>assets/nust-logo.svg</code>; added a <code>logo</code> field to the education entry in <code>content.js</code> and rendered it via a new <code>.edu-logo</code> element in <code>app.js</code>/<code>styles.css</code>.</li>
+                <li>Generated realistic mockup images for the four projects, compressed to ~300-400KB (<code>sips</code>, 640px width), and swapped the <code>image</code> paths in <code>content.js</code> from the old <code>.svg</code> placeholders to the new <code>.jpg</code> files in <code>assets/projects/</code>.</li>
+                <li>Wrote reusable image-generation prompt briefs for each project under <code>prompts/</code> for future regeneration.</li>
+                <li><code>node --check app.js</code> + <code>node --check content.js</code>, em-dash grep, both clean.</li>
+                <li>Committed and pushed to <code>main</code>.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Education + Projects sections: <a href="https://miankhalid.github.io/">miankhalid.github.io</a></li>
+              <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
+            </ul></div>
           </div>
         </div>
       </details>

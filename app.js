@@ -401,6 +401,7 @@
     renderSection('education', 'Education', 'Education', hasContent(SITE.education), section => {
       SITE.education.forEach(e => {
         const item = el('div', { class: 'edu-item' });
+        if (hasContent(e.logo)) item.appendChild(el('img', { class: 'edu-logo', attrs: { src: e.logo, alt: e.org || '' } }));
         const head = el('div', { class: 'exp-head' });
         const titleWrap = el('div');
         titleWrap.appendChild(el('h3', { text: e.degree || '' }));
