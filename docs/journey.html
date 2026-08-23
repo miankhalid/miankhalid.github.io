@@ -48,6 +48,7 @@ summary .ver{color:inherit}
 .body{padding:0 24px 24px}
 .muted{color:var(--muted)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px}
+.row>div{min-width:0}
 .flowtitle{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
 .flowtitle.first{margin-top:16px}
 .h2-icon{font-size:26px;margin-right:10px;color:var(--primary);vertical-align:-3px}
@@ -85,6 +86,8 @@ summary .ver{color:inherit}
 [data-theme="dark"] .ink .note{background:rgba(0,0,0,.07)}
 [data-theme="dark"] .ink code{background:rgba(0,0,0,.10)}
 .blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:8px}
+.blocks>div{min-width:0}
+.blocks li,.blocks p,.note{overflow-wrap:break-word;word-break:break-word}
 .steps,.verify{background:rgba(0,0,0,.06);border-radius:var(--r-lg);padding:6px 18px 12px}
 .ink .steps,.ink .verify{background:rgba(0,0,0,.05)}
 ol,ul{margin:0;padding-left:20px}
