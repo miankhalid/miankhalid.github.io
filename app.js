@@ -186,156 +186,152 @@
     }
   }
 
+  function renderSection(id, label, heading, hasBody, build) {
+    const section = document.getElementById(id);
+    if (!hasBody) { section.classList.add('hidden'); return; }
+    section.appendChild(el('div', { class: 'section-label', text: label }));
+    section.appendChild(el('h2', { text: heading }));
+    build(section);
+  }
+
   function renderAbout() {
-    const section = document.getElementById('about');
-    if (!hasContent(SITE.about)) { section.classList.add('hidden'); return; }
-    section.appendChild(el('div', { class: 'section-label', text: 'About' }));
-    section.appendChild(el('h2', { text: 'About Me' }));
-    const wrap = el('div', { class: 'about-text' });
-    SITE.about.forEach(p => wrap.appendChild(el('p', { text: p })));
-    section.appendChild(wrap);
+    renderSection('about', 'About', 'About Me', hasContent(SITE.about), section => {
+      const wrap = el('div', { class: 'about-text' });
+      SITE.about.forEach(p => wrap.appendChild(el('p', { text: p })));
+      section.appendChild(wrap);
+    });
   }
 
   function renderExperience() {
-    const section = document.getElementById('experience');
-    if (!hasContent(SITE.experience)) { section.classList.add('hidden'); return; }
-    section.appendChild(el('div', { class: 'section-label', text: 'Experience' }));
-    section.appendChild(el('h2', { text: 'Experience' }));
-    SITE.experience.forEach(job => {
-      const item = el('div', { class: 'exp-item' });
-      const head = el('div', { class: 'exp-head' });
-      const titleWrap = el('div');
-      titleWrap.appendChild(el('h3', { text: job.role || '' }));
-      if (hasContent(job.org)) titleWrap.appendChild(el('div', { class: 'exp-org', text: job.org }));
-      head.appendChild(titleWrap);
-      if (hasContent(job.period)) head.appendChild(el('div', { class: 'exp-period', text: job.period }));
-      item.appendChild(head);
-      if (hasContent(job.points)) {
-        const list = el('ul', { class: 'exp-points' });
-        job.points.forEach(pt => list.appendChild(el('li', { text: pt })));
-        item.appendChild(list);
-      }
-      section.appendChild(item);
+    renderSection('experience', 'Experience', 'Experience', hasContent(SITE.experience), section => {
+      SITE.experience.forEach(job => {
+        const item = el('div', { class: 'exp-item' });
+        const head = el('div', { class: 'exp-head' });
+        const titleWrap = el('div');
+        titleWrap.appendChild(el('h3', { text: job.role || '' }));
+        if (hasContent(job.org)) titleWrap.appendChild(el('div', { class: 'exp-org', text: job.org }));
+        head.appendChild(titleWrap);
+        if (hasContent(job.period)) head.appendChild(el('div', { class: 'exp-period', text: job.period }));
+        item.appendChild(head);
+        if (hasContent(job.points)) {
+          const list = el('ul', { class: 'exp-points' });
+          job.points.forEach(pt => list.appendChild(el('li', { text: pt })));
+          item.appendChild(list);
+        }
+        section.appendChild(item);
+      });
     });
   }
 
   function renderProjects() {
-    const section = document.getElementById('projects');
-    if (!hasContent(SITE.projects)) { section.classList.add('hidden'); return; }
-    section.appendChild(el('div', { class: 'section-label', text: 'Projects' }));
-    section.appendChild(el('h2', { text: 'Projects' }));
-    const grid = el('div', { class: 'projects-grid' });
-    SITE.projects.forEach(p => {
-      const card = el('div', { class: 'project-card' });
-      if (hasContent(p.image)) {
-        const media = el('div', { class: 'project-media' });
-        const shimmer = el('div', { class: 'shimmer' });
-        const img = el('img', { attrs: { src: p.image, alt: p.title || '', loading: 'lazy' } });
-        if (img.complete) img.classList.add('loaded');
-        else img.addEventListener('load', () => img.classList.add('loaded'));
-        media.appendChild(img);
-        media.appendChild(shimmer);
-        card.appendChild(media);
-      }
-      card.appendChild(el('h3', { text: p.title || '' }));
-      if (hasContent(p.blurb)) card.appendChild(el('p', { text: p.blurb }));
-      if (hasContent(p.tags)) {
-        const tags = el('div', { class: 'project-tags' });
-        p.tags.forEach(t => {
-            const tag = el('span', { class: 'tag' });
-            tag.innerHTML = TECH_ICONS[t] ? icon(TECH_ICONS[t], 'tag-icon') : '';
-            tag.appendChild(document.createTextNode(t));
-            tags.appendChild(tag);
+    renderSection('projects', 'Projects', 'Projects', hasContent(SITE.projects), section => {
+      const grid = el('div', { class: 'projects-grid' });
+      SITE.projects.forEach(p => {
+        const card = el('div', { class: 'project-card' });
+        if (hasContent(p.image)) {
+          const media = el('div', { class: 'project-media' });
+          const shimmer = el('div', { class: 'shimmer' });
+          const img = el('img', { attrs: { src: p.image, alt: p.title || '', loading: 'lazy' } });
+          if (img.complete) img.classList.add('loaded');
+          else img.addEventListener('load', () => img.classList.add('loaded'));
+          media.appendChild(img);
+          media.appendChild(shimmer);
+          card.appendChild(media);
+        }
+        card.appendChild(el('h3', { text: p.title || '' }));
+        if (hasContent(p.blurb)) card.appendChild(el('p', { text: p.blurb }));
+        if (hasContent(p.tags)) {
+          const tags = el('div', { class: 'project-tags' });
+          p.tags.forEach(t => {
+              const tag = el('span', { class: 'tag' });
+              tag.innerHTML = TECH_ICONS[t] ? icon(TECH_ICONS[t], 'tag-icon') : '';
+              tag.appendChild(document.createTextNode(t));
+              tags.appendChild(tag);
+            });
+          card.appendChild(tags);
+        }
+        const links = Array.isArray(p.links) && p.links.length ? p.links : (hasContent(p.link) ? [{ label: 'View', url: p.link }] : []);
+        if (links.length) {
+          const wrap = el('div', { class: 'project-links' });
+          links.forEach(l => {
+            const a = el('a', {
+              class: 'project-link',
+              href: l.url,
+              attrs: { target: '_blank', rel: 'noopener' }
+            });
+            a.innerHTML = icon(platformIcon(l.url)) + ' ' + 'View' + (l.label && l.label !== 'View' ? ' - ' + l.label : '');
+            wrap.appendChild(a);
           });
-        card.appendChild(tags);
-      }
-      const links = Array.isArray(p.links) && p.links.length ? p.links : (hasContent(p.link) ? [{ label: 'View', url: p.link }] : []);
-      if (links.length) {
-        const wrap = el('div', { class: 'project-links' });
-        links.forEach(l => {
-          const a = el('a', {
-            class: 'project-link',
-            href: l.url,
-            attrs: { target: '_blank', rel: 'noopener' }
-          });
-          a.innerHTML = icon(platformIcon(l.url)) + ' ' + 'View' + (l.label && l.label !== 'View' ? ' - ' + l.label : '');
-          wrap.appendChild(a);
-        });
-        card.appendChild(wrap);
-      } else {
-        const disabled = el('span', { class: 'project-link is-disabled' });
-        disabled.innerHTML = icon('mdi:eye-off-outline') + ' View';
-        card.appendChild(disabled);
-      }
-      grid.appendChild(card);
+          card.appendChild(wrap);
+        } else {
+          const disabled = el('span', { class: 'project-link is-disabled' });
+          disabled.innerHTML = icon('mdi:eye-off-outline') + ' View';
+          card.appendChild(disabled);
+        }
+        grid.appendChild(card);
+      });
+      section.appendChild(grid);
     });
-    section.appendChild(grid);
   }
 
   function renderSkills() {
-    const section = document.getElementById('skills');
-    if (!hasContent(SITE.skills)) { section.classList.add('hidden'); return; }
-    section.appendChild(el('div', { class: 'section-label', text: 'Skills' }));
-    section.appendChild(el('h2', { text: 'Skills' }));
-    const grid = el('div', { class: 'skills-grid' });
-    SITE.skills.forEach(g => {
-      const col = el('div', { class: 'skill-col' });
-      const head = el('div', { class: 'skill-head' });
-      head.innerHTML = icon(SKILL_GROUP_ICONS[g.group] || 'mdi:star-outline', 'skill-group-icon');
-      head.appendChild(el('div', { class: 'skill-group-title', text: g.group || '' }));
-      col.appendChild(head);
-      const items = el('div', { class: 'skill-items' });
-      (g.items || []).forEach(i => {
-        const tag = el('span', { class: 'skill-tag' });
-        tag.innerHTML = TECH_ICONS[i] ? icon(TECH_ICONS[i], 'tag-icon') : '';
-        tag.appendChild(document.createTextNode(i));
-        items.appendChild(tag);
+    renderSection('skills', 'Skills', 'Skills', hasContent(SITE.skills), section => {
+      const grid = el('div', { class: 'skills-grid' });
+      SITE.skills.forEach(g => {
+        const col = el('div', { class: 'skill-col' });
+        const head = el('div', { class: 'skill-head' });
+        head.innerHTML = icon(SKILL_GROUP_ICONS[g.group] || 'mdi:star-outline', 'skill-group-icon');
+        head.appendChild(el('div', { class: 'skill-group-title', text: g.group || '' }));
+        col.appendChild(head);
+        const items = el('div', { class: 'skill-items' });
+        (g.items || []).forEach(i => {
+          const tag = el('span', { class: 'skill-tag' });
+          tag.innerHTML = TECH_ICONS[i] ? icon(TECH_ICONS[i], 'tag-icon') : '';
+          tag.appendChild(document.createTextNode(i));
+          items.appendChild(tag);
+        });
+        col.appendChild(items);
+        grid.appendChild(col);
       });
-      col.appendChild(items);
-      grid.appendChild(col);
+      section.appendChild(grid);
     });
-    section.appendChild(grid);
   }
 
   function renderEducation() {
-    const section = document.getElementById('education');
-    if (!hasContent(SITE.education)) { section.classList.add('hidden'); return; }
-    section.appendChild(el('div', { class: 'section-label', text: 'Education' }));
-    section.appendChild(el('h2', { text: 'Education' }));
-    SITE.education.forEach(e => {
-      const item = el('div', { class: 'edu-item' });
-      const head = el('div', { class: 'exp-head' });
-      const titleWrap = el('div');
-      titleWrap.appendChild(el('h3', { text: e.degree || '' }));
-      if (hasContent(e.org)) titleWrap.appendChild(el('div', { class: 'edu-org', text: e.org }));
-      head.appendChild(titleWrap);
-      if (hasContent(e.period)) head.appendChild(el('div', { class: 'edu-period', text: e.period }));
-      item.appendChild(head);
-      section.appendChild(item);
+    renderSection('education', 'Education', 'Education', hasContent(SITE.education), section => {
+      SITE.education.forEach(e => {
+        const item = el('div', { class: 'edu-item' });
+        const head = el('div', { class: 'exp-head' });
+        const titleWrap = el('div');
+        titleWrap.appendChild(el('h3', { text: e.degree || '' }));
+        if (hasContent(e.org)) titleWrap.appendChild(el('div', { class: 'edu-org', text: e.org }));
+        head.appendChild(titleWrap);
+        if (hasContent(e.period)) head.appendChild(el('div', { class: 'edu-period', text: e.period }));
+        item.appendChild(head);
+        section.appendChild(item);
+      });
     });
   }
 
   function renderContact() {
-    const section = document.getElementById('contact');
     const c = SITE.contact || {};
     const active = Object.entries(c).filter(([k, v]) => hasContent(v));
-    if (!active.length) { section.classList.add('hidden'); return; }
-    section.appendChild(el('div', { class: 'section-label', text: 'Contact' }));
-    section.appendChild(el('h2', { text: "Let's Connect" }));
-    const wrap = el('div', { class: 'contact-links' });
-    active.forEach(([key, value]) => {
-      const href = key === 'email' ? 'mailto:' + value : value;
-      const label = key === 'x' ? 'X' : key.charAt(0).toUpperCase() + key.slice(1);
-      const btn = el('a', {
-        class: 'btn btn-secondary',
-        href: href,
-        attrs: key === 'email' ? {} : { target: '_blank', rel: 'noopener' }
+    renderSection('contact', 'Contact', "Let's Connect", active.length > 0, section => {
+      const wrap = el('div', { class: 'contact-links' });
+      active.forEach(([key, value]) => {
+        const href = key === 'email' ? 'mailto:' + value : value;
+        const label = key === 'x' ? 'X' : key.charAt(0).toUpperCase() + key.slice(1);
+        const btn = el('a', {
+          class: 'btn btn-secondary',
+          href: href,
+          attrs: key === 'email' ? {} : { target: '_blank', rel: 'noopener' }
+        });
+        btn.innerHTML = icon(ICONS[key] || 'mdi:link') + ' ' + label;
+        btn.style.gap = '8px';
+        wrap.appendChild(btn);
       });
-      btn.innerHTML = icon(ICONS[key] || 'mdi:link') + ' ' + label;
-      btn.style.gap = '8px';
-      wrap.appendChild(btn);
+      section.appendChild(wrap);
     });
-    section.appendChild(wrap);
   }
 
   function renderFooter() {
