@@ -25,6 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Rendering behavior, effects, nav, parallax, icons | `app.js` |
 | Title, OG/SEO meta, favicons, analytics scripts | `index.html` |
 | SEO crawlers | `robots.txt`, `sitemap.xml`, JSON-LD in `index.html` |
+| Any SEO/sitemap/meta audit or refresh task | use `.claude/skills/seo-refresh/SKILL.md` skill, don't redo this by hand |
 | Build log | `docs/journey.html` |
 | Theme toggle + back-to-top FAB (all pages) | `assets/controls.css` + `assets/controls.js` only |
 | Favicon (every page, existing + new) | same 3 `<link>` tags as `index.html`, `assets/favicon-32.png`/`favicon-16.png`/`apple-touch-icon.png` |
@@ -80,4 +81,4 @@ curl -sI https://miankhalid.github.io/ | head -1                    # expect 200
 - `git status` clean of personal/gitignored docs before commit.
 
 ## `.gitignore` (do not violate)
-`khalid-cv.md` (real CV), `design.md`, `PORTFOLIO-HANDOFF.md`, `linkedin-bio.md`, `*.bio.md`, `.DS_Store`, `.claude/`, `.commandcode/`, `.tokensave/`, `.tokensave.local.json`, `myenv/`. Never commit these personal/local-only docs.
+`khalid-cv.md` (real CV), `design.md`, `PORTFOLIO-HANDOFF.md`, `linkedin-bio.md`, `*.bio.md`, `.DS_Store`, `.claude/settings.local.json`, `.claude/.headroom_wrap_marker.json`, `.tokensave/`, `.tokensave.local.json`, `myenv/`. Never commit these personal/local-only docs. `.claude/` (skills, config) and `.commandcode/` (taste/preference notes) are tracked, not ignored.

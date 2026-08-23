@@ -2,8 +2,8 @@ khalid-cv.md
 design.md
 PORTFOLIO-HANDOFF.md
 .DS_Store
-.claude/
-.commandcode/
+.claude/settings.local.json
+.claude/.headroom_wrap_marker.json
 .tokensave/
 .tokensave.local.json
 myenv/
