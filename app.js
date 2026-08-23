@@ -98,6 +98,19 @@
     return '<span class="iconify' + (className ? ' ' + className : '') + '" data-icon="' + name + '"></span>';
   }
 
+  function iconForTech(t) {
+    return TECH_ICONS[t] ? icon(TECH_ICONS[t], 'tag-icon') : '';
+  }
+  function iconForGroup(group) {
+    return icon(SKILL_GROUP_ICONS[group] || 'mdi:star-outline', 'skill-group-icon');
+  }
+  function iconForPlatform(url) {
+    return icon(platformIcon(url));
+  }
+  function iconForContact(key) {
+    return icon(ICONS[key] || 'mdi:link');
+  }
+
   function scanIcons() {
     if (window.Iconify) Iconify.scan(document.body);
   }
@@ -244,7 +257,7 @@
           const tags = el('div', { class: 'project-tags' });
           p.tags.forEach(t => {
               const tag = el('span', { class: 'tag' });
-              tag.innerHTML = TECH_ICONS[t] ? icon(TECH_ICONS[t], 'tag-icon') : '';
+              tag.innerHTML = iconForTech(t);
               tag.appendChild(document.createTextNode(t));
               tags.appendChild(tag);
             });
@@ -259,7 +272,7 @@
               href: l.url,
               attrs: { target: '_blank', rel: 'noopener' }
             });
-            a.innerHTML = icon(platformIcon(l.url)) + ' ' + 'View' + (l.label && l.label !== 'View' ? ' - ' + l.label : '');
+            a.innerHTML = iconForPlatform(l.url) + ' ' + 'View' + (l.label && l.label !== 'View' ? ' - ' + l.label : '');
             wrap.appendChild(a);
           });
           card.appendChild(wrap);
@@ -280,13 +293,13 @@
       SITE.skills.forEach(g => {
         const col = el('div', { class: 'skill-col' });
         const head = el('div', { class: 'skill-head' });
-        head.innerHTML = icon(SKILL_GROUP_ICONS[g.group] || 'mdi:star-outline', 'skill-group-icon');
+        head.innerHTML = iconForGroup(g.group);
         head.appendChild(el('div', { class: 'skill-group-title', text: g.group || '' }));
         col.appendChild(head);
         const items = el('div', { class: 'skill-items' });
         (g.items || []).forEach(i => {
           const tag = el('span', { class: 'skill-tag' });
-          tag.innerHTML = TECH_ICONS[i] ? icon(TECH_ICONS[i], 'tag-icon') : '';
+          tag.innerHTML = iconForTech(i);
           tag.appendChild(document.createTextNode(i));
           items.appendChild(tag);
         });
@@ -326,7 +339,7 @@
           href: href,
           attrs: key === 'email' ? {} : { target: '_blank', rel: 'noopener' }
         });
-        btn.innerHTML = icon(ICONS[key] || 'mdi:link') + ' ' + label;
+        btn.innerHTML = iconForContact(key) + ' ' + label;
         btn.style.gap = '8px';
         wrap.appendChild(btn);
       });
