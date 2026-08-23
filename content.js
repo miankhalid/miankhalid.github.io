@@ -92,7 +92,7 @@ window.SITE = {
     },
     {
       title: "MetabolicLens",
-      blurb: "POC of a metabolic health tracking app. AI-powered food-photo analysis computing an Insulin Load Score (0–100) based on Dr. Jason Fung's metabolic principle. FastAPI backend for photo upload, meal history, and scoring; Google Gemini 2.5 Flash for photo analysis; React Native frontend with camera capture, gallery picker, and fasting tracker.",
+      blurb: "POC of a metabolic health tracking app. AI-powered food-photo analysis computing an Insulin Load Score (0-100) based on Dr. Jason Fung's metabolic principle. FastAPI backend for photo upload, meal history, and scoring; Google Gemini 2.5 Flash for photo analysis; React Native frontend with camera capture, gallery picker, and fasting tracker.",
       tags: ["Python", "FastAPI", "Gemini 2.5 Flash", "React Native"],
       links: [],
       image: "assets/projects/metaboliclens.svg"

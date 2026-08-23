@@ -187,7 +187,8 @@ a:hover{opacity:.7}
 
   <div class="rail-wrap">
     <div class="rail">
-      <a class="rail-item current" href="#v10-1"><span class="dot"></span><span class="rv">v10.1.0</span><span class="rd"><span>23 Aug</span><span>10:34 am</span></span></a>
+      <a class="rail-item current" href="#v11"><span class="dot"></span><span class="rv">v11.0.0</span><span class="rd"><span>23 Aug</span><span>11:01 am</span></span></a>
+      <a class="rail-item" href="#v10-1"><span class="dot"></span><span class="rv">v10.1.0</span><span class="rd"><span>23 Aug</span><span>10:34 am</span></span></a>
       <a class="rail-item" href="#v10"><span class="dot"></span><span class="rv">v10.0.0</span><span class="rd"><span>23 Aug</span><span>8:34 am</span></span></a>
       <a class="rail-item" href="#v9"><span class="dot"></span><span class="rv">v9.x</span><span class="rd"><span>23 Aug</span><span>12:50 am</span></span></a>
       <a class="rail-item" href="#v8"><span class="dot"></span><span class="rv">v8.x</span><span class="rd"><span>23 Aug</span><span>12:27 am</span></span></a>
@@ -607,7 +608,7 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
     <!-- v10.1 -->
     <li class="card light c-pink" id="v10-1">
       <details closed>
-        <summary><span class="ver">v10.1.0 + current</span><h3>Mobile-responsive fix + Timeline icon fix on journey page</h3><span class="carat">▾</span></summary>
+        <summary><span class="ver">v10.1.0</span><h3>Mobile-responsive fix + Timeline icon fix on journey page</h3><span class="carat">▾</span></summary>
         <div class="body">
           <div class="row">
             <div>
@@ -634,6 +635,41 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
               <li>Icon lookup: <a href="https://icon-sets.iconify.design/ph/">icon-sets.iconify.design/ph</a></li>
             </ul></div>
             <div class="note"><b>Learned:</b> an invalid Iconify icon name fails silently, no error, no glyph, just the reserved margin, which looks exactly like a misaligned layout bug instead of a typo. Always spot-check icon names against the actual set.</div>
+          </div>
+        </div>
+      </details>
+    </li>
+
+    <!-- v11 -->
+    <li class="card light c-teal" id="v11">
+      <details closed>
+        <summary><span class="ver">v11.0.0 + current</span><h3>Deepen app.js: shared section renderer, icon adapters, unified scroll/icon primitives</h3><span class="carat">&#9662;</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Refactored <code>app.js</code> and <code>assets/controls.js</code> after an architecture review flagged duplicated logic across render and control functions. Collapsed 6 near-identical section renderers into one <code>renderSection(id, label, heading, hasBody, build)</code> helper; wrapped the icon lookup + fallback logic behind 4 small adapters (<code>iconForTech</code>, <code>iconForGroup</code>, <code>iconForPlatform</code>, <code>iconForContact</code>); moved the rAF scroll-throttle and Iconify rescan into shared <code>window.SiteControls</code> primitives so <code>app.js</code> and <code>controls.js</code> stop each maintaining their own copy.</p>
+              <div class="flowtitle">Why</div>
+              <p><code>renderAbout</code>/<code>renderExperience</code>/<code>renderProjects</code>/<code>renderSkills</code>/<code>renderEducation</code>/<code>renderContact</code> all repeated the same "get section, hide if empty, insert label/heading" prologue before their own body logic; the icon lookups repeated "try the map, fall back, wrap in a span" per call site; the scroll handler and icon-scan call existed twice, once in each script. Collapsing each into one place reduces the surface a future change has to touch and match.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Added <code>renderSection()</code>, refactored all 6 section renderers to call it with a per-section <code>build()</code> callback.</li>
+                <li>Added <code>iconForTech</code>/<code>iconForGroup</code>/<code>iconForPlatform</code>/<code>iconForContact</code>, replaced 5 inline lookup+fallback call sites with them.</li>
+                <li>Skipped extracting the parallax blob generator into its own module, single self-contained function, not worth the seam.</li>
+                <li>Added <code>throttleRaf</code> and <code>scanIcons</code> to <code>window.SiteControls</code> in <code>controls.js</code>; <code>app.js</code>'s <code>initScrollFx()</code> and final icon scan now call those instead of reimplementing.</li>
+                <li>Reordered <code>index.html</code>'s scripts (<code>controls.js</code> before <code>app.js</code>) so the shared primitives exist first.</li>
+                <li>Fixed a stray en-dash in <code>content.js</code> found by the pre-commit dash grep.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Site still renders: <a href="https://miankhalid.github.io/">miankhalid.github.io</a></li>
+              <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> in a no-bundler vanilla-JS site, sharing logic between two script files means one global handoff object (<code>window.SiteControls</code>) plus getting script load order right, no module system to fall back on.</div>
           </div>
         </div>
       </details>
