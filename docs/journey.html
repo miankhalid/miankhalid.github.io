@@ -4,14 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Khalid - Portfolio Build Log</title>
-<meta name="description" content="Full timeline of how miankhalid.github.io was built, why each change was made, and how it was done.">
+<meta name="description" content="Collapsible timeline of how miankhalid.github.io was built, with step-by-step actions and verification links for each release.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
 <style>
 :root{
   --canvas:#fffaf0; --soft:#faf5e8; --card:#f5f0e0; --strong:#ebe6d6; --hairline:#e5e5e5;
   --primary:#006a4e; --primary-hover:#00543e; --ink:#0a0a0a;
   --body-strong:#1a1a1a; --body:#3a3a3a; --muted:#6a6a6a; --muted-soft:#9a9a9a;
-  --pink:#ff4d8b; --teal:#1a3a3a; --lav:#b8a4ed; --peach:#ffb084; --ochre:#e8b94a;
-  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:24px;
+  --pink:#932444; --teal:#1a3a3a; --lav:#b8a4ed; --peach:#ffb084; --ochre:#e8b94a;
+  --r-md:12px; --r-lg:16px; --r-xl:24px;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--canvas);color:var(--body);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-weight:400;line-height:1.55}
@@ -20,48 +23,154 @@ h1,h2,h3{font-weight:500;color:var(--ink);margin:0;letter-spacing:-.04em}
 h2{font-size:34px;margin:64px 0 8px;letter-spacing:-.03em}
 .hero{padding:72px 0 40px;border-bottom:1px solid var(--hairline)}
 .hero .tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}
-h1{font-size:52px;line-height:1.05}
-.hero p{font-size:18px;max-width:52ch;color:var(--body)}
+h1{font-size:50px;line-height:1.05}
+.hero p{font-size:18px;max-width:54ch;color:var(--body)}
 .meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
 .chip{font-size:13px;font-weight:500;padding:6px 14px;border-radius:9999px;background:var(--card);color:var(--body-strong);border:1px solid var(--hairline)}
 .chip b{color:var(--primary)}
-.timeline{list-style:none;margin:0;padding:0;position:relative}
-.timeline li{position:relative;margin-bottom:20px}
-.card{border-radius:var(--r-xl);padding:26px 28px;border:1px solid transparent}
-.card h3{font-size:20px;margin:0 0 4px;letter-spacing:-.02em}
-.ver{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.35);padding:4px 12px;border-radius:9999px;margin-bottom:10px}
-.flowtitle{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--body-strong);margin:12px 0 4px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.note{font-size:14px;background:rgba(10,10,10,.06);border-radius:var(--r-md);padding:12px 16px;margin-top:14px;color:var(--body-strong)}
-.note b{color:var(--primary)}
-/* clay color cycle */
-.c-cream{background:var(--card);color:var(--body)}
-.c-ochre{background:var(--ochre)}
-.c-lav{background:var(--lav)}
-.c-peach{background:var(--peach)}
-.c-pink{background:var(--pink);color:#fff}
-.c-teal{background:var(--teal);color:#eef5f1}
-.card.ink .c-teal, .card.ink h3{color:var(--ink)}
-.card.ink .c-teal p{color:var(--body)}
-.colorized h3{color:var(--ink)}
-.colorized.dark h3{color:#fff}
-.colorized.dark p{color:rgba(255,255,255,.9)}
-code{background:var(--strong);padding:2px 6px;border-radius:6px;font-size:14px;color:var(--ink)}
-.section{margin-top:24px}
+.timeline{list-style:none;margin:0;padding:0}
+.timeline>li{margin-bottom:16px}
+
+/* collapsible card */
+.card{border-radius:var(--r-xl);border:1px solid transparent;overflow:hidden}
+/* per-fill card tokens (light theme; dark theme overrides below) */
+.c-cream{background:#f5f0e0} .c-ochre{background:var(--ochre)} .c-lav{background:var(--lav)}
+.c-peach{background:var(--peach)} .c-pink{background:var(--pink);color:#fff} .c-teal{background:var(--teal);color:#eef5f1}
+details{border-radius:var(--r-xl)}
+summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:14px;padding:20px 24px;flex-wrap:wrap}
+summary::-webkit-details-marker{display:none}
+summary h3{font-size:20px;letter-spacing:-.02em;color:inherit}
+summary .carat{margin-left:auto;font-size:18px;transition:transform .2s ease;opacity:.7}
+details[open] summary .carat{transform:rotate(180deg)}
+.ver{display:inline-block;font-size:12px;font-weight:700;padding:4px 12px;border-radius:9999px;background:rgba(0,0,0,.12);letter-spacing:.02em}
+summary .ver{color:inherit}
+.body{padding:0 24px 24px}
+.muted{color:var(--muted)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px}
+.flowtitle{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.flowtitle.first{margin-top:16px}
+.h2-icon{font-size:26px;margin-right:10px;color:var(--primary);vertical-align:-3px}
+/* light/dark text helpers on colored cards */
+.light h3{color:#fff}
+.light p,.light li{color:rgba(255,255,255,.9)}
+.light .flowtitle{color:#b6c4bd}
+.light code,.light pre{background:rgba(255,255,255,.14);color:#fff}
+.light .note{background:rgba(255,255,255,.14)}
+.light .steps,.light .verify{background:rgba(255,255,255,.12)}
+.light a{color:var(--card-link,#a6f4cd);text-decoration-color:var(--card-link,#a6f4cd)}
+.light .ver{background:rgba(255,255,255,.16)}
+/* pastel/cream card fills stay LIGHT even in dark theme => keep dark text (AA). */
+[data-theme="dark"] .c-ochre{background:var(--ochre)}
+[data-theme="dark"] .c-lav{background:var(--lav)}
+[data-theme="dark"] .c-peach{background:var(--peach)}
+[data-theme="dark"] .c-pink{background:var(--pink);color:#fff}
+[data-theme="dark"] .c-teal{background:var(--teal);color:#eef5f1}
+/* AA-safe link color per pastel fill (light green flips fail on these) */
+.c-ochre{--card-link:#00543e}
+.c-lav{--card-link:#003326}
+.c-peach{--card-link:#00543e}
+.c-pink{--card-link:#a6f4cd}
+.c-cream{--card-link:#0a3d2c}
+.ink .ver{background:rgba(0,0,0,.18)}
+.ink h3,.ink summary,.ink b{color:#0a0a0a}
+.ink p,.ink li,.ink .flowtitle,.ink .muted,.ink .note{color:#1f1f1f}
+.ink a{color:var(--card-link,#0a3d2c);text-decoration-color:var(--card-link,#0a3d2c)}
+.ink code{background:rgba(0,0,0,.10);color:#0a0a0a}
+.ink .note{background:rgba(0,0,0,.07)}
+.ink .steps,.ink .verify{background:rgba(0,0,0,.05)}
+[data-theme="dark"] .ink h3,[data-theme="dark"] .ink summary,[data-theme="dark"] .ink b,[data-theme="dark"] .ink code{color:#0a0a0a}
+[data-theme="dark"] .ink p,[data-theme="dark"] .ink li,[data-theme="dark"] .ink .flowtitle,[data-theme="dark"] .ink .muted,[data-theme="dark"] .ink .note{color:#1f1f1f}
+[data-theme="dark"] .ink a{color:var(--card-link,#0a3d2c);text-decoration-color:var(--card-link,#0a3d2c)}
+[data-theme="dark"] .ink .note{background:rgba(0,0,0,.07)}
+[data-theme="dark"] .ink code{background:rgba(0,0,0,.10)}
+.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:8px}
+.steps,.verify{background:rgba(0,0,0,.06);border-radius:var(--r-lg);padding:6px 18px 12px}
+.ink .steps,.ink .verify{background:rgba(0,0,0,.05)}
+ol,ul{margin:0;padding-left:20px}
+.steps li,.verify li{margin-bottom:8px;font-size:15px}
+code{background:rgba(0,0,0,.10);padding:2px 6px;border-radius:6px;font-size:14px}
+a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{opacity:.7}
+.note{font-size:14px;background:rgba(0,0,0,.08);border-radius:var(--r-md);padding:12px 16px;margin-top:8px}
+.note b{letter-spacing:.02em}
+.note a{font-weight:600}
 .fs{background:var(--card);border-radius:var(--r-lg);padding:24px 26px;border:1px solid var(--hairline)}
-.fs ul{margin:0;padding-left:20px}
-.fs li{margin-bottom:6px}
-.fs code{background:var(--canvas)}
 .ag{background:var(--strong);border-radius:var(--r-md);padding:16px 20px;font-size:14px;margin-bottom:12px}
 .footer{background:var(--soft);padding:40px 24px;text-align:center;font-size:14px;color:var(--muted);margin-top:72px}
 @media(max-width:768px){.row{grid-template-columns:1fr}h1{font-size:38px}.hero{padding:48px 0 32px}h2{font-size:28px}}
+
+/* horizontal timeline rail */
+.rail-wrap{overflow-x:auto;margin:16px 0 8px;padding:4px 0 12px}
+.rail{display:flex;flex-wrap:nowrap;min-width:max-content}
+.rail-item{display:flex;flex:0 0 auto;flex-direction:column;align-items:center;gap:4px;width:88px;padding:8px 0;text-decoration:none;color:var(--muted);position:relative}
+.rail-item::after{content:"";position:absolute;top:14px;left:calc(50% + 6px);width:calc(100% - 6px);height:3px;background:var(--hairline)}
+.rail-item:last-child::after{display:none}
+.rail-item .dot{width:12px;height:12px;border-radius:50%;background:var(--muted);border:2px solid var(--canvas);flex:0 0 auto;position:relative;z-index:1}
+.rail-item:hover .dot{background:var(--primary)}
+.rail-item.current{color:var(--primary)}
+.rail-item.current .dot{background:var(--primary);animation:blink 1.6s ease-in-out infinite}
+.rv{font-size:12px;font-weight:700;letter-spacing:.02em}
+.rd{font-size:11px;color:var(--muted);white-space:nowrap;width:max-content;display:flex;flex-direction:column;align-items:center;line-height:1.25}
+.rd span{white-space:nowrap}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,106,78,.35)}50%{opacity:.4;box-shadow:0 0 0 7px rgba(0,106,78,0)}}
+
+/* --- theme (dark/light/system) --- */
+:root{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark;--canvas:#0f1412;--soft:#111815;--card:#141d19;--strong:#1a2621;--hairline:#2b3b34;--ink:#eef5f1;--body-strong:#d8e4de;--body:#b6c4bd;--muted:#8aa096;--muted-soft:#6a7f74;--primary:#2bbf82;--primary-hover:#37d68f;--on-primary:#052a1e}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--canvas:#0f1412;--soft:#111815;--card:#141d19;--strong:#1a2621;--hairline:#2b3b34;--ink:#eef5f1;--body-strong:#d8e4de;--body:#b6c4bd;--muted:#8aa096;--muted-soft:#6a7f74;--primary:#2bbf82;--primary-hover:#37d68f;--on-primary:#052a1e}}
+[data-theme="dark"] .steps,[data-theme="dark"] .verify,[data-theme="dark"] .note{background:rgba(255,255,255,.07)}
+[data-theme="dark"] code,[data-theme="dark"] pre{background:rgba(255,255,255,.12)}
+[data-theme="dark"] .fs{background:var(--card);border-color:var(--hairline)}
+[data-theme="dark"] .ag{background:var(--strong)}
+[data-theme="dark"] .ver{background:rgba(255,255,255,.12)}
+[data-theme="dark"] .rail-item .dot{border-color:var(--canvas)}
+[data-theme="dark"] .light code,[data-theme="dark"] .light pre{background:rgba(255,255,255,.14);color:#fff}
+[data-theme="dark"] .light .flowtitle{color:#b6c4bd}
+[data-theme="dark"] .light a{color:var(--card-link,#a6f4cd);text-decoration-color:var(--card-link,#a6f4cd)}
+[data-theme="dark"] .light .note{background:rgba(255,255,255,.14)}
+[data-theme="dark"] .light .steps,[data-theme="dark"] .light .verify{background:rgba(255,255,255,.12)}
+[data-theme="dark"] .light p,[data-theme="dark"] .light li{color:rgba(255,255,255,.9)}
+
+/* --- journey header (back link only; theme toggle is shared controls.css) --- */
+.jh{position:sticky;top:0;z-index:50;background:var(--canvas);border-bottom:1px solid var(--hairline)}
+.jh-inner{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.back{font-size:14px;font-weight:600;color:var(--primary);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.back .iconify{font-size:16px}
+.back:hover{color:var(--primary-hover)}
+
+/* --- fab: standardized in assets/controls.css (keep z-index above jh) --- */
+.fab{z-index:60}
+
+/* extra mobile */
+@media(max-width:768px){
+  .jh-inner{height:52px}
+  .back{font-size:13px}
+  .rail-item{padding:8px 4px}
+  .blocks{grid-template-columns:1fr}
+  .card .body{padding:0 16px 18px}
+  summary{padding:16px 18px}
+  .hero{padding-top:40px}
+}
 </style>
+<script>/* restore saved theme before paint (avoid flash) */try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="../assets/controls.css">
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 </head>
 <body>
+
+<header class="jh">
+  <div class="wrap jh-inner">
+    <a class="back" href="https://miankhalid.github.io/"><span class="iconify" data-icon="ph:arrow-left"></span> back to portfolio</a>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+      <span class="icon-moon"></span><span class="icon-sun"></span>
+    </button>
+  </div>
+</header>
+
 <div class="hero wrap">
   <span class="tag">Build Log · miankhalid.github.io</span>
   <h1>The Portfolio Journey</h1>
-  <p>Everything we did, why, and how. Timeline from first commit to live site, SEO, and analytics. Open this whenever you wonder "why is it like this?".</p>
+  <p>Click any release to expand. Each entry lists what we did, why, the exact steps taken, and links to check every step yourself in the future.</p>
   <div class="meta">
     <span class="chip">stack: <b>vanilla HTML/CSS/JS</b></span>
     <span class="chip">host: <b>GitHub Pages</b></span>
@@ -71,195 +180,471 @@ code{background:var(--strong);padding:2px 6px;border-radius:6px;font-size:14px;c
 </div>
 
 <div class="wrap">
-  <h2>Timeline</h2>
-  <p style="color:var(--muted)">Each entry = a tagged release + Git commit. Color-coded the Clay way, alternating across the palette.</p>
-  <ul class="timeline section">
+  <h2><span class="iconify h2-icon" data-icon="ph:list-timeline"></span>Timeline</h2>
+  <p class="muted">Expand any card. Every step includes a check-it link you can open again later.</p>
 
-    <li class="card colorized c-cream">
-      <span class="ver">v1.0.0</span><h3>Launch: root site build &amp; first deploy</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p>Built the portfolio from <code>PORTFOLIO-HANDOFF.md</code>: modular site, commit identity <code>Khalid</code>, live at the root user URL.</p>
-          <div class="flowtitle">Why</div>
-          <p>Free hosting, repo must be named <code>miankhalid.github.io</code>, and all content lives in <b>one file</b>: <code>content.js</code>.</p>
+  <div class="rail-wrap">
+    <div class="rail">
+      <a class="rail-item current" href="#v10"><span class="dot"></span><span class="rv">v10.0.0</span><span class="rd"><span>23 Aug</span><span>8:34 am</span></span></a>
+      <a class="rail-item" href="#v9"><span class="dot"></span><span class="rv">v9.x</span><span class="rd"><span>23 Aug</span><span>12:50 am</span></span></a>
+      <a class="rail-item" href="#v8"><span class="dot"></span><span class="rv">v8.x</span><span class="rd"><span>23 Aug</span><span>12:27 am</span></span></a>
+      <a class="rail-item" href="#v7"><span class="dot"></span><span class="rv">v7.0.0</span><span class="rd"><span>23 Aug</span><span>12:20 am</span></span></a>
+      <a class="rail-item" href="#v6"><span class="dot"></span><span class="rv">v6.0.0</span><span class="rd"><span>23 Aug</span><span>12:15 am</span></span></a>
+      <a class="rail-item" href="#v5"><span class="dot"></span><span class="rv">v5.0.0</span><span class="rd"><span>22 Aug</span><span>11:58 pm</span></span></a>
+      <a class="rail-item" href="#v4"><span class="dot"></span><span class="rv">v4.0.0</span><span class="rd"><span>22 Aug</span><span>11:48 pm</span></span></a>
+      <a class="rail-item" href="#v3"><span class="dot"></span><span class="rv">v3.0.0</span><span class="rd"><span>22 Aug</span><span>11:35 pm</span></span></a>
+      <a class="rail-item" href="#v2"><span class="dot"></span><span class="rv">v2.0.0</span><span class="rd"><span>22 Aug</span><span>11:18 pm</span></span></a>
+      <a class="rail-item" href="#v1"><span class="dot"></span><span class="rv">v1.0.0</span><span class="rd"><span>22 Aug</span><span>4:10 pm</span></span></a>
+    </div>
+  </div>
+
+  <ul class="timeline" style="margin-top:20px">
+
+    <!-- v1 -->
+    <li class="card ink c-cream" id="v1">
+      <details>
+        <summary><span class="ver">v1.0.0</span><h3>Launch: root site build &amp; first deploy</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Built the portfolio from <code>PORTFOLIO-HANDOFF.md</code>: modular site, commit identity <code>Khalid</code>, live at the root user URL. Favicon from profile pic, dark mode, em-dash cleanup.</p>
+              <div class="flowtitle">Why</div>
+              <p>Free hosting, repo must be named <code>miankhalid.github.io</code>, and all content lives in one file (<code>content.js</code>).</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>git init + project identity <code>Khalid</code>.</li>
+                <li>Generated favicons (16 / 32 / apple-touch) from <code>profile.jpeg</code> via <code>sips</code> center-crop.</li>
+                <li>Removed every em-dash (U+2014) from site text/comments.</li>
+                <li>Added dark mode: follows OS + manual sun/moon toggle, remembered in <code>localStorage</code>.</li>
+                <li>Removed nav name; hero name bumped 20% (56 → 67px).</li>
+                <li>Created public repo via <code>gh</code>, pushed, enabled Pages.</li>
+                <li>Committed as <code>Khalid</code>, no co-author, tagged <code>v1.0.0</code>.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Site live: <a href="https://miankhalid.github.io/">miankhalid.github.io</a></li>
+              <li>Repo: <a href="https://github.com/miankhalid/miankhalid.github.io">github.com/miankhalid/miankhalid.github.io</a></li>
+              <li>Tags: <a href="https://github.com/miankhalid/miankhalid.github.io/tags">/tags</a></li>
+              <li>Favicon check: <a href="https://realfavicongenerator.net/">realfavicongenerator.net</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> gh auto-enables Pages on repo create; .gitignore must cover personal docs.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p>git init + project identity; <b>favicon</b> generated from profile pic (16/32/apple-touch via <code>sips</code>); stripped every em-dash; added <b>dark mode</b> (follows OS + manual sun/moon toggle, remembers via <code>localStorage</code>), removed nav name, hero name bumped 20%; pushed via <code>gh</code>; enabled Pages.</p>
-          <div class="note"><b>Learned:</b> gh auto-enables Pages on repo create.</div>
-        </div>
-      </div>
+      </details>
     </li>
 
-    <li class="card colorized c-ochre">
-      <span class="ver">v2.0.0</span><h3>Liveliness, mobile, Icons, project covers</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p>Background shapes + parallax, mobile responsiveness, pinned name, Iconify icon system, and real thumbnails for every project.</p>
-          <div class="flowtitle">Why</div>
-          <p>Site felt flat; hero ate the mobile viewport; wanted icons; projects looked text-only.</p>
+    <!-- v2 -->
+    <li class="card ink c-ochre" id="v2">
+      <details>
+        <summary><span class="ver">v2.0.0</span><h3>Liveliness, mobile, Icons, project covers</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Background shapes + parallax, mobile responsiveness, pinned name, Iconify icon system, and real thumbnails for every project.</p>
+              <div class="flowtitle">Why</div>
+              <p>Site felt flat; hero ate the mobile viewport; wanted icons; projects looked text-only.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Added CSS blobs + JS parallax (<code>requestAnimationFrame</code>).</li>
+                <li>Mobile: hamburger nav → stacked dropdown; hero/contact/skills tightened.</li>
+                <li>Nav pins <code>Khalid</code> top-left while scrolling.</li>
+                <li>Switched all SVGs to <b>Iconify</b> (icons + sun/moon toggle).</li>
+                <li>Pulled 6 real app icons (edX, Workstream, PicPlayPost, LISA Hockey, Cheetay, GifDub); hand-made 5 SVG covers (no dummies).</li>
+                <li>Gitignored <code>*.bio.md</code> (personal doc nearly shipped).</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Parallax + mobile: view live site, shrink viewport / toggle dark</li>
+              <li>Iconify lib: <a href="https://iconify.design">iconify.design</a></li>
+              <li>Store icons: project Play / APK links on project cards</li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> link previews/SEO need OG tags (done in v8); never auto-commit stray local docs.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p>CSS blobs + JS parallax (<code>requestAnimationFrame</code>); hamburger mobile nav; brand name in sticky nav; <b>Iconify</b> CDN for all icons; scraped Play/APK app icons, hand-made 5 SVG covers (no dummies).</p>
-          <div class="note"><b>Learned:</b> link previews/SEO need OG tags (came later). Personal docs (<code>*.bio.md</code>) accidentally staged → gitignored.</div>
-        </div>
-      </div>
+      </details>
     </li>
 
-    <li class="card colorized c-lav">
-      <span class="ver">v3.0.0</span><h3>Parallax fix, scroll-pin name, FAB, polish</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p>Fixed invisible shapes, single scroll-pinned "Khalid", FAB back-to-top, prominent View button, tech icons, Skills overhaul, better Smash Runner art.</p>
-          <div class="flowtitle">Why</div>
-          <p>Feedback: parallax didn't show; name appeared twice; View looked weak; Skills bland.</p>
+    <!-- v3 -->
+    <li class="card ink c-lav" id="v3">
+      <details>
+        <summary><span class="ver">v3.0.0</span><h3>Parallax fix, scroll-pin name, FAB, polish</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Fixed invisible shapes, single scroll-pinned "Khalid", FAB back-to-top, prominent View button, tech tag icons, Skills overhaul, better Smash Runner art.</p>
+              <div class="flowtitle">Why</div>
+              <p>Feedback: parallax didn't show; name appeared twice; View button looked weak; Skills bland.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Fixed parallax root cause: CSS styled a <code>class</code> but HTML used <code>data-shape</code> → shapes never matched.</li>
+                <li>One unified scroll handler drives parallax + FAB visibility + nav reveal.</li>
+                <li>Nav brand hidden until hero scrolls past, then animates in (single "Khalid").</li>
+                <li>FAB scroll-to-top (appears after 480px).</li>
+                <li>View button → solid green pill with arrow icon.</li>
+                <li>Tech icons on project + skill tags; Skills → icon-headed cards with hover lift.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Scroll the live page: FAB after ~1 screen, name pins when hero leaves</li>
+              <li>Skills section shows icon cards</li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> debug by checking selector vs. actual markup.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p>Root cause was a CSS selector mismatch (styled class, HTML used <code>data-shape</code>). One unified scroll handler drives parallax + FAB show + nav reveal.</p>
-          <div class="note"><b>Learned:</b> debug by checking selector vs. actual markup.</div>
-        </div>
-      </div>
+      </details>
     </li>
 
-    <li class="card colorized c-peach">
-      <span class="ver">v4.0.0</span><h3>Fully randomized parallax + real icons</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p>Each shape now has its own shape type, size, position, rotation, direction and speed. Real app icons for PicPlayPost &amp; GifDub; Smash Runner uses an Iconify runner glyph.</p>
-          <div class="flowtitle">Why</div>
-          <p>Linear motion felt same-y; app screenshots looked wrong as thumbnails (prefer icons).</p>
+    <!-- v4 -->
+    <li class="card ink c-peach" id="v4">
+      <details>
+        <summary><span class="ver">v4.0.0</span><h3>Fully randomized parallax + real icons</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Each background shape now has its own type, size, position, rotation, direction and speed. Real app icons for PicPlayPost &amp; GifDub; Smash Runner uses an Iconify runner glyph.</p>
+              <div class="flowtitle">Why</div>
+              <p>Linear motion felt same-y; app screenshots looked wrong as thumbnails (prefer icons).</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>JS <code>buildShapes()</code> assigns a random <code>vx, vy</code> per shape → independent direction + speed.</li>
+                <li>Replaced GifDub's portrait screenshot with its real 512 app icon (winudf <code>_icon</code> endpoint).</li>
+                <li>Kept PicPlayPost's already-square Play icon.</li>
+                <li>Smash Runner cover → <code>solar:running-bold</code> Iconify glyph on a night scene.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Reload page → shapes differ each time; scroll → varied motion</li>
+              <li>Project covers: PicPlayPost, GifDub, Smash Runner on live site</li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> store pages' <code>og:image</code> is often a screenshot, not the icon; use the store's icon endpoint instead.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p>JS <code>buildShapes()</code> assigns a random <code>vx, vy</code> per shape. Icons pulled from store pages + winudf <code>_icon</code> endpoint.</p>
-          <div class="note"><b>Learned:</b> store <code>og:image</code> is often a screenshot, not the icon.</div>
-        </div>
-      </div>
+      </details>
     </li>
 
-    <li class="card colorized c-pink">
-      <span class="ver">v5.0.0</span><h3>Abstract, theme-aware blobs</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p>5 large abstract organic blobs (no circles/triangles/squares), blurred, soft radial shade.</p>
-          <div class="flowtitle">Why</div>
-          <p>Feedback: keep it abstract, go big, respect light/dark theme.</p>
+    <!-- v5 -->
+    <li class="card light c-pink" id="v5">
+      <details>
+        <summary><span class="ver">v5.0.0</span><h3>Abstract, theme-aware blobs</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>5 large abstract organic blobs (no circles/triangles/squares), blurred, with soft radial shade.</p>
+              <div class="flowtitle">Why</div>
+              <p>Feedback: keep it abstract, make them big, respect light/dark theme.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Capped shape count to 5.</li>
+                <li>Read real palette colors off the active theme via <code>getComputedStyle</code> (theme-aware automatically).</li>
+                <li>Converted hex → rgba, random organic <code>border-radius</code>, heavy blur.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Live site, toggle dark/light → blob colors shift with theme</li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> pulling colors from CSS vars = automatic theme-awareness.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p>Reads real CSS variables off the active theme via <code>getComputedStyle</code>, converts hex→rgba, random organic <code>border-radius</code>, heavy blur.</p>
-          <div class="note"><b>Learned:</b> pulling colors from CSS vars = automatic theme-awareness.</div>
-        </div>
-      </div>
+      </details>
     </li>
 
-    <li class="card colorized c-teal">
-      <span class="ver">v6.0.0</span><h3>Multi-platform View links + disabled fallback</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p><code>links[]</code> per project → one View button per platform (Google Play / App Store / Web) with a left icon. Projects with no links get a greyed disabled View.</p>
-          <div class="flowtitle">Why</div>
-          <p>Some apps exist on multiple stores; UI should look congruent on every card.</p>
+    <!-- v6 -->
+    <li class="card light c-teal" id="v6">
+      <details>
+        <summary><span class="ver">v6.0.0</span><h3>Multi-platform View links + disabled fallback</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p><code>links[]</code> per project → one View button per platform (Google Play / App Store / Web) with a left icon. Projects with no links get a greyed-out disabled View.</p>
+              <div class="flowtitle">Why</div>
+              <p>Some apps exist on multiple stores; UI should look congruent across every card.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Changed <code>content.js</code> project schema from <code>link</code> to <code>links[]</code>.</li>
+                <li><code>platformIcon(url)</code> auto-detects icon from URL host (play.google → Play, apps.apple → iOS, else web).</li>
+                <li>No links → disabled grey "View" (<code>is-disabled</code>).</li>
+                <li>edX: Google Play + App Store + Web; others single-icon or disabled.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Live site → edX card shows 3 platform buttons; Leavzy et al show disabled View</li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> never fabricate URLs; only ship known-good links.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p><code>platformIcon(url)</code> auto-detects icon from the URL host (play.google → Google Play, apps.apple → iOS, else globe).</p>
-          <div class="note"><b>Learned:</b> never fabricate URLs; only ship known-good links.</div>
-        </div>
-      </div>
+      </details>
     </li>
 
-    <li class="card colorized c-cream">
-      <span class="ver">v7.0.0</span><h3>Masonry project grid</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p>Project cards no longer equal height, now masonry flow.</p>
-          <div class="flowtitle">Why</div>
-          <p>Cards have very different heights; fixed grid wasted space / looked stiff.</p>
+    <!-- v7 -->
+    <li class="card ink c-cream" id="v7">
+      <details>
+        <summary><span class="ver">v7.0.0</span><h3>Masonry project grid</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Project cards no longer equal height, now masonry flow.</p>
+              <div class="flowtitle">Why</div>
+              <p>Cards have very different heights; fixed grid wasted space and looked stiff.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Swapped grid → CSS multi-column masonry: <code>column-width</code> + <code>break-inside:avoid</code>.</li>
+                <li>Vertical spacing via <code>margin-bottom</code> on cards.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Live site → project cards flow in columns with varied heights</li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> multi-column is column-major order; a JS masonry gives strict L→R order.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p>CSS multi-column masonry (<code>column-width</code> + <code>break-inside:avoid</code>).</p>
-          <div class="note"><b>Learned:</b> column-major ordering; a JS variant gives strict L→R order.</div>
-        </div>
-      </div>
+      </details>
     </li>
 
-    <li class="card colorized c-lav">
-      <span class="ver">v8.0.0 / v8.1.0</span><h3>Social link previews (OG + Twitter Card)</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p>Added Open Graph + Twitter Card meta and a branded <code>og-card.jpg</code> (1200×630 landscape).</p>
-          <div class="flowtitle">Why</div>
-          <p>WhatsApp/Slack showed no thumbnail when pasting the link.</p>
+    <!-- v8 -->
+    <li class="card ink c-lav" id="v8">
+      <details>
+        <summary><span class="ver">v8.0.0 / v8.1.0</span><h3>Social link previews (OG + Twitter Card)</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Added Open Graph + Twitter Card meta and a branded <code>og-card.jpg</code> (1200×630 landscape).</p>
+              <div class="flowtitle">Why</div>
+              <p>WhatsApp/Slack showed no thumbnail when pasting the link (no OG tags existed).</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Added <code>og:title/description/url/type/image</code> + <code>twitter:card/image</code> with absolute URLs.</li>
+                <li>Rasterized a bottle-green brand card SVG → JPG via <code>sips</code> (1200×630).</li>
+                <li>Landscape fix: <code>sips</code> reads SVG, preserving true 1200×630 aspect.</li>
+                <li>Verification: served meta + image return 200.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Preview tester: <a href="https://www.opengraph.xyz/?url=https://miankhalid.github.io/">opengraph.xyz</a></li>
+              <li>Meta present: <a href="https://miankhalid.github.io/">miankhalid.github.io</a> (view source)</li>
+              <li>Image asset: <a href="https://miankhalid.github.io/assets/og-card.jpg">og-card.jpg</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> scrapers cache aggressively → share <code>https://miankhalid.github.io/?v=3</code> to refresh WhatsApp/Slack preview.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p>Absolute <code>og:image</code> URL; rasterized an SVG card to JPG with <code>sips</code> (bottle-green brand card).</p>
-          <div class="note"><b>Learned:</b> scrapers cache aggressively → cache-bust by appending <code>?v=</code>; test on opengraph.xyz / FB Sharing Debugger.</div>
-        </div>
-      </div>
+      </details>
     </li>
 
-    <li class="card colorized c-teal">
-      <span class="ver">v9.0.0 → v9.1.0 + current</span><h3>SEO, analytics, ownership</h3>
-      <div class="row">
-        <div>
-          <div class="flowtitle">What</div>
-          <p><code>robots.txt</code>, <code>sitemap.xml</code>, JSON-LD <code>Person</code> schema, <code>meta robots</code> + <code>og:locale</code>, Cloudflare Web Analytics beacon, Google Search Console verification tag.</p>
-          <div class="flowtitle">Why</div>
-          <p>Get indexed faster, show structured/rich results, and track visits cookielessly.</p>
+    <!-- v9 -->
+    <li class="card light c-teal" id="v9">
+      <details closed>
+        <summary><span class="ver">v9.0.0 → v9.1.0 + current</span><h3>SEO, analytics, ownership</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="flowtitle first">What</div>
+          <p><code>robots.txt</code>, <code>sitemap.xml</code>, JSON-LD <code>Person</code> schema, <code>meta robots</code> + <code>og:locale</code>, a canonical URL, Cloudflare Web Analytics beacon, and Google Search Console verification. This is the whole "get indexed + get tracked + prove it's yours" step, with no visual change to the site.</p>
+
+          <div class="flowtitle">The Google + Cloudflare websites we used</div>
+          <ul>
+            <li><b>Google Search Console</b> (submit site, sitemap, request indexing): <a href="https://search.google.com/search-console">https://search.google.com/search-console</a></li>
+            <li><b>Google Search Central docs</b> (how crawling/indexing works): <a href="https://developers.google.com/search/docs">https://developers.google.com/search/docs</a></li>
+            <li><b>Schema.org validator</b> (check the structured data markup): <a href="https://validator.schema.org">https://validator.schema.org</a></li>
+            <li><b>PageSpeed Insights</b> (performance/crawlability check): <a href="https://pagespeed.web.dev/?url=https%3A%2F%2Fmiankhalid.github.io%2F">https://pagespeed.web.dev/?url=miankhalid.github.io</a></li>
+            <li><b>Cloudflare dashboard</b> (get your Web Analytics beacon token + view stats): <a href="https://dash.cloudflare.com">https://dash.cloudflare.com</a></li>
+            <li><b>Cloudflare Web Analytics docs</b> (how the beacon works): <a href="https://developers.cloudflare.com/web-analytics/">https://developers.cloudflare.com/web-analytics/</a></li>
+          </ul>
+
+          <div class="row">
+            <div>
+              <div class="flowtitle">Part 1 - SEO files &amp; meta (in this repo)</div>
+              <ol>
+                <li>Created <code>robots.txt</code> at site root:
+<pre style="background:rgba(0,0,0,.12);border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5">User-agent: *
+Allow: /
+
+Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
+                <li>Created <code>sitemap.xml</code> at site root (lists the homepage + lastmod date).</li>
+                <li>In <code>index.html</code> <code>&lt;head&gt;</code> added:
+                  <ul style="margin-top:6px">
+                    <li><code>&lt;meta name="robots" content="index, follow, max-image-preview:large"&gt;</code></li>
+                    <li><code>&lt;meta property="og:locale" content="en_US"&gt;</code></li>
+                    <li><code>&lt;link rel="canonical" href="https://miankhalid.github.io/"&gt;</code></li>
+                    <li>A <code>&lt;script type="application/ld+json"&gt;</code> block with <code>Person</code> schema (name, url, image, jobTitle, description, address, sameAs for GitHub + LinkedIn).</li>
+                  </ul>
+                </li>
+                <li>Committed + pushed (Pages auto-publics <code>robots.txt</code> and <code>sitemap.xml</code>).</li>
+              </ol>
+            </div>
+            <div>
+              <div class="flowtitle">Part 2 - Cloudflare Web Analytics</div>
+              <ol>
+                <li>Opened <a href="https://dash.cloudflare.com">dash.cloudflare.com</a> → signed in (or Cloudflare account → sign up).</li>
+                <li>Left menu → <b>Analytics</b> → <b>Web Analytics</b>.</li>
+                <li>Clicked <b>Add (a) site</b> → entered your site root <code>miankhalid.github.io</code> → Create.</li>
+                <li>Cloudflare generated a unique beacon snippet containing <code>data-cf-beacon='{"token": "..."}'</code>.</li>
+                <li>Copied that token into the existing beacon tag in <code>index.html</code>:
+<pre style="background:rgba(0,0,0,.12);border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5">&lt;script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+  data-cf-beacon='{"token": "bb3e098ff3dd476c8d4351a1df5ed53f"}'&gt;&lt;/script&gt;</pre></li>
+                <li>Pushed it; verified the token string is actually served in the live HTML.</li>
+                <li>Result: every visitor is counted, no cookies, no banner. View numbers in Cloudflare → Web Analytics.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="flowtitle">Part 3 - Google Search Console (ownership)</div>
+              <ol>
+                <li>Went to <a href="https://search.google.com/search-console">search.google.com/search-console</a> → signed in with a Google account.</li>
+                <li>Clicked <b>Add property</b> → chose <b>URL prefix</b>.</li>
+                <li>Entered <b>URL prefix</b> = <code>https://miankhalid.github.io/</code> → Continue.</li>
+                <li>Picked the <b>HTML tag</b> verification method.</li>
+                <li>GSC showed a meta tag with the form <code>&lt;meta name="google-site-verification" content="..."&gt;</code>.</li>
+                <li>Copied that exact meta tag into <code>index.html</code> <code>&lt;head&gt;</code> and pushed it:</li>
+                <li>This repo now has: <code>&lt;meta name="google-site-verification" content="kVw1iBgIuAYVbLEWEwcgByogCkp-YosrxNNI8dT-pDs"&gt;</code>.</li>
+                <li>Back in GSC clicked <b>Verify</b> → Google fetches the page, finds the tag, confirms ownership.</li>
+              </ol>
+            </div>
+            <div>
+              <div class="flowtitle">Part 4 - Finish it in Search Console (your clicks)</div>
+              <ol>
+                <li>Confirm the property shows green "Ownership verified".</li>
+                <li>Left sidebar → <b>Sitemaps</b> → enter <code>sitemap.xml</code> → <b>Submit</b> → should say "Success".</li>
+                <li>Left sidebar → <b>URL Inspection</b> → paste <code>https://miankhalid.github.io/</code> → Enter → <b>Request Indexing</b>.</li>
+                <li>Later check <b>Performance</b> tab for impressions / clicks / queries.</li>
+                <li>Set up email/slack notifications for crawl errors under <b>Settings</b>.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it (live links)</div><ul>
+              <li>robots.txt: <a href="https://miankhalid.github.io/robots.txt">/robots.txt</a></li>
+              <li>sitemap.xml: <a href="https://miankhalid.github.io/sitemap.xml">/sitemap.xml</a></li>
+              <li>GSC property + sitemap submit: <a href="https://search.google.com/search-console">search.google.com/search-console</a></li>
+              <li>URL Inspection → Request Indexing: same GSC page</li>
+              <li>Cloudflare stats: <a href="https://dash.cloudflare.com">dash.cloudflare.com</a> → Analytics → Web Analytics</li>
+              <li>Structured data test: <a href="https://validator.schema.org">validator.schema.org</a></li>
+              <li>Performance test: <a href="https://pagespeed.web.dev/?url=https%3A%2F%2Fmiankhalid.github.io%2F">pagespeed.web.dev</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> CF analytics is one script tag; GSC verification is one meta tag. SEO files shipped with <b>zero</b> visual change. WhatsApp/Slack previews cache, so refresh with <code>?v=</code>.</div>
+          </div>
         </div>
-        <div>
-          <div class="flowtitle">How</div>
-          <p>Created SEO files; added standards-track meta; pasted CF beacon token + GSC meta tag. Next: verify in Search Console, submit sitemap, URL-inspection Request Indexing.</p>
-          <div class="note"><b>Learned:</b> CF analytics is one script tag; GSC verification is a single meta tag pushed live.</div>
+      </details>
+    </li>
+
+    <!-- v10 -->
+    <li class="card ink c-peach" id="v10">
+      <details closed>
+        <summary><span class="ver">v10.0.0 + current</span><h3>Shared controls extracted, journey WCAG/rail fixes, favicon standard</h3><span class="carat">▾</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Pulled the theme toggle + back-to-top FAB out into shared <code>assets/controls.css</code> / <code>assets/controls.js</code>, loaded by every page. Fixed the journey timeline rail dot/line alignment (uniform fixed-width items, 50% thicker connector) and a dark-mode WCAG AA failure on cream cards. Added the site favicon to <code>docs/journey.html</code>.</p>
+              <div class="flowtitle">Why</div>
+              <p>Toggle/FAB were drifting out of sync between pages; rail lines missed their dots; a cream card fill reused a theme-reactive var and went dark-on-dark in dark mode; journey.html had no favicon. All four are now written into <code>AGENTS.md</code> as standing rules for every future page.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Extracted <code>#theme-toggle</code>/<code>#fab</code> markup + behavior into <code>assets/controls.css</code> + <code>assets/controls.js</code>; wired into <code>index.html</code> and <code>docs/journey.html</code>.</li>
+                <li>Rail fix: gave <code>.rail-item</code> a fixed width so the connecting line positions via percentage <code>calc()</code>, dot-center to dot-center; bumped line 2px → 3px.</li>
+                <li>WCAG fix: <code>.c-cream</code> was filled with a dark-mode-reactive var; hardcoded it to a fixed light shade so dark ink text stays readable in both themes.</li>
+                <li>Added the standard 3 favicon <code>&lt;link&gt;</code> tags to <code>docs/journey.html</code>.</li>
+                <li>Wrote all four fixes into <code>AGENTS.md</code> as a "new page checklist" so they apply to every future HTML page.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Toggle/FAB match on both pages: <a href="https://miankhalid.github.io/">miankhalid.github.io</a> and <a href="https://miankhalid.github.io/docs/journey.html">/docs/journey.html</a></li>
+              <li>Rail alignment + favicon: <a href="https://miankhalid.github.io/docs/journey.html">/docs/journey.html</a> (view source for <code>&lt;link rel="icon"&gt;</code>)</li>
+              <li>Contrast check: <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> never reuse a theme-reactive CSS var for a "fixed" pastel fill, it silently breaks contrast only in dark mode; a repeating rail/dot UI needs fixed-width items or the connector drifts off-center.</div>
+          </div>
         </div>
-      </div>
+      </details>
     </li>
 
   </ul>
 </div>
 
-<div class="wrap section">
-  <h2>File Structure</h2>
-  <p style="color:var(--muted)">Keep this layout. Only <code>content.js</code> is meant to be hand-edited; everything else is build/ops you never touch casually.</p>
+<div class="wrap" style="margin-top:40px">
+  <h2><span class="iconify h2-icon" data-icon="ph:folder-open"></span>File Structure</h2>
+  <p style="color:var(--muted)">Only <code>content.js</code> is meant to be hand-edited; everything else is build/ops you rarely touch.</p>
   <div class="fs">
 <pre style="margin:0;font-size:14px;line-height:1.5">miankhalid.github.io/
 ├── index.html          # shell + all head meta (SEO/OG/analytics). rarely touched
 ├── styles.css          # all Clay-styled tokens + layouts. rarely touched
-├── app.js              # renders content.js → DOM, parallax, nav, icons. never hand-edit casually
+├── app.js              # renders content.js → DOM, parallax, nav, icons
 ├── content.js          # ★ THE ONLY FILE YOU EDIT ★ (name, bio, skills, projects)
 ├── assets/
-│   ├── profile.jpeg
-│   ├── og-card.jpg     # social preview image (1200×630)
-│   ├── favicon-16/32.png, apple-touch-icon.png
+│   ├── profile.jpeg, og-card.jpg, favicon-16/32.png, apple-touch-icon.png
 │   └── projects/       # one thumb per project (jpg or svg)
 ├── robots.txt          # SEO: allow all + sitemap ref
 ├── sitemap.xml         # SEO: url list
-├── README.md           # how-to-edit guide (for you, on GitHub)
+├── README.md           # how-to-edit guide
 ├── AGENTS.md           # instructions for AI agents / future sessions
-└── docs/
-    └── journey.html    # this build log</pre>
+└── docs/journey.html   # this build log</pre>
   </div>
   <div class="row" style="margin-top:24px">
-    <div class="ag"><b>Versioning convention:</b> every milestone = commit + git tag <code>vX.0.0</code>, pushed (<code>git tag vX.0.0 && git push origin vX.0.0</code>). Bump minor for a big change, keep tags matching releases.</div>
+    <div class="ag"><b>Versioning:</b> every milestone = commit + git tag <code>vX.0.0</code>, pushed (<code>git tag vX.0.0 && git push origin vX.0.0</code>).</div>
     <div class="ag"><b>Do not commit:</b> <code>khalid-cv.md</code>, <code>design.md</code>, <code>PORTFOLIO-HANDOFF.md</code>, <code>*.bio.md</code>, <code>.claude/</code>, <code>.commandcode/</code>, <code>.tokensave/</code>, <code>.DS_Store</code>. All in <code>.gitignore</code>.</div>
   </div>
 </div>
 
-<div class="footer wrap">
-  Generated from the build session · miankhalid.github.io
-</div>
+<div class="footer wrap">Generated from the build session · miankhalid.github.io</div>
+
+<button id="fab" class="fab" type="button" aria-label="Back to top"></button>
+
+<script>
+/* accordion: opening one card closes the others */
+document.querySelectorAll('.timeline > li details').forEach(function (d) {
+  d.addEventListener('toggle', function () {
+    if (!d.open) return;
+    document.querySelectorAll('.timeline > li details').forEach(function (o) {
+      if (o !== d) o.open = false;
+    });
+  });
+});
+/* render the static iconify icons on this page (controls.js scans its own) */
+if (window.Iconify) Iconify.scan(document);
+</script>
+<script src="../assets/controls.js"></script>
 </body>
 </html>

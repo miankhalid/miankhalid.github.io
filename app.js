@@ -342,26 +342,12 @@
     const footer = document.getElementById('footer-inner');
     const year = new Date().getFullYear();
     footer.textContent = '© ' + year + ' ' + (SITE.name || '') + '. Built by hand, no framework.';
-  }
-
-  function renderThemeToggle() {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    btn.innerHTML = '<span class="icon-moon">' + icon('ph:moon-fill') + '</span><span class="icon-sun">' + icon('ph:sun-fill') + '</span>';
-    btn.addEventListener('click', () => {
-      const root = document.documentElement;
-      const dark = (root.dataset.theme === 'dark') || (!root.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      const next = dark ? 'light' : 'dark';
-      root.dataset.theme = next;
-      try { localStorage.setItem('theme', next); } catch (e) {}
-    });
-  }
-
-  function renderFAB() {
-    const fab = document.getElementById('fab');
-    if (!fab) return;
-    fab.innerHTML = icon('ph:arrow-up-bold');
-    fab.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    const link = document.createElement('a');
+    link.href = 'docs/journey.html';
+    link.textContent = 'Peek behind the curtain';
+    link.className = 'footer-journey';
+    link.title = 'How this site came to be';
+    footer.appendChild(link);
   }
 
   let SHAPES = [];
@@ -417,7 +403,6 @@
 
   function initScrollFx() {
     const nav = document.querySelector('.nav');
-    const fab = document.getElementById('fab');
     const hero = document.getElementById('hero');
     let raf = null;
     function onScroll() {
@@ -428,7 +413,6 @@
         const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 0;
         const pastHero = y > heroBottom - 90;
         if (nav) nav.classList.toggle('scrolled', pastHero);
-        if (fab) fab.classList.toggle('show', y > 480);
         SHAPES.forEach(s => {
           s.el.style.transform = 'translate3d(' + (y * s.vx).toFixed(1) + 'px,' + (y * s.vy).toFixed(1) + 'px,0)';
         });
@@ -446,10 +430,9 @@
   renderEducation();
   renderContact();
   renderNav();
-  renderThemeToggle();
   renderFooter();
-  renderFAB();
   buildShapes();
   initScrollFx();
   scanIcons();
+  // theme-toggle icons + FAB icons/behavior are handled by assets/controls.js
 })();

@@ -1,0 +1,62 @@
+/* ============================================================
+   Shared interactive controls for every page of this site.
+   Single source of truth for the theme toggle + back-to-top FAB,
+   so both always look and behave identically.
+   Load AFTER the page's own stylesheet.
+   ============================================================ */
+
+/* ---- Theme toggle ---- */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-sm, 8px);
+  border: 1px solid var(--hairline);
+  background: var(--surface-card, var(--card));
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-toggle:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: inline; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+/* ---- Back-to-top FAB ---- */
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: none;
+  background: var(--primary);
+  color: var(--on-primary, #fff);
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.fab.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.fab:hover { background: var(--primary-hover); }
