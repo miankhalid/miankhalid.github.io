@@ -111,10 +111,6 @@
     return icon(ICONS[key] || 'mdi:link');
   }
 
-  function scanIcons() {
-    if (window.Iconify) Iconify.scan(document.body);
-  }
-
   function el(tag, opts) {
     const node = document.createElement(tag);
     if (!opts) return node;
@@ -413,22 +409,18 @@
   function initScrollFx() {
     const nav = document.querySelector('.nav');
     const hero = document.getElementById('hero');
-    let raf = null;
-    function onScroll() {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = null;
-        const y = window.scrollY || 0;
-        const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 0;
-        const pastHero = y > heroBottom - 90;
-        if (nav) nav.classList.toggle('scrolled', pastHero);
-        SHAPES.forEach(s => {
-          s.el.style.transform = 'translate3d(' + (y * s.vx).toFixed(1) + 'px,' + (y * s.vy).toFixed(1) + 'px,0)';
-        });
+    function tick() {
+      const y = window.scrollY || 0;
+      const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 0;
+      const pastHero = y > heroBottom - 90;
+      if (nav) nav.classList.toggle('scrolled', pastHero);
+      SHAPES.forEach(s => {
+        s.el.style.transform = 'translate3d(' + (y * s.vx).toFixed(1) + 'px,' + (y * s.vy).toFixed(1) + 'px,0)';
       });
     }
+    const onScroll = window.SiteControls.throttleRaf(tick);
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    tick();
   }
 
   renderHero();
@@ -442,6 +434,6 @@
   renderFooter();
   buildShapes();
   initScrollFx();
-  scanIcons();
+  window.SiteControls.scanIcons(document.body);
   // theme-toggle icons + FAB icons/behavior are handled by assets/controls.js
 })();

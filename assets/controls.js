@@ -15,6 +15,24 @@
     return s;
   }
 
+  /* Shared primitives: frame-scoped scroll subscription + icon rescan.
+     Exposed on window.SiteControls so app.js doesn't reimplement either. */
+  function throttleRaf(fn) {
+    var ticking = false;
+    return function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        fn();
+      });
+    };
+  }
+  function scanIcons(root) {
+    if (window.Iconify) Iconify.scan(root || document);
+  }
+  window.SiteControls = { throttleRaf: throttleRaf, scanIcons: scanIcons };
+
   /* Theme toggle: light/dark, follows OS by default, persists to localStorage. */
   function initThemeToggle() {
     var btn = document.getElementById('theme-toggle');
@@ -40,20 +58,14 @@
     fab.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    var ticking = false;
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(function () {
-        fab.classList.toggle('show', (window.scrollY || document.documentElement.scrollTop) > 480);
-        ticking = false;
-      });
-    }
+    var onScroll = throttleRaf(function () {
+      fab.classList.toggle('show', (window.scrollY || document.documentElement.scrollTop) > 480);
+    });
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 
   initThemeToggle();
   initFAB();
-  if (window.Iconify) Iconify.scan(document);
+  scanIcons();
 })();
