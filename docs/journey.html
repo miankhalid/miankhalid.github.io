@@ -202,7 +202,8 @@ a:hover{opacity:.7}
 
   <div class="rail-wrap">
     <div class="rail">
-      <a class="rail-item current" href="#v11"><span class="dot"></span><span class="rv">v11.0.0</span><span class="rd"><span>23 Aug</span><span>11:01 am</span></span></a>
+      <a class="rail-item current" href="#v11-1"><span class="dot"></span><span class="rv">v11.1</span><span class="rd"><span>23 Aug</span><span>11:40 am</span></span></a>
+      <a class="rail-item" href="#v11"><span class="dot"></span><span class="rv">v11.0.0</span><span class="rd"><span>23 Aug</span><span>11:01 am</span></span></a>
       <a class="rail-item" href="#v10-1"><span class="dot"></span><span class="rv">v10.1.0</span><span class="rd"><span>23 Aug</span><span>10:34 am</span></span></a>
       <a class="rail-item" href="#v10"><span class="dot"></span><span class="rv">v10.0.0</span><span class="rd"><span>23 Aug</span><span>8:34 am</span></span></a>
       <a class="rail-item" href="#v9"><span class="dot"></span><span class="rv">v9.x</span><span class="rd"><span>23 Aug</span><span>12:50 am</span></span></a>
@@ -658,7 +659,7 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
     <!-- v11 -->
     <li class="card light c-teal" id="v11">
       <details closed>
-        <summary><span class="ver">v11.0.0 + current</span><h3>Deepen app.js: shared section renderer, icon adapters, unified scroll/icon primitives</h3><span class="carat">&#9662;</span></summary>
+        <summary><span class="ver">v11.0.0</span><h3>Deepen app.js: shared section renderer, icon adapters, unified scroll/icon primitives</h3><span class="carat">&#9662;</span></summary>
         <div class="body">
           <div class="row">
             <div>
@@ -690,6 +691,44 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
       </details>
     </li>
 
+    <!-- v11.1 -->
+    <li class="card ink c-cream" id="v11-1">
+      <details closed>
+        <summary><span class="ver">v11.1 + current</span><h3>SEO refresh, seo-refresh skill, track .claude/ and .commandcode/</h3><span class="carat">&#9662;</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Added <code>docs/journey.html</code> to <code>sitemap.xml</code> and filled in its missing canonical/robots/OG/Twitter tags (matching <code>index.html</code>'s pattern). Wrote a reusable <code>seo-refresh</code> skill under <code>.claude/skills/</code> for future SEO audits. Unignored <code>.claude/</code> (skills) and <code>.commandcode/</code> (auto-collected preference notes) in <code>.gitignore</code>, keeping only local machine-specific files (<code>settings.local.json</code>, the headroom marker) ignored. Fixed a corrupted duplicate/truncated tail in <code>.commandcode/taste/tastes/taste.md</code> and a stale line in <code>AGENTS.md</code>'s gitignore doc.</p>
+              <div class="flowtitle">Why</div>
+              <p>Journey page was missing from the sitemap and had no share-preview meta, an SEO gap. The skill exists so future SEO refreshes are one command instead of a manual walkthrough each time. <code>.claude/skills/</code> only helps future sessions if it is actually committed, not gitignored; <code>.commandcode/</code>'s preference log is genuinely useful project memory and was also worth keeping in version control.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Added a <code>&lt;url&gt;</code> entry for <code>docs/journey.html</code> to <code>sitemap.xml</code>.</li>
+                <li>Added <code>meta robots</code>, <code>canonical</code>, <code>og:*</code>, <code>twitter:*</code> tags to <code>docs/journey.html</code>'s head.</li>
+                <li>Wrote <code>.claude/skills/seo-refresh/SKILL.md</code>: audits every HTML page's meta, sitemap, robots.txt, JSON-LD; only asks the user when a fact is missing (new canonical URL, missing og-image).</li>
+                <li>Changed <code>.gitignore</code>: <code>.claude/</code> and <code>.commandcode/</code> blanket entries replaced with just <code>.claude/settings.local.json</code> and <code>.claude/.headroom_wrap_marker.json</code>.</li>
+                <li>Fixed the corrupted repeated/truncated tail lines in <code>.commandcode/taste/tastes/taste.md</code>.</li>
+                <li>Fixed <code>AGENTS.md</code>'s gitignore doc line (was still claiming <code>.claude/</code>/<code>.commandcode/</code> fully ignored) and this journey page's stale "do not commit" list.</li>
+                <li>Added a file-map row pointing future sessions at the <code>seo-refresh</code> skill for any SEO task.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Sitemap: <a href="https://miankhalid.github.io/sitemap.xml">/sitemap.xml</a></li>
+              <li>Journey meta: <a href="https://miankhalid.github.io/docs/journey.html">/docs/journey.html</a> (view source for og/twitter tags)</li>
+              <li>Skill file: <code>.claude/skills/seo-refresh/SKILL.md</code> in the repo</li>
+              <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> a skill only pays off across sessions if the file is actually tracked, not gitignored; audit AGENTS.md's own claims periodically since gitignore/config drift silently makes its docs wrong.</div>
+          </div>
+        </div>
+      </details>
+    </li>
+
   </ul>
 </div>
 
@@ -713,7 +752,7 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
   </div>
   <div class="row" style="margin-top:24px">
     <div class="ag"><b>Versioning:</b> every milestone = commit + git tag <code>vX.0.0</code>, pushed (<code>git tag vX.0.0 && git push origin vX.0.0</code>).</div>
-    <div class="ag"><b>Do not commit:</b> <code>khalid-cv.md</code>, <code>design.md</code>, <code>PORTFOLIO-HANDOFF.md</code>, <code>*.bio.md</code>, <code>.claude/</code>, <code>.commandcode/</code>, <code>.tokensave/</code>, <code>.DS_Store</code>. All in <code>.gitignore</code>.</div>
+    <div class="ag"><b>Do not commit:</b> <code>khalid-cv.md</code>, <code>design.md</code>, <code>PORTFOLIO-HANDOFF.md</code>, <code>*.bio.md</code>, <code>.claude/settings.local.json</code>, <code>.tokensave/</code>, <code>.DS_Store</code>. All in <code>.gitignore</code>. <code>.claude/</code> (skills) and <code>.commandcode/</code> (preference notes) ARE tracked.</div>
   </div>
 </div>
 
