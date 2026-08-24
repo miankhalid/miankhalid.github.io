@@ -1,0 +1,39 @@
+# Khalid
+
+> AI-Enabled Engineering Lead + Sr. Staff Engineer. 13+ years building backend, mobile, and AI-augmented systems end-to-end. Based in Lahore, Pakistan.
+
+## Profile
+- Current role: Sr. Staff Engineer at Arbisoft (Jul 2015 - Present)
+- Education: Bachelors of Information Technology (BIT), National University of Sciences and Technology (NUST)
+- GitHub: https://github.com/miankhalid
+- LinkedIn: https://www.linkedin.com/in/miankhalid/
+
+## Skills
+- Languages: TypeScript, Java, Kotlin, JavaScript, Python, Swift, Objective-C
+- Frameworks: Node.js, Fastify, React Native, Android
+- Databases: SQLite, PostgreSQL
+- State & Data: Redux, Redux Toolkit
+- Dev Tools: Claude Code, Opencode, Pi.dev, GitHub, FullStory, Amplitude, Splunk, NewRelic, DataDog, VS Code, Antigravity, Zed, Unity3D, Logdy
+- Leadership: Mentoring, Team Leadership, Team Building, Client Relations
+- Process: Agile Application Development, Scrum, Kanban
+- Design & UX: A11y, Figma, Miro
+- Testing: Unit Testing, Test Automation, End-to-End Testing
+
+## Projects
+- Leavzy: employee leaves management system, Node.js/Fastify/TypeScript/Prisma/PostgreSQL/BullMQ/Redis
+- Textalize Analyzer: LangGraph agent for meeting-report analysis, dual-LLM routing (Groq Llama-3.3-70B, Gemini 2.0 Flash)
+- MetabolicLens: AI food-photo metabolic health tracker, FastAPI + Gemini 2.5 Flash + React Native
+- Workstream: ERP mobile app, TypeScript/React Native/Redux Toolkit (https://play.google.com/store/apps/details?id=com.arbisoft.workstream&hl=en-US)
+- edX Mobile: MOOC provider apps, Android Jetpack Compose + iOS SwiftUI (https://www.edx.org)
+- Cheetay: delivery app, Android
+- Gifdub: record audio over GIFs, Android
+- PicPlayPost: video collage app, Android + ffmpeg
+- Smash Runner: 2D platform runner game, Unity3D + C#
+- LISA Hockey: hockey league app, Android
+- TimeTeens: trading card game, server-client via JSON
+
+(full details at https://miankhalid.github.io/#projects)
+
+## Site
+Full portfolio: https://miankhalid.github.io/
+Build log: https://miankhalid.github.io/docs/journey.html

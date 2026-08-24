@@ -224,7 +224,7 @@
     hero.appendChild(text);
 
     if (hasContent(SITE.avatar)) {
-      hero.appendChild(el('img', { class: 'hero-avatar', attrs: { src: SITE.avatar, alt: SITE.name || 'Profile photo' } }));
+      hero.appendChild(el('img', { class: 'hero-avatar', attrs: { src: SITE.avatar, alt: SITE.name || 'Profile photo', fetchpriority: 'high' } }));
     }
   }
 
@@ -436,28 +436,24 @@
   }
 
   function renderMeta() {
-    const title = SITE.name + ' - ' + SITE.role;
-    const description = SITE.tagline + ' ' + SITE.role + '.';
-    document.title = SITE.name + ' - Portfolio';
-    const setMeta = (selector, attr, value) => {
-      const node = document.querySelector(selector);
-      if (node) node.setAttribute(attr, value);
-    };
-    setMeta('meta[name="description"]', 'content', title);
-    setMeta('meta[property="og:title"]', 'content', title);
-    setMeta('meta[property="og:description"]', 'content', description);
-    setMeta('meta[name="twitter:title"]', 'content', title);
-    setMeta('meta[name="twitter:description"]', 'content', SITE.tagline);
     const jsonLd = document.getElementById('site-jsonld');
-    if (jsonLd) {
-      try {
-        const data = JSON.parse(jsonLd.textContent);
-        data.name = SITE.name;
-        data.jobTitle = SITE.role;
-        data.description = description;
-        jsonLd.textContent = JSON.stringify(data, null, 2);
-      } catch (e) {}
-    }
+    if (!jsonLd) return;
+    try {
+      const data = JSON.parse(jsonLd.textContent);
+      const person = (data['@graph'] || []).find(node => node['@type'] === 'Person');
+      if (!person) return;
+      person.name = SITE.name;
+      person.jobTitle = SITE.role;
+      const description = person.description;
+      document.title = document.title || (SITE.name + ' | Portfolio');
+      const setMeta = (selector, attr, value) => {
+        const node = document.querySelector(selector);
+        if (node) node.setAttribute(attr, value);
+      };
+      setMeta('meta[property="og:description"]', 'content', description);
+      setMeta('meta[name="twitter:description"]', 'content', description);
+      jsonLd.textContent = JSON.stringify(data, null, 2);
+    } catch (e) {}
   }
 
   function renderFooter() {

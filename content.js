@@ -81,21 +81,21 @@ window.SITE = {
       blurb: "Employee leaves management system, a standalone HR system for tracking employee leaves through a role-based workflow. JWT + rotating refresh tokens, permission-based RBAC with row-level policy enforcement, derived leave-balance engine with proration and holiday calendar math, BullMQ + Redis async workers.",
       tags: ["Node.js", "Fastify", "TypeScript", "Prisma", "PostgreSQL", "BullMQ", "Redis", "Zod", "Vitest"],
       links: [],
-      image: "assets/projects/leavzy.jpg"
+      image: "assets/projects/leavzy.webp"
     },
     {
       title: "Textalize Analyzer",
       blurb: "LangGraph agent for meeting-report analysis. Multi-node agent extracts action items, scores meetings on an 8×4 milestone rubric, and drafts submissions per person/team. Dual-LLM routing: Groq Llama-3.3-70B primary via LiteLLM, Gemini 2.0 Flash fallback. Streamlit UI, flat-file reports, checkpoint workflow, graphify knowledge-graph.",
       tags: ["LangGraph", "Agent Skills", "Streamlit", "Graphify"],
       links: [],
-      image: "assets/projects/textalize.jpg"
+      image: "assets/projects/textalize.webp"
     },
     {
       title: "MetabolicLens",
       blurb: "POC of a metabolic health tracking app. AI-powered food-photo analysis computing an Insulin Load Score (0-100) based on Dr. Jason Fung's metabolic principle. FastAPI backend for photo upload, meal history, and scoring; Google Gemini 2.5 Flash for photo analysis; React Native frontend with camera capture, gallery picker, and fasting tracker.",
       tags: ["Python", "FastAPI", "Gemini 2.5 Flash", "React Native"],
       links: [],
-      image: "assets/projects/metaboliclens.jpg"
+      image: "assets/projects/metaboliclens.webp"
     },
     {
       title: "Workstream",
@@ -149,7 +149,7 @@ window.SITE = {
       blurb: "2D platform runner game with multiple levels, built in Unity3D and C#. Designed game architecture including level design and character running logic; integrated ads and in-app purchases.",
       tags: ["Unity3D", "C#"],
       links: [],
-      image: "assets/projects/smash-runner.jpg"
+      image: "assets/projects/smash-runner.webp"
     },
     {
       title: "LISA Hockey",

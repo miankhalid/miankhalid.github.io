@@ -171,7 +171,7 @@ a:hover{opacity:.7}
 </style>
 <script>/* restore saved theme before paint (avoid flash) */try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="stylesheet" href="../assets/controls.css">
-<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<link rel="preconnect" href="https://code.iconify.design">
 </head>
 <body>
 
@@ -202,7 +202,8 @@ a:hover{opacity:.7}
 
   <div class="rail-wrap">
     <div class="rail">
-      <a class="rail-item current" href="#v11-4"><span class="dot"></span><span class="rv">v11.4</span><span class="rd"><span>23 Aug</span><span>9:21 pm</span></span></a>
+      <a class="rail-item current" href="#v12"><span class="dot"></span><span class="rv">v12.0.0</span><span class="rd"><span>24 Aug</span><span>1:05 pm</span></span></a>
+      <a class="rail-item" href="#v11-4"><span class="dot"></span><span class="rv">v11.4</span><span class="rd"><span>23 Aug</span><span>9:21 pm</span></span></a>
       <a class="rail-item" href="#v11-3"><span class="dot"></span><span class="rv">v11.3</span><span class="rd"><span>23 Aug</span><span>5:33 pm</span></span></a>
       <a class="rail-item" href="#v11-2"><span class="dot"></span><span class="rv">v11.2</span><span class="rd"><span>23 Aug</span><span>12:15 pm</span></span></a>
       <a class="rail-item" href="#v11-1"><span class="dot"></span><span class="rv">v11.1</span><span class="rd"><span>23 Aug</span><span>11:40 am</span></span></a>
@@ -799,9 +800,47 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
       </details>
     </li>
 
+    <li class="card ink c-cream" id="v12">
+      <details closed>
+        <summary><span class="ver">v12.0.0 + current</span><h3>SEO/perf audit: meta fix, WebP images, JSON-LD, llms.txt</h3><span class="carat">&#9662;</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Ran a 4-agent SEO/performance/structured-data audit against the live site and shipped the zero-risk findings: rewrote title + meta description with real keyword copy, fixed a bug where the meta-description tag was silently getting overwritten with the title text on every load, moved the render-blocking Iconify script off the critical path, reserved icon-span dimensions to kill layout shift, converted the 4 largest project images to WebP, marked the hero avatar high-priority, enriched the JSON-LD with <code>worksFor</code>/<code>alumniOf</code>/<code>knowsAbout</code>/<code>WebSite</code>, and added <code>llms.txt</code> for AI crawlers.</p>
+              <div class="flowtitle">Why</div>
+              <p>Title was 18 chars with no keywords, meta description 57 chars, both far under recommended length. The description-tag bug meant crawlers reading the live HTML were getting the wrong text regardless of the static fix. Images were 83% of page weight. AI crawlers (GPTBot, ClaudeBot, PerplexityBot) mostly don't run JS, so <code>llms.txt</code> and richer JSON-LD give them a real signal beyond the empty pre-render HTML shell.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Rewrote <code>&lt;title&gt;</code>, meta description, OG/Twitter tags in <code>index.html</code> with real copy (keyword-rich, in-length).</li>
+                <li>Fixed <code>renderMeta()</code> in <code>app.js</code>: it was setting <code>meta[name="description"]</code> to the title string, not the description, every page load. Rewrote it to read from a single JSON-LD <code>Person</code> node instead of duplicating text in JS.</li>
+                <li>Moved the Iconify <code>&lt;script&gt;</code> from <code>&lt;head&gt;</code> to just before <code>content.js</code>/<code>app.js</code> at the end of body (kept load order intact so <code>Iconify.scan()</code> still runs after the library loads); added <code>&lt;link rel="preconnect"&gt;</code> for it. Same fix applied to <code>docs/journey.html</code>.</li>
+                <li>Gave <code>.iconify</code> spans a fixed <code>1em × 1em</code> box in <code>styles.css</code> so they reserve layout space before the SVG swaps in, fixing desktop CLS.</li>
+                <li>Converted <code>smash-runner</code>, <code>metaboliclens</code>, <code>textalize</code>, <code>leavzy</code> project images from JPG to WebP with <code>cwebp -q 80</code> (389K→40K, 341K→27K, 331K→29K, 282K→19K), swapped paths in <code>content.js</code>, deleted the old JPGs.</li>
+                <li>Added <code>fetchpriority="high"</code> to the hero avatar <code>&lt;img&gt;</code> in <code>app.js</code>.</li>
+                <li>Restructured the JSON-LD in <code>index.html</code> into an <code>@graph</code> with <code>Person</code> (+ <code>worksFor</code>, <code>alumniOf</code>, <code>knowsAbout</code>) and a linked <code>WebSite</code> node.</li>
+                <li>Added <code>llms.txt</code> at the repo root with real skills/projects pulled from <code>content.js</code>.</li>
+                <li><code>node --check app.js</code> + <code>node --check content.js</code>, em-dash grep, both clean.</li>
+                <li>Committed and pushed to <code>main</code>, tagged <code>v12.0.0</code>.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Live site: <a href="https://miankhalid.github.io/">miankhalid.github.io</a></li>
+              <li><code>llms.txt</code>: <a href="https://miankhalid.github.io/llms.txt">miankhalid.github.io/llms.txt</a></li>
+              <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
+            </ul></div>
+          </div>
+        </div>
+      </details>
+    </li>
+
     <li class="card light c-teal" id="v11-4">
       <details closed>
-        <summary><span class="ver">v11.4 + current</span><h3>University logo + realistic project thumbnails</h3><span class="carat">&#9662;</span></summary>
+        <summary><span class="ver">v11.4</span><h3>University logo + realistic project thumbnails</h3><span class="carat">&#9662;</span></summary>
         <div class="body">
           <div class="row">
             <div>
@@ -862,6 +901,7 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
 
 <button id="fab" class="fab" type="button" aria-label="Back to top"></button>
 
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 <script>
 /* accordion: opening one card closes the others */
 document.querySelectorAll('.timeline > li details').forEach(function (d) {

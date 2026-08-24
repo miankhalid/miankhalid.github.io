@@ -335,7 +335,7 @@ a { color: inherit; text-decoration: none; }
   from { background-position: 200% 0; }
   to { background-position: -200% 0; }
 }
-.iconify { vertical-align: -0.2em; }
+.iconify { display: inline-block; width: 1em; height: 1em; vertical-align: -0.2em; }
 .project-tags {
   display: flex;
   flex-wrap: wrap;
