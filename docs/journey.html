@@ -202,7 +202,8 @@ a:hover{opacity:.7}
 
   <div class="rail-wrap">
     <div class="rail">
-      <a class="rail-item current" href="#v12"><span class="dot"></span><span class="rv">v12.0.0</span><span class="rd"><span>24 Aug</span><span>1:05 pm</span></span></a>
+      <a class="rail-item current" href="#v13"><span class="dot"></span><span class="rv">v13.0.0</span><span class="rd"><span>24 Aug</span><span>2:13 pm</span></span></a>
+      <a class="rail-item" href="#v12"><span class="dot"></span><span class="rv">v12.0.0</span><span class="rd"><span>24 Aug</span><span>1:05 pm</span></span></a>
       <a class="rail-item" href="#v11-4"><span class="dot"></span><span class="rv">v11.4</span><span class="rd"><span>23 Aug</span><span>9:21 pm</span></span></a>
       <a class="rail-item" href="#v11-3"><span class="dot"></span><span class="rv">v11.3</span><span class="rd"><span>23 Aug</span><span>5:33 pm</span></span></a>
       <a class="rail-item" href="#v11-2"><span class="dot"></span><span class="rv">v11.2</span><span class="rd"><span>23 Aug</span><span>12:15 pm</span></span></a>
@@ -800,9 +801,42 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
       </details>
     </li>
 
-    <li class="card ink c-cream" id="v12">
+    <li class="card light c-ochre" id="v13">
       <details closed>
-        <summary><span class="ver">v12.0.0 + current</span><h3>SEO/perf audit: meta fix, WebP images, JSON-LD, llms.txt</h3><span class="carat">&#9662;</span></summary>
+        <summary><span class="ver">v13.0.0 + current</span><h3>Static crawler fallback + real internal nav/footer links</h3><span class="carat">&#9662;</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Baked real static text (name, bio, experience, all 11 projects, skills, education, contact) directly into <code>index.html</code>'s shell sections, plus real <code>&lt;a href&gt;</code> anchors for nav and the footer's journey link, all wiped and replaced by the JS render on load.</p>
+              <div class="flowtitle">Why</div>
+              <p>Closes the two remaining findings from the SEO audit in v12: raw HTML was ~4.2KB of empty shells, meaning non-JS crawlers (most AI bots) saw nothing; and nav/footer links only existed after JS ran, so they weren't counted as real internal links either. Kept the "no build step" project constraint by hand-duplicating the text instead of adding a prerender pipeline.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Wrote static fallback markup for every shell section (<code>#hero</code>, <code>#about</code>, <code>#experience</code>, <code>#projects</code>, <code>#skills</code>, <code>#education</code>, <code>#contact</code>) in <code>index.html</code>, mirroring <code>content.js</code>, with a comment explaining the pattern and that it must be updated by hand alongside <code>content.js</code>.</li>
+                <li>Added a <code>clearStaticFallback()</code> step in <code>app.js</code>, run before the existing render calls, that wipes each shell section so the fallback and the real interactive UI never both render at once.</li>
+                <li>Added static real <code>&lt;a href="#section"&gt;</code> nav anchors and a static footer link to <code>docs/journey.html</code> in <code>index.html</code>; <code>renderNav()</code> in <code>app.js</code> now clears <code>#nav-links</code> before rebuilding it.</li>
+                <li>Verified with a local server that the raw HTML (no JS) contains the full static content and that JS still cleanly replaces it with no duplication.</li>
+                <li><code>node --check app.js</code> + <code>node --check content.js</code>, em-dash grep, both clean.</li>
+                <li>Committed and pushed to <code>main</code>, tagged <code>v13.0.0</code>.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>View source (not devtools) on <a href="https://miankhalid.github.io/">miankhalid.github.io</a> to see the static fallback text.</li>
+              <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
+            </ul></div>
+          </div>
+        </div>
+      </details>
+    </li>
+
+    <li class="card light c-teal" id="v12">
+      <details closed>
+        <summary><span class="ver">v12.0.0</span><h3>SEO/perf audit: meta fix, WebP images, JSON-LD, llms.txt</h3><span class="carat">&#9662;</span></summary>
         <div class="body">
           <div class="row">
             <div>

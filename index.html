@@ -68,25 +68,131 @@
 
 <header class="nav">
   <div class="container nav-inner">
-    <a href="#top" class="nav-brand" id="nav-brand"></a>
-    <nav class="nav-links" id="nav-links"></nav>
+    <a href="#top" class="nav-brand" id="nav-brand">Khalid</a>
+    <!-- static fallback nav (real anchors for non-JS crawlers), see clearStaticFallback() in app.js -->
+    <nav class="nav-links" id="nav-links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
     <button type="button" class="nav-menu" id="nav-menu" aria-label="Menu" aria-expanded="false"></button>
     <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode"></button>
   </div>
 </header>
 
+<!--
+  SEO/AI-crawler fallback: the sections below ship real static text so crawlers
+  that don't execute JS (most AI bots: GPTBot, ClaudeBot, PerplexityBot, CCBot)
+  see actual content instead of an empty shell. app.js wipes and replaces this
+  markup with the interactive UI on load (see clearStaticFallback() in app.js).
+  Source of truth is still content.js: whenever you edit it, update this block
+  to match by hand (no build step means no automatic sync here).
+-->
 <main id="top">
-  <section class="hero container" id="hero"></section>
-  <section class="section container" id="about"></section>
-  <section class="section container" id="experience"></section>
-  <section class="section container" id="projects"></section>
-  <section class="section container" id="skills"></section>
-  <section class="section container" id="education"></section>
-  <section class="section container" id="contact"></section>
+  <section class="hero container" id="hero">
+    <h1>Khalid</h1>
+    <p>AI-Enabled Engineering Lead + Sr. Staff Engineer</p>
+    <p>13+ years building backend, mobile, and AI-augmented systems end-to-end.</p>
+    <p>Lahore, Pakistan</p>
+  </section>
+  <section class="section container" id="about">
+    <h2>About</h2>
+    <p>Sr. Staff Engineer with 13+ years in backend engineering, mobile systems, system design, and cross-functional team leadership.</p>
+    <p>Currently focused on Node.js/TypeScript backends, REST API design, and AI-augmented development workflows.</p>
+    <p>Proven track record of owning end-to-end delivery, from architecture decisions and risk planning through rollout and post-launch reporting, across teams spanning backend, mobile, QA, and product.</p>
+    <p>Leverage AI tooling (Claude Code, Opencode, Pi.dev) with token-usage discipline to ship production-grade systems faster without sacrificing quality.</p>
+  </section>
+  <section class="section container" id="experience">
+    <h2>Experience</h2>
+    <article>
+      <h3>Sr. Staff Engineer, Arbisoft (Jul 2015 - Present)</h3>
+      <ul>
+        <li>Own end-to-end delivery: architecture decisions, risk planning, rollout, and post-launch reporting, across teams spanning backend, mobile, QA, and product.</li>
+        <li>Focused on Node.js/TypeScript backends, REST API design, and AI-augmented development workflows.</li>
+        <li>Led the mobile apps team on edX, rewriting native apps for Android (Jetpack Compose) and iOS (SwiftUI).</li>
+      </ul>
+    </article>
+  </section>
+  <section class="section container" id="projects">
+    <h2>Projects</h2>
+    <article>
+      <h3>Leavzy</h3>
+      <p>Employee leaves management system, a standalone HR system for tracking employee leaves through a role-based workflow. Node.js, Fastify, TypeScript, Prisma, PostgreSQL, BullMQ, Redis.</p>
+    </article>
+    <article>
+      <h3>Textalize Analyzer</h3>
+      <p>LangGraph agent for meeting-report analysis. Dual-LLM routing: Groq Llama-3.3-70B primary, Gemini 2.0 Flash fallback.</p>
+    </article>
+    <article>
+      <h3>MetabolicLens</h3>
+      <p>AI-powered food-photo metabolic health tracking app. FastAPI backend, Google Gemini 2.5 Flash for photo analysis, React Native frontend.</p>
+    </article>
+    <article>
+      <h3>Workstream</h3>
+      <p>ERP system mobile app migration from JavaScript to TypeScript with Redux Toolkit. <a href="https://play.google.com/store/apps/details?id=com.arbisoft.workstream&amp;hl=en-US">Google Play</a></p>
+    </article>
+    <article>
+      <h3>edX Mobile</h3>
+      <p>MOOC provider mobile apps, led the mobile apps team, native rewrite for Android (Jetpack Compose) and iOS (SwiftUI). <a href="https://www.edx.org">edx.org</a></p>
+    </article>
+    <article>
+      <h3>Cheetay</h3>
+      <p>Delivery app for food, grocery, medicine, and dairy services, Android.</p>
+    </article>
+    <article>
+      <h3>Gifdub</h3>
+      <p>Android app to record audio over GIFs and create shareable videos.</p>
+    </article>
+    <article>
+      <h3>PicPlayPost</h3>
+      <p>App for creating video collages from videos, photos, and GIFs, Android SDK + ffmpeg.</p>
+    </article>
+    <article>
+      <h3>Smash Runner</h3>
+      <p>2D platform runner game built in Unity3D and C#.</p>
+    </article>
+    <article>
+      <h3>LISA Hockey</h3>
+      <p>App for players, coaches, and managers in Holland's hockey league, Android.</p>
+    </article>
+    <article>
+      <h3>TimeTeens</h3>
+      <p>Trading Card Game (TCG) enabling users to build decks and complete missions.</p>
+    </article>
+  </section>
+  <section class="section container" id="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li>Languages: TypeScript, Java, Kotlin, JavaScript, Python, Swift, Objective-C</li>
+      <li>Frameworks: Node.js, Fastify, React Native, Android</li>
+      <li>Databases: SQLite, PostgreSQL</li>
+      <li>State &amp; Data: Redux, Redux Toolkit</li>
+      <li>Dev Tools: Claude Code, Opencode, Pi.dev, GitHub, FullStory, Amplitude, Splunk, NewRelic, DataDog, VS Code, Antigravity, Zed, Unity3D, Logdy</li>
+      <li>Leadership: Mentoring, Team Leadership, Team Building, Client Relations</li>
+      <li>Process: Agile Application Development, Scrum, Kanban</li>
+      <li>Design &amp; UX: A11y, Figma, Miro</li>
+      <li>Testing: Unit Testing, Test Automation, End-to-End Testing</li>
+    </ul>
+  </section>
+  <section class="section container" id="education">
+    <h2>Education</h2>
+    <p>Bachelors of Information Technology (BIT), National University of Sciences and Technology (NUST), Sep 2008 - Jun 2012</p>
+  </section>
+  <section class="section container" id="contact">
+    <h2>Contact</h2>
+    <ul>
+      <li><a href="https://github.com/miankhalid">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/miankhalid/">LinkedIn</a></li>
+    </ul>
+  </section>
 </main>
 
 <footer class="footer">
-  <div class="container" id="footer-inner"></div>
+  <!-- static fallback (real link for non-JS crawlers), see clearStaticFallback() in app.js -->
+  <div class="container" id="footer-inner">Built by hand, no framework. <a href="docs/journey.html">Peek behind the curtain</a></div>
 </footer>
 
 <button type="button" class="fab" id="fab" aria-label="Back to top"></button>

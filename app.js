@@ -165,6 +165,7 @@
     const brand = document.getElementById('nav-brand');
     if (brand) brand.textContent = SITE.name || '';
     const links = document.getElementById('nav-links');
+    links.innerHTML = ''; // wipe the static fallback nav before rebuilding it
     const sections = [
       ['about', 'About'],
       ['experience', 'Experience'],
@@ -536,6 +537,17 @@
     tick();
   }
 
+  // index.html ships static fallback text in each shell section for crawlers
+  // that don't run JS (see comment above <main> in index.html). Wipe it here
+  // before rendering so the fallback and the real UI never both show at once.
+  function clearStaticFallback() {
+    ['hero', 'about', 'experience', 'projects', 'skills', 'education', 'contact'].forEach(id => {
+      const section = document.getElementById(id);
+      if (section) section.innerHTML = '';
+    });
+  }
+
+  clearStaticFallback();
   renderMeta();
   renderHero();
   renderAbout();
