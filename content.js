@@ -2,6 +2,22 @@
    YOUR SITE CONTENT. Edit this file only.
    Add/remove/reorder items freely. Save & commit: site updates.
    Keep the commas and quotes as shown.
+
+   SEO/AI-crawler fallback (added v13): index.html's <main> also ships a
+   plain-HTML copy of this content (name, about, experience, projects,
+   skills, education, contact) inside the same section shells (#hero,
+   #about, etc). That's for crawlers that don't run JS, most AI bots
+   (GPTBot, ClaudeBot, PerplexityBot, CCBot) among them, since without it
+   they'd see empty <section> tags, everything here gets injected by
+   app.js at runtime. app.js wipes that static copy via
+   clearStaticFallback() before rendering the real interactive UI, so
+   visitors with JS never see both at once.
+   There's no build step, so that duplication isn't auto-synced: whenever
+   you change name/role/tagline/about/experience/projects/skills/education/
+   contact here, open index.html's <main> block (and the nav links /
+   footer link near the top/bottom of <body>) and update the matching text
+   by hand. Stale fallback text just means crawlers see outdated copy,
+   it won't break the real site, but keep it honest.
    ============================================================ */
 window.SITE = {
 
