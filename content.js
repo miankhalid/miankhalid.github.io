@@ -181,7 +181,7 @@ window.SITE = {
       blurb: "Trading Card Game (TCG) enabling users to build decks and complete missions. Handled server-client communication via JSON; developed animations and game screens with memory optimization.",
       tags: ["Game Dev"],
       links: [],
-      image: "assets/projects/timeteens.svg"
+      image: "assets/projects/timeteens.webp"
     }
     // ,{ title:"", blurb:"", tags:[], link:"", image:"" }   ← copy this line to add another
   ]
