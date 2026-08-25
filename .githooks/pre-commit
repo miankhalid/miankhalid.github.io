@@ -65,13 +65,21 @@ if echo "$staged" | grep -qE '\.bio\.md$'; then
   fail=1
 fi
 
+# 5. Deterministic "eval" suite: journey order/dupes, image size, content.js schema,
+#    internal anchors, icon coverage, WCAG AA contrast on journey cards, shared
+#    controls/favicon reuse, mobile overflow guards, no emoji, no hardcoded colors.
+#    See .githooks/checks/*.js; run standalone with `node .githooks/checks/run-all.js`.
+if ! node .githooks/checks/run-all.js; then
+  fail=1
+fi
+
 if [ "$fail" -ne 0 ]; then
   echo ""
   echo "Pre-commit checks failed. Fix the above and re-commit."
   exit 1
 fi
 
-# 5. Journey log reminder (judgment call, can't script "meaningful" -> just ask).
+# 6. Journey log reminder (judgment call, can't script "meaningful" -> just ask).
 if ! echo "$staged" | grep -qF "docs/journey.html"; then
   touched_site=$(echo "$staged" | grep -E '^(index\.html|app\.js|content\.js|styles\.css|sitemap\.xml|robots\.txt|AGENTS\.md|\.gitignore)$' || true)
   if [ -n "$touched_site" ] && [ -t 1 ]; then

@@ -202,7 +202,8 @@ a:hover{opacity:.7}
 
   <div class="rail-wrap">
     <div class="rail">
-      <a class="rail-item current" href="#v13-1"><span class="dot"></span><span class="rv">v13.1</span><span class="rd"><span>25 Aug</span><span>11:47 am</span></span></a>
+      <a class="rail-item current" href="#v13-2"><span class="dot"></span><span class="rv">v13.2</span><span class="rd"><span>25 Aug</span><span>1:30 pm</span></span></a>
+      <a class="rail-item" href="#v13-1"><span class="dot"></span><span class="rv">v13.1</span><span class="rd"><span>25 Aug</span><span>11:47 am</span></span></a>
       <a class="rail-item" href="#v13"><span class="dot"></span><span class="rv">v13.0.0</span><span class="rd"><span>24 Aug</span><span>2:13 pm</span></span></a>
       <a class="rail-item" href="#v12"><span class="dot"></span><span class="rv">v12.0.0</span><span class="rd"><span>24 Aug</span><span>1:05 pm</span></span></a>
       <a class="rail-item" href="#v11-4"><span class="dot"></span><span class="rv">v11.4</span><span class="rd"><span>23 Aug</span><span>9:21 pm</span></span></a>
@@ -907,7 +908,7 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
 
     <li class="card ink c-lav" id="v13-1">
       <details closed>
-        <summary><span class="ver">v13.1 + current</span><h3>Project thumbnail refresh + journey card contrast fix</h3><span class="carat">&#9662;</span></summary>
+        <summary><span class="ver">v13.1</span><h3>Project thumbnail refresh + journey card contrast fix</h3><span class="carat">&#9662;</span></summary>
         <div class="body">
           <div class="row">
             <div>
@@ -935,6 +936,41 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
               <li>Contrast check: <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a></li>
             </ul></div>
             <div class="note"><b>Learned:</b> the <code>light</code>/<code>ink</code> text-helper choice has to match the fill's actual lightness, not just be copy-pasted from a neighboring card; worth a quick contrast check any time a new card is authored on an existing pastel fill.</div>
+          </div>
+        </div>
+      </details>
+    </li>
+
+    <li class="card ink c-peach" id="v13-2">
+      <details closed>
+        <summary><span class="ver">v13.2 + current</span><h3>Zero-dep eval suite: 10 deterministic checks in the pre-commit hook</h3><span class="carat">&#9662;</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Added <code>.githooks/checks/</code>: 10 standalone Node scripts (no npm, no deps, no package.json) that assert real invariants across the repo, run together via <code>run-all.js</code> and wired into <code>.githooks/pre-commit</code> as a new hard-fail check. Covers journey.html card order/duplicate ids, image file size, <code>content.js</code> project schema, internal anchor links, <code>TECH_ICONS</code> coverage, real WCAG AA contrast math on every journey card fill, shared-controls/favicon reuse, mobile overflow guards, emoji, and hardcoded colors in the parallax code. A separate <code>iconify-names.js</code> hits the live Iconify API to verify icon names exist, kept out of the hard-fail path since it needs network mid-commit.</p>
+              <div class="flowtitle">Why</div>
+              <p>v13.1's own commit shipped two bugs a human should never have had to catch by eye: journey cards landed out of chronological order, then a follow-up fix left a duplicate <code>id="v12"</code> card; separately a 2.3MB unconverted PNG almost got committed as a thumbnail. Both are exactly the kind of mechanical invariant a script checks better than a person re-reading a diff. Extended past just those two bugs to cover every deterministically-checkable rule in <code>AGENTS.md</code> (contrast, shared controls, responsive guards, icon coverage), while explicitly skipping what genuinely needs human judgment (never-invent-a-URL) or a full browser (pixel-perfect responsive layout), since either would mean installing a JS toolchain and breaking the project's own no-package.json rule.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Wrote <code>checks/lib.js</code> (shared file-read/path helpers) then one check file per concern, each usable standalone (<code>node .githooks/checks/&lt;name&gt;.js</code>) or via <code>run-all.js</code>.</li>
+                <li><code>contrast.js</code> parses real hex values out of journey.html's own CSS (<code>:root</code> vars, <code>.c-*</code> fill rules, <code>.ink</code>/<code>.light</code> text colors) and computes actual WCAG relative-luminance contrast ratios, so it keeps working as new card fills are added instead of relying on a hardcoded allowlist.</li>
+                <li>Verified each check against the real bug it targets: reintroduced the <code>light</code>/<code>c-ochre</code> mismatch in a scratch copy and confirmed <code>contrast.js</code> caught it at 1.73:1 (needs 4.5:1); confirmed the icon-coverage check surfaces a genuinely undocumented icon (<code>mdi:sparkles</code>) via the optional <code>iconify-names.js</code>.</li>
+                <li>Wired <code>run-all.js</code> into <code>.githooks/pre-commit</code> as a new hard-fail check, renumbering the existing journey-reminder prompt after it.</li>
+                <li>Documented every check's purpose in <code>AGENTS.md</code>'s Validation section.</li>
+                <li><code>node --check</code> on every new script, em-dash grep, <code>node .githooks/checks/run-all.js</code>, full hook dry-run, all clean.</li>
+                <li>Committed and pushed to <code>main</code> (tooling/docs, no version tag).</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Run it yourself: <code>node .githooks/checks/run-all.js</code> from a clone of <a href="https://github.com/miankhalid/miankhalid.github.io">github.com/miankhalid/miankhalid.github.io</a></li>
+              <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> a mechanical bug (wrong order, a duplicate id, a contrast mismatch) is always better caught by a script than by re-reading a diff; the cost of writing that script once is far lower than the cost of repeating the same category of mistake across sessions.</div>
           </div>
         </div>
       </details>

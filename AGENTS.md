@@ -78,8 +78,26 @@ curl -sI https://miankhalid.github.io/ | head -1                    # expect 200
 ## Validation before finishing a change
 - `node --check app.js && node --check content.js` must pass (only syntax check available, no test suite/build step exists).
 - Grep for stray em-dashes: `grep -rn "—" index.html app.js content.js styles.css docs/ || true` (expect no hits outside gitignored docs).
+- `node .githooks/checks/run-all.js` must pass, the zero-dependency eval suite (see below).
 - `git status` clean of personal/gitignored docs before commit.
 - All of the above (plus sitemap coverage + a journey.html reminder) run automatically via the pre-commit hook, see below. Don't skip it with `--no-verify`.
+
+## Eval suite (`.githooks/checks/`)
+Plain Node scripts, `node:assert`/`node:fs` only, no npm install, no config file, matching the project's no-build-step/no-package.json rule. Each file is directly runnable alone (`node .githooks/checks/<name>.js`) for fast iteration, or all together via `node .githooks/checks/run-all.js` (also runs from the pre-commit hook, check 5 below). Every check exists because a specific real mistake slipped through once:
+- `journey-order.js`: journey.html timeline cards must be in strict chronological id order (v1 < v2 < ... < v13-1), no duplicate ids, and the rail dots (newest-first) must reference the exact same set of ids as the cards (oldest-first), reversed.
+- `asset-size.js`: every image under `assets/projects/` and top-level `assets/*.{jpg,png,webp}` must stay under 400KB, catches an unconverted/unresized screenshot before it's committed.
+- `content-integrity.js`: every `content.js` project has a non-empty `title`/`blurb`, non-empty `tags`/`links` arrays, and an `image` path that actually exists on disk; no duplicate project titles.
+- `anchor-integrity.js`: every same-page `href="#id"` in `index.html`/`docs/*.html` resolves to a real `id="..."` element in that file (code-snippet examples inside `<code>` blocks are excluded).
+- `icon-coverage.js`: every tag used in a `content.js` project has a matching entry in app.js's `TECH_ICONS`, otherwise the icon silently renders blank (see v10.1's Iconify lesson).
+- `contrast.js`: computes real WCAG relative-luminance contrast ratios for every `ink`/`light` text class paired with a `c-*` card fill actually used in journey.html, fails under 4.5:1. This is real color math against the live CSS values, not a hardcoded allowlist, so it keeps working as new fills/colors are added.
+- `shared-controls.js`: `.theme-toggle`/`.fab` CSS rules must live only in `assets/controls.css` (a page may only override `.fab`'s `z-index`); every HTML page must load `controls.css`+`controls.js`, use the standard `#theme-toggle`/`#fab` markup, and carry the 3 standard favicon `<link>` tags.
+- `responsive-guard.js`: any page under `docs/` must carry the `html,body{max-width:100%;overflow-x:hidden}` guard; any page with a `<pre>` block must carry `pre{max-width:100%;overflow-x:auto}`; any page with `.rail-item` elements must give them a fixed px width (not %/auto).
+- `no-emoji.js`: no emoji codepoints in `app.js`/`content.js`/`styles.css`/HTML pages (the decorative `★` glyph is explicitly allowed, it isn't an emoji).
+- `hardcoded-colors.js`: `buildShapes()` in `app.js` must pull parallax blob colors from CSS vars via `getComputedStyle`, never a hardcoded hex literal.
+
+`checks/iconify-names.js` exists but is deliberately **not** wired into `run-all.js` or the hook: it calls the live Iconify API to verify every `data-icon`/icon-name string resolves to a real icon, which needs network access mid-commit. Run it by hand occasionally: `node .githooks/checks/iconify-names.js`.
+
+Not automated, and why: "don't assume, ask" and "never invent a URL" are human-judgment calls with no ground truth to check against; pixel-perfect responsive layout at a real viewport width needs a real browser (Playwright/Puppeteer), which would require installing a JS toolchain and contradict the no-package.json rule, so that stays a manual step (test at ~375px before calling a page done).
 
 ## Pre-commit hook (`.githooks/pre-commit`)
 One-time setup per clone: `git config core.hooksPath .githooks`. Runs on every `git commit`:
@@ -87,8 +105,9 @@ One-time setup per clone: `git config core.hooksPath .githooks`. Runs on every `
 2. Fails if `node --check` fails on `app.js`/`content.js`.
 3. Fails if `index.html` or any `docs/*.html` page is missing from `sitemap.xml`.
 4. Fails if a personal/gitignored doc (`khalid-cv.md`, `design.md`, `PORTFOLIO-HANDOFF.md`, `linkedin-bio.md`, `*.bio.md`, `.tokensave.local.json`) is ever staged.
-5. If the commit touches `index.html`/`app.js`/`content.js`/`styles.css`/`sitemap.xml`/`robots.txt`/`AGENTS.md`/`.gitignore` but not `docs/journey.html`, prompts to confirm that's intentional (can't script "was this meaningful", so it just asks).
-Mechanical checks (1-4) hard-fail, no bypass. Check 5 is a judgment prompt, not a hard rule.
+5. Fails if `node .githooks/checks/run-all.js` fails, see "Eval suite" above.
+6. If the commit touches `index.html`/`app.js`/`content.js`/`styles.css`/`sitemap.xml`/`robots.txt`/`AGENTS.md`/`.gitignore` but not `docs/journey.html`, prompts to confirm that's intentional (can't script "was this meaningful", so it just asks).
+Mechanical checks (1-5) hard-fail, no bypass. Check 6 is a judgment prompt, not a hard rule.
 
 ## `.gitignore` (do not violate)
 `khalid-cv.md` (real CV), `design.md`, `PORTFOLIO-HANDOFF.md`, `linkedin-bio.md`, `*.bio.md`, `.DS_Store`, `.claude/settings.local.json`, `.claude/.headroom_wrap_marker.json`, `.tokensave/`, `.tokensave.local.json`, `myenv/`. Never commit these personal/local-only docs. `.claude/` (skills, config) and `.commandcode/` (taste/preference notes) are tracked, not ignored.
