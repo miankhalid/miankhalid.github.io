@@ -802,67 +802,31 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
       </details>
     </li>
 
-    <li class="card ink c-lav" id="v13-1">
+    <li class="card light c-teal" id="v11-4">
       <details closed>
-        <summary><span class="ver">v13.1 + current</span><h3>Project thumbnail refresh + journey card contrast fix</h3><span class="carat">&#9662;</span></summary>
+        <summary><span class="ver">v11.4</span><h3>University logo + realistic project thumbnails</h3><span class="carat">&#9662;</span></summary>
         <div class="body">
           <div class="row">
             <div>
               <div class="flowtitle first">What</div>
-              <p>Swapped stale thumbnails for TimeTeens, Leavzy, and Textalize Analyzer in <code>content.js</code> with real project images; updated the GitHub repo's About section (description, homepage, topics); fixed a WCAG AA contrast failure on the v13 journey card (white text on ochre background).</p>
+              <p>Added the NUST emblem next to the Education entry, and replaced the abstract placeholder thumbnails for Leavzy, Textalize Analyzer, MetabolicLens, and Smash Runner with realistic, professional product mockup images.</p>
               <div class="flowtitle">Why</div>
-              <p>TimeTeens was still on a placeholder SVG, Leavzy and Textalize had outdated marketing art. The repo's About section had no description, website, or topics set. The v13 card was built with the <code>light</code> text helper on an ochre (light) fill, same class of bug the v9.2 fix already caught on cream cards, just missed here.</p>
+              <p>Those four projects stood out among the branded/real screenshots used for the other cards. The Education section had no visual anchor for the university.</p>
             </div>
             <div>
               <div class="flowtitle first">Steps</div>
               <ol>
-                <li>Resized new source images to 900px wide via <code>sips</code>, converted to WebP via <code>cwebp -q 80</code>, replaced <code>assets/projects/timeteens.svg</code> (deleted) with <code>timeteens.webp</code>, overwrote <code>leavzy.webp</code> and <code>textalize.webp</code> in place.</li>
-                <li>Updated <code>content.js</code>'s TimeTeens <code>image</code> path from <code>.svg</code> to <code>.webp</code>.</li>
-                <li><code>gh repo edit</code> to set description, homepage URL, and 6 topics on the GitHub repo's About section.</li>
-                <li>Swapped the v13 card's <code>light</code> class for <code>ink</code> (dark text) to match the <code>c-ochre</code> fill's existing dark-text convention used on v11.2.</li>
+                <li>Fetched the official NUST emblem (Wikimedia-hosted SVG) to <code>assets/nust-logo.svg</code>; added a <code>logo</code> field to the education entry in <code>content.js</code> and rendered it via a new <code>.edu-logo</code> element in <code>app.js</code>/<code>styles.css</code>.</li>
+                <li>Generated realistic mockup images for the four projects, compressed to ~300-400KB (<code>sips</code>, 640px width), and swapped the <code>image</code> paths in <code>content.js</code> from the old <code>.svg</code> placeholders to the new <code>.jpg</code> files in <code>assets/projects/</code>.</li>
+                <li>Wrote reusable image-generation prompt briefs for each project under <code>prompts/</code> for future regeneration.</li>
                 <li><code>node --check app.js</code> + <code>node --check content.js</code>, em-dash grep, both clean.</li>
-                <li>Committed and pushed to <code>main</code> (docs/asset update, no version tag).</li>
+                <li>Committed and pushed to <code>main</code>.</li>
               </ol>
             </div>
           </div>
           <div class="blocks">
             <div class="verify"><div class="flowtitle first">Check it</div><ul>
-              <li>Thumbnails: <a href="https://miankhalid.github.io/#projects">miankhalid.github.io/#projects</a> (TimeTeens, Leavzy, Textalize Analyzer cards)</li>
-              <li>Repo About: <a href="https://github.com/miankhalid/miankhalid.github.io">github.com/miankhalid/miankhalid.github.io</a></li>
-              <li>Contrast check: <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a></li>
-            </ul></div>
-            <div class="note"><b>Learned:</b> the <code>light</code>/<code>ink</code> text-helper choice has to match the fill's actual lightness, not just be copy-pasted from a neighboring card; worth a quick contrast check any time a new card is authored on an existing pastel fill.</div>
-          </div>
-        </div>
-      </details>
-    </li>
-
-    <li class="card ink c-ochre" id="v13">
-      <details closed>
-        <summary><span class="ver">v13.0.0</span><h3>Static crawler fallback + real internal nav/footer links</h3><span class="carat">&#9662;</span></summary>
-        <div class="body">
-          <div class="row">
-            <div>
-              <div class="flowtitle first">What</div>
-              <p>Baked real static text (name, bio, experience, all 11 projects, skills, education, contact) directly into <code>index.html</code>'s shell sections, plus real <code>&lt;a href&gt;</code> anchors for nav and the footer's journey link, all wiped and replaced by the JS render on load.</p>
-              <div class="flowtitle">Why</div>
-              <p>Closes the two remaining findings from the SEO audit in v12: raw HTML was ~4.2KB of empty shells, meaning non-JS crawlers (most AI bots) saw nothing; and nav/footer links only existed after JS ran, so they weren't counted as real internal links either. Kept the "no build step" project constraint by hand-duplicating the text instead of adding a prerender pipeline.</p>
-            </div>
-            <div>
-              <div class="flowtitle first">Steps</div>
-              <ol>
-                <li>Wrote static fallback markup for every shell section (<code>#hero</code>, <code>#about</code>, <code>#experience</code>, <code>#projects</code>, <code>#skills</code>, <code>#education</code>, <code>#contact</code>) in <code>index.html</code>, mirroring <code>content.js</code>, with a comment explaining the pattern and that it must be updated by hand alongside <code>content.js</code>.</li>
-                <li>Added a <code>clearStaticFallback()</code> step in <code>app.js</code>, run before the existing render calls, that wipes each shell section so the fallback and the real interactive UI never both render at once.</li>
-                <li>Added static real <code>&lt;a href="#section"&gt;</code> nav anchors and a static footer link to <code>docs/journey.html</code> in <code>index.html</code>; <code>renderNav()</code> in <code>app.js</code> now clears <code>#nav-links</code> before rebuilding it.</li>
-                <li>Verified with a local server that the raw HTML (no JS) contains the full static content and that JS still cleanly replaces it with no duplication.</li>
-                <li><code>node --check app.js</code> + <code>node --check content.js</code>, em-dash grep, both clean.</li>
-                <li>Committed and pushed to <code>main</code>, tagged <code>v13.0.0</code>.</li>
-              </ol>
-            </div>
-          </div>
-          <div class="blocks">
-            <div class="verify"><div class="flowtitle first">Check it</div><ul>
-              <li>View source (not devtools) on <a href="https://miankhalid.github.io/">miankhalid.github.io</a> to see the static fallback text.</li>
+              <li>Education + Projects sections: <a href="https://miankhalid.github.io/">miankhalid.github.io</a></li>
               <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
             </ul></div>
           </div>
@@ -908,33 +872,69 @@ Sitemap: https://miankhalid.github.io/sitemap.xml</pre></li>
       </details>
     </li>
 
-    <li class="card light c-teal" id="v11-4">
+    <li class="card ink c-ochre" id="v13">
       <details closed>
-        <summary><span class="ver">v11.4</span><h3>University logo + realistic project thumbnails</h3><span class="carat">&#9662;</span></summary>
+        <summary><span class="ver">v13.0.0</span><h3>Static crawler fallback + real internal nav/footer links</h3><span class="carat">&#9662;</span></summary>
         <div class="body">
           <div class="row">
             <div>
               <div class="flowtitle first">What</div>
-              <p>Added the NUST emblem next to the Education entry, and replaced the abstract placeholder thumbnails for Leavzy, Textalize Analyzer, MetabolicLens, and Smash Runner with realistic, professional product mockup images.</p>
+              <p>Baked real static text (name, bio, experience, all 11 projects, skills, education, contact) directly into <code>index.html</code>'s shell sections, plus real <code>&lt;a href&gt;</code> anchors for nav and the footer's journey link, all wiped and replaced by the JS render on load.</p>
               <div class="flowtitle">Why</div>
-              <p>Those four projects stood out among the branded/real screenshots used for the other cards. The Education section had no visual anchor for the university.</p>
+              <p>Closes the two remaining findings from the SEO audit in v12: raw HTML was ~4.2KB of empty shells, meaning non-JS crawlers (most AI bots) saw nothing; and nav/footer links only existed after JS ran, so they weren't counted as real internal links either. Kept the "no build step" project constraint by hand-duplicating the text instead of adding a prerender pipeline.</p>
             </div>
             <div>
               <div class="flowtitle first">Steps</div>
               <ol>
-                <li>Fetched the official NUST emblem (Wikimedia-hosted SVG) to <code>assets/nust-logo.svg</code>; added a <code>logo</code> field to the education entry in <code>content.js</code> and rendered it via a new <code>.edu-logo</code> element in <code>app.js</code>/<code>styles.css</code>.</li>
-                <li>Generated realistic mockup images for the four projects, compressed to ~300-400KB (<code>sips</code>, 640px width), and swapped the <code>image</code> paths in <code>content.js</code> from the old <code>.svg</code> placeholders to the new <code>.jpg</code> files in <code>assets/projects/</code>.</li>
-                <li>Wrote reusable image-generation prompt briefs for each project under <code>prompts/</code> for future regeneration.</li>
+                <li>Wrote static fallback markup for every shell section (<code>#hero</code>, <code>#about</code>, <code>#experience</code>, <code>#projects</code>, <code>#skills</code>, <code>#education</code>, <code>#contact</code>) in <code>index.html</code>, mirroring <code>content.js</code>, with a comment explaining the pattern and that it must be updated by hand alongside <code>content.js</code>.</li>
+                <li>Added a <code>clearStaticFallback()</code> step in <code>app.js</code>, run before the existing render calls, that wipes each shell section so the fallback and the real interactive UI never both render at once.</li>
+                <li>Added static real <code>&lt;a href="#section"&gt;</code> nav anchors and a static footer link to <code>docs/journey.html</code> in <code>index.html</code>; <code>renderNav()</code> in <code>app.js</code> now clears <code>#nav-links</code> before rebuilding it.</li>
+                <li>Verified with a local server that the raw HTML (no JS) contains the full static content and that JS still cleanly replaces it with no duplication.</li>
                 <li><code>node --check app.js</code> + <code>node --check content.js</code>, em-dash grep, both clean.</li>
-                <li>Committed and pushed to <code>main</code>.</li>
+                <li>Committed and pushed to <code>main</code>, tagged <code>v13.0.0</code>.</li>
               </ol>
             </div>
           </div>
           <div class="blocks">
             <div class="verify"><div class="flowtitle first">Check it</div><ul>
-              <li>Education + Projects sections: <a href="https://miankhalid.github.io/">miankhalid.github.io</a></li>
+              <li>View source (not devtools) on <a href="https://miankhalid.github.io/">miankhalid.github.io</a> to see the static fallback text.</li>
               <li>Diff: <a href="https://github.com/miankhalid/miankhalid.github.io/commits/main">github.com/miankhalid/miankhalid.github.io/commits/main</a></li>
             </ul></div>
+          </div>
+        </div>
+      </details>
+    </li>
+
+    <li class="card ink c-lav" id="v13-1">
+      <details closed>
+        <summary><span class="ver">v13.1 + current</span><h3>Project thumbnail refresh + journey card contrast fix</h3><span class="carat">&#9662;</span></summary>
+        <div class="body">
+          <div class="row">
+            <div>
+              <div class="flowtitle first">What</div>
+              <p>Swapped stale thumbnails for TimeTeens, Leavzy, and Textalize Analyzer in <code>content.js</code> with real project images; updated the GitHub repo's About section (description, homepage, topics); fixed a WCAG AA contrast failure on the v13 journey card (white text on ochre background).</p>
+              <div class="flowtitle">Why</div>
+              <p>TimeTeens was still on a placeholder SVG, Leavzy and Textalize had outdated marketing art. The repo's About section had no description, website, or topics set. The v13 card was built with the <code>light</code> text helper on an ochre (light) fill, same class of bug the v9.2 fix already caught on cream cards, just missed here.</p>
+            </div>
+            <div>
+              <div class="flowtitle first">Steps</div>
+              <ol>
+                <li>Resized new source images to 900px wide via <code>sips</code>, converted to WebP via <code>cwebp -q 80</code>, replaced <code>assets/projects/timeteens.svg</code> (deleted) with <code>timeteens.webp</code>, overwrote <code>leavzy.webp</code> and <code>textalize.webp</code> in place.</li>
+                <li>Updated <code>content.js</code>'s TimeTeens <code>image</code> path from <code>.svg</code> to <code>.webp</code>.</li>
+                <li><code>gh repo edit</code> to set description, homepage URL, and 6 topics on the GitHub repo's About section.</li>
+                <li>Swapped the v13 card's <code>light</code> class for <code>ink</code> (dark text) to match the <code>c-ochre</code> fill's existing dark-text convention used on v11.2.</li>
+                <li><code>node --check app.js</code> + <code>node --check content.js</code>, em-dash grep, both clean.</li>
+                <li>Committed and pushed to <code>main</code> (docs/asset update, no version tag).</li>
+              </ol>
+            </div>
+          </div>
+          <div class="blocks">
+            <div class="verify"><div class="flowtitle first">Check it</div><ul>
+              <li>Thumbnails: <a href="https://miankhalid.github.io/#projects">miankhalid.github.io/#projects</a> (TimeTeens, Leavzy, Textalize Analyzer cards)</li>
+              <li>Repo About: <a href="https://github.com/miankhalid/miankhalid.github.io">github.com/miankhalid/miankhalid.github.io</a></li>
+              <li>Contrast check: <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a></li>
+            </ul></div>
+            <div class="note"><b>Learned:</b> the <code>light</code>/<code>ink</code> text-helper choice has to match the fill's actual lightness, not just be copy-pasted from a neighboring card; worth a quick contrast check any time a new card is authored on an existing pastel fill.</div>
           </div>
         </div>
       </details>
