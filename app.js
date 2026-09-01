@@ -467,6 +467,12 @@
     link.className = 'footer-journey';
     link.title = 'How this site came to be';
     footer.appendChild(link);
+    const proto = document.createElement('a');
+    proto.href = 'prototypes/prototypes.html';
+    proto.textContent = 'Design prototypes';
+    proto.className = 'footer-journey';
+    proto.title = '22 design prototypes for this site';
+    footer.appendChild(proto);
   }
 
   let SHAPES = [];
